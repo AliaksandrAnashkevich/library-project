@@ -27,6 +27,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    implementation 'org.liquibase:liquibase-core'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.1'
     implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.1.12'
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.1'
