@@ -3,6 +3,13 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
-<include file=""/>
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <include  file="/liquibase/changeset/06.01.2022_1837_create_tags_table.xml"/>
+    <include  file="/liquibase/changeset/06.01.2022_1839_create_authors_table.xml"/>
+    <include  file="/liquibase/changeset/06.01.2022_1849_create_books_table.xml"/>
+    <include  file="/liquibase/changeset/06.01.2022_1855_create_book_tags_table.xml"/>
+    <include  file="/liquibase/changeset/07.01.2022_1200_insert_tags_data.xml"/>
+    <include  file="/liquibase/changeset/07.01.2022_1210_insert_authors_data.xml"/>
+    <include  file="/liquibase/changeset/07.01.2022_1217_insert_books_data.xml"/>
+    <include  file="/liquibase/changeset/07.01.2022_1226_insert_book_tags_data.xml"/>
 </databaseChangeLog>

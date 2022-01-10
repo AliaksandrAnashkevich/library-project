@@ -4,12 +4,12 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
-    <changeSet author="aliaksandr" id="06.01.2022_create_tags_table">
+    <changeSet author="aliaksandr" id="06.01.2022_1839_create_tags_table">
         <createTable tableName="authors">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="tags_pk"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="authors_pk"/>
             </column>
-            <column name="firs_name" type="varchar(50)">
+            <column name="first_name" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="last_name" type="varchar(50)">

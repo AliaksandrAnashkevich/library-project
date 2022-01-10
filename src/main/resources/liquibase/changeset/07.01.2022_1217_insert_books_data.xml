@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet id="07.01.2022_1200_insert_books_data" author="aliaksandr">
+        <insert tableName="books">
+            <column name="id" value="1"/>
+            <column name="title" value="Harry Potter and the Philosopher's Stone"/>
+            <column name="price" value="5.99"/>
+            <column name="author_id" value="1"/>
+        </insert>
+
+        <insert tableName="books">
+            <column name="id" value="2"/>
+            <column name="title" value="Harry Potter and the Chamber of Secrets"/>
+            <column name="price" value="5.99"/>
+            <column name="author_id" value="1"/>
+        </insert>
+
+        <insert tableName="books">
+            <column name="id" value="3"/>
+            <column name="title" value="Harry Potter and the Prisoner of Azkaban"/>
+            <column name="price" value="5.99"/>
+            <column name="author_id" value="1"/>
+        </insert>
+
+        <insert tableName="books">
+            <column name="id" value="4"/>
+            <column name="title" value="Harry Potter and the Goblet of Fire"/>
+            <column name="price" value="5.99"/>
+            <column name="author_id" value="1"/>
+        </insert>
+
+        <insert tableName="books">
+            <column name="id" value="5"/>
+            <column name="title" value="Harry Potter and the Order of the Phoenix"/>
+            <column name="price" value="9.99"/>
+            <column name="author_id" value="1"/>
+        </insert>
+
+        <insert tableName="books">
+            <column name="id" value="6"/>
+            <column name="title" value="Harry Potter and the Half-Blood Prince"/>
+            <column name="price" value="9.99"/>
+            <column name="author_id" value="1"/>
+        </insert>
+
+        <insert tableName="books">
+            <column name="id" value="7"/>
+            <column name="title" value="Harry Potter and the Deathly Hallows"/>
+            <column name="price" value="9.99"/>
+            <column name="author_id" value="1"/>
+        </insert>
+
+        <insert tableName="books">
+            <column name="id" value="8"/>
+            <column name="title" value="And Then There Were None"/>
+            <column name="price" value="7.99"/>
+            <column name="author_id" value="2"/>
+        </insert>
+
+        <insert tableName="books">
+            <column name="id" value="9"/>
+            <column name="title" value="Dumb Witness"/>
+            <column name="price" value="7.99"/>
+            <column name="author_id" value="2"/>
+        </insert>
+
+        <insert tableName="books">
+            <column name="id" value="10"/>
+            <column name="title" value="Murder on the Orient Express"/>
+            <column name="price" value="7.99"/>
+            <column name="author_id" value="2"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

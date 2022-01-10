@@ -12,4 +12,4 @@ spring:
         temp:
           use_jdbc_metadata_defaults: false
   liquibase:
-    change-log: classpath:liquibase/changelog.yml
+    change-log: classpath:liquibase/master.xml
