@@ -2,7 +2,6 @@ package com.academia.library.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -17,13 +16,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @EqualsAndHashCode
 @ToString
-@NoArgsConstructor
 @Entity
 @Table(name = "books")
 public class Book {
@@ -51,15 +50,15 @@ public class Book {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne
-    @JoinColumn(name="author_id", nullable=false)
+    @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne
-    @JoinColumn(name="tag_id", nullable=false)
+    @JoinColumn(name = "tag_id", nullable = false)
     private Tag tag;
 
     @ManyToMany(mappedBy = "books")
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
 }

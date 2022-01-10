@@ -14,13 +14,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
 @EqualsAndHashCode
 @ToString
-@NoArgsConstructor
 @Entity
 @Table(name = "tags")
 public class Tag {
@@ -36,5 +36,5 @@ public class Tag {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy="tag")
-    private Set<Book> books;
+    private Set<Book> books = new HashSet<>();
 }
