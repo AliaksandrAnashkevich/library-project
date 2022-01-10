@@ -2,7 +2,6 @@ package com.academia.library.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -35,6 +34,6 @@ public class Tag {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy="tag")
+    @OneToMany(mappedBy = "tag")
     private Set<Book> books = new HashSet<>();
 }

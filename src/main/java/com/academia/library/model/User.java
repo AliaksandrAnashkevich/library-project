@@ -54,7 +54,7 @@ public class User {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy = "user")
     private Set<Order> orders = new HashSet<>();
 
     @ToString.Exclude
