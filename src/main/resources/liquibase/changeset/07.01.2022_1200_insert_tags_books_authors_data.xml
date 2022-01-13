@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="07.01.2022_1200_insert_tags_data" author="aliaksandr">
+        <sql dbms="all" endDelimiter=";">insert into tags (name) values ('Action')</sql>
+        <sql dbms="all" endDelimiter=";">insert into tags (name) values ('Adventure')</sql>
+        <sql dbms="all" endDelimiter=";">insert into tags (name) values ('Comic')</sql>
+        <sql dbms="all" endDelimiter=";">insert into tags (name) values ('Detective')</sql>
+        <sql dbms="all" endDelimiter=";">insert into tags (name) values ('Fantasy')</sql>
+    </changeSet>
+
+    <changeSet id="07.01.2022_1210_insert_authors_data" author="aliaksandr">
+        <sql dbms="all" endDelimiter=";">insert into authors (first_name, last_name) values ('Joanne', 'Rowling')</sql>
+
+        <sql dbms="all" endDelimiter=";">
+            with author as(
+            insert into authors (first_name, last_name) values ('Joanne', 'Rowling') returning id)
+            insert into books (title, price, author_id)
+            values ('Harry Potter and the Philosophers Stone', 5.99, (select id from author)),
+            ('Harry Potter and the Chamber of Secrets', 5.99, (select id from author)),
+            ('Harry Potter and the Prisoner of Azkaban', 5.99, (select id from author)),
+            ('Harry Potter and the Goblet of Fire', 5.99, (select id from author)),
+            ('Harry Potter and the Order of the Phoenix', 9.99, (select id from author)),
+            ('Harry Potter and the Half-Blood Prince', 9.99, (select id from author)),
+            ('Harry Potter and the Deathly Hallows', 9.99, (select id from author));
+        </sql>
+
+        <sql dbms="all" endDelimiter=";">
+            with author as(
+            insert into authors (first_name, last_name) values ('Agatha', 'Christie') returning id)
+            insert into books (title, price, author_id)
+            values ('And Then There Were None', 7.99, (select id from author)),
+            ('Dumb Witness', 7.99, (select id from author)),
+            ('Murder on the Orient Express', 7.99, (select id from author));
+        </sql>
+    </changeSet>
+
+    <changeSet id="07.01.2022_1226_insert_book_tags_data" author="aliaksandr">
+        <sql dbms="all" endDelimiter=";">
+            insert into book_tags (book_id, tag_id)
+            values ((select id from books where title='Harry Potter and the Philosophers Stone'),
+            (select id from tags where name='Fantasy'));
+        </sql>
+
+        <sql dbms="all" endDelimiter=";">
+            insert into book_tags (book_id, tag_id)
+            values ((select id from books where title='Harry Potter and the Chamber of Secrets'),
+            (select id from tags where name='Fantasy'));
+        </sql>
+
+        <sql dbms="all" endDelimiter=";">
+            insert into book_tags (book_id, tag_id)
+            values ((select id from books where title='Harry Potter and the Prisoner of Azkaban'),
+            (select id from tags where name='Fantasy'));
+        </sql>
+
+        <sql dbms="all" endDelimiter=";">
+            insert into book_tags (book_id, tag_id)
+            values ((select id from books where title='Harry Potter and the Goblet of Fire'),
+            (select id from tags where name='Fantasy'));
+        </sql>
+
+        <sql dbms="all" endDelimiter=";">
+            insert into book_tags (book_id, tag_id)
+            values ((select id from books where title='Harry Potter and the Order of the Phoenix'),
+            (select id from tags where name='Fantasy'));
+        </sql>
+
+        <sql dbms="all" endDelimiter=";">
+            insert into book_tags (book_id, tag_id)
+            values ((select id from books where title='Harry Potter and the Half-Blood Prince'),
+            (select id from tags where name='Fantasy'));
+        </sql>
+
+        <sql dbms="all" endDelimiter=";">
+            insert into book_tags (book_id, tag_id)
+            values ((select id from books where title='Harry Potter and the Deathly Hallows'),
+            (select id from tags where name='Fantasy'));
+        </sql>
+
+        <sql dbms="all" endDelimiter=";">
+            insert into book_tags (book_id, tag_id)
+            values ((select id from books where title='And Then There Were None'),
+            (select id from tags where name='Detective'));
+        </sql>
+
+        <sql dbms="all" endDelimiter=";">
+            insert into book_tags (book_id, tag_id)
+            values ((select id from books where title='Dumb Witness'),
+            (select id from tags where name='Detective'));
+        </sql>
+
+        <sql dbms="all" endDelimiter=";">
+            insert into book_tags (book_id, tag_id)
+            values ((select id from books where title='Murder on the Orient Express'),
+            (select id from tags where name='Detective'));
+        </sql>
+    </changeSet>
+</databaseChangeLog>
