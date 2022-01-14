@@ -23,7 +23,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="06.01.2022_19.01_create_books_authors_relations" author="aliaksandr anashkevich">
+    <changeSet id="06.01.2022_1901_create_books_authors_relations" author="aliaksandr anashkevich">
         <addForeignKeyConstraint baseTableName="books"
                                  baseColumnNames="author_id"
                                  constraintName="books_author_fk"
@@ -31,7 +31,7 @@
                                  referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="06.01.2022_19.01_create_books_tags_relations" author="aliaksandr anashkevich">
+    <changeSet id="06.01.2022_1901_create_books_tags_relations" author="aliaksandr anashkevich">
         <addForeignKeyConstraint baseTableName="book_tags"
                                  baseColumnNames="book_id"
                                  constraintName="books_book_tags_fk"

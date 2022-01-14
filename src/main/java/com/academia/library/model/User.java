@@ -1,5 +1,5 @@
 package com.academia.library.model;
-/*
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,21 +46,16 @@ public class User {
     private String password;
 
     @Column
-    private LocalDate createAt;
+    private LocalDateTime createAt;
 
     @Column
-    private LocalDate updateAt;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "user")
-    private Set<Order> orders = new HashSet<>();
+    private LocalDateTime updateAt;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles", joinColumns = {@JoinColumn(name = "user_id")},
+    @JoinTable(name = "user_roles",
+            joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles = new HashSet<>();
 }
-*/
