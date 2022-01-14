@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <include  file="/liquibase/changeset/06.01.2022_1837_create_tags_table.xml"/>
+    <include  file="/liquibase/changeset/06.01.2022_1839_create_authors_table.xml"/>
+    <include  file="/liquibase/changeset/06.01.2022_1849_create_books_table.xml"/>
+    <include  file="/liquibase/changeset/06.01.2022_1855_create_book_tags_table.xml"/>
+    <include  file="/liquibase/changeset/07.01.2022_1200_insert_tags_books_authors_data.xml"/>
+    <include  file="/liquibase/changeset/14.01.2022_1605_create_users_table.xml"/>
+    <include  file="/liquibase/changeset/14.01.2022_1650_create_roles_table.xml"/>
+    <include  file="/liquibase/changeset/14.01.2022_1700_create_authority_table.xml"/>
+    <include  file="/liquibase/changeset/14.01.2022_1715_create_orders_table.xml"/>
+</databaseChangeLog>

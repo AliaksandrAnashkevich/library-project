@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet id="07.01.2022_1200_insert_tags_data" author="aliaksandr anashkevich">
+        <sql>
+            INSERT INTO tags (name)
+            values
+            ('Action'),
+            ('Adventure'),
+            ('Comic'),
+            ('Detective'),
+            ('Fantasy');
+        </sql>
+    </changeSet>
+
+    <changeSet id="07.01.2022_1210_insert_authors_data" author="aliaksandr anashkevich">
+        <sql>
+            BEGIN TRANSACTION;
+
+            WITH author AS(
+            INSERT INTO authors (first_name, last_name) VALUES ('Joanne', 'Rowling') RETURNING id)
+            INSERT INTO books (title, price, author_id)
+            VALUES
+            ('Harry Potter and the Philosophers Stone', 5.99, (SELECT id FROM author)),
+            ('Harry Potter and the Chamber of Secrets', 5.99, (SELECT id FROM author)),
+            ('Harry Potter and the Prisoner of Azkaban', 5.99, (SELECT id FROM author)),
+            ('Harry Potter and the Goblet of Fire', 5.99, (SELECT id FROM author)),
+            ('Harry Potter and the Order of the Phoenix', 9.99, (SELECT id FROM author)),
+            ('Harry Potter and the Half-Blood Prince', 9.99, (SELECT id FROM author)),
+            ('Harry Potter and the Deathly Hallows', 9.99, (SELECT id FROM author));
+
+            WITH author AS(
+            INSERT INTO authors (first_name, last_name) VALUES ('Agatha', 'Christie') RETURNING id)
+            INSERT INTO books (title, price, author_id)
+            VALUES
+            ('And Then There Were None', 7.99, (SELECT id FROM author)),
+            ('Dumb Witness', 7.99, (SELECT id FROM author)),
+            ('Murder on the Orient Express', 7.99, (SELECT id FROM author));
+
+            COMMIT;
+        </sql>
+    </changeSet>
+
+    <changeSet id="07.01.2022_1226_insert_book_tags_data" author="aliaksandr anashkevich">
+        <sql>
+            BEGIN TRANSACTION;
+
+            WITH tag AS(
+            SELECT id FROM tags WHERE name='Fantasy')
+            INSERT INTO book_tags (book_id, tag_id)
+            VALUES
+            ((SELECT id FROM books WHERE title='Harry Potter and the Philosophers Stone'), (SELECT id FROM tag)),
+            ((SELECT id FROM books WHERE title='Harry Potter and the Chamber of Secrets'), (SELECT id FROM tag)),
+            ((SELECT id FROM books WHERE title='Harry Potter and the Prisoner of Azkaban'), (SELECT id FROM tag)),
+            ((SELECT id FROM books WHERE title='Harry Potter and the Goblet of Fire'), (SELECT id FROM tag)),
+            ((SELECT id FROM books WHERE title='Harry Potter and the Order of the Phoenix'), (SELECT id FROM tag)),
+            ((SELECT id FROM books WHERE title='Harry Potter and the Half-Blood Prince'), (SELECT id FROM tag)),
+            ((SELECT id FROM books WHERE title='Harry Potter and the Deathly Hallows'), (SELECT id FROM tag));
+
+            WITH tag AS(
+            SELECT id FROM tags WHERE name='Detective')
+            INSERT INTO book_tags (book_id, tag_id)
+            VALUES
+            ((SELECT id FROM books WHERE title='And Then There Were None'), (SELECT id FROM tag)),
+            ((SELECT id FROM books WHERE title='Dumb Witness'), (SELECT id FROM tag)),
+            ((SELECT id FROM books WHERE title='Murder on the Orient Express'), (SELECT id FROM tag));
+
+            COMMIT;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

@@ -7,17 +7,20 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -33,7 +36,7 @@ public class Book {
     private Long id;
 
     @Column
-    private Double price;
+    private BigDecimal price;
 
     @Column
     private String title;
@@ -42,10 +45,10 @@ public class Book {
     private String imageUrl;
 
     @Column
-    private LocalDate createAt;
+    private LocalDateTime createAt;
 
     @Column
-    private LocalDate updateAt;
+    private LocalDateTime updateAt;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
@@ -55,10 +58,9 @@ public class Book {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToOne
-    @JoinColumn(name = "tag_id", nullable = false)
-    private Tag tag;
-
-    @ManyToMany(mappedBy = "books")
-    private List<Order> orders = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "book_tags",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags = new HashSet<>();
 }
