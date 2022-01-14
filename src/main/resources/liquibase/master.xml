@@ -8,5 +8,5 @@
     <include  file="/liquibase/changeset/06.01.2022_1839_create_authors_table.xml"/>
     <include  file="/liquibase/changeset/06.01.2022_1849_create_books_table.xml"/>
     <include  file="/liquibase/changeset/06.01.2022_1855_create_book_tags_table.xml"/>
-    <include  file="/liquibase/changeset/07.01.2022_1200_insert_tags_data.xml"/>
+    <include  file="/liquibase/changeset/07.01.2022_1200_insert_tags_books_authors_data.xml"/>
 </databaseChangeLog>
