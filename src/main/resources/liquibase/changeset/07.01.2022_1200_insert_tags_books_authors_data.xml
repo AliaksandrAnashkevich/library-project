@@ -18,7 +18,7 @@
 
     <changeSet id="07.01.2022_1210_insert_authors_data" author="aliaksandr anashkevich">
         <sql>
-            BEGIN TRANSACTIONAL;
+            BEGIN TRANSACTION;
 
             WITH author AS(
             INSERT INTO authors (first_name, last_name) VALUES ('Joanne', 'Rowling') RETURNING id)
@@ -46,6 +46,7 @@
 
     <changeSet id="07.01.2022_1226_insert_book_tags_data" author="aliaksandr anashkevich">
         <sql>
+            BEGIN TRANSACTION;
 
             WITH tag AS(
             SELECT id FROM tags WHERE name='Fantasy')
@@ -58,9 +59,7 @@
             ((SELECT id FROM books WHERE title='Harry Potter and the Order of the Phoenix'), (SELECT id FROM tag)),
             ((SELECT id FROM books WHERE title='Harry Potter and the Half-Blood Prince'), (SELECT id FROM tag)),
             ((SELECT id FROM books WHERE title='Harry Potter and the Deathly Hallows'), (SELECT id FROM tag));
-        </sql>
 
-        <sql>
             WITH tag AS(
             SELECT id FROM tags WHERE name='Detective')
             INSERT INTO book_tags (book_id, tag_id)
@@ -68,6 +67,8 @@
             ((SELECT id FROM books WHERE title='And Then There Were None'), (SELECT id FROM tag)),
             ((SELECT id FROM books WHERE title='Dumb Witness'), (SELECT id FROM tag)),
             ((SELECT id FROM books WHERE title='Murder on the Orient Express'), (SELECT id FROM tag));
+
+            COMMIT;
         </sql>
     </changeSet>
 </databaseChangeLog>
