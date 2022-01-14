@@ -9,4 +9,8 @@
     <include  file="/liquibase/changeset/06.01.2022_1849_create_books_table.xml"/>
     <include  file="/liquibase/changeset/06.01.2022_1855_create_book_tags_table.xml"/>
     <include  file="/liquibase/changeset/07.01.2022_1200_insert_tags_books_authors_data.xml"/>
+    <include  file="/liquibase/changeset/14.01.2022_1605_create_users_table.xml"/>
+    <include  file="/liquibase/changeset/14.01.2022_1650_create_roles_table.xml"/>
+    <include  file="/liquibase/changeset/14.01.2022_1700_create_authority_table.xml"/>
+    <include  file="/liquibase/changeset/14.01.2022_1715_create_orders_table.xml"/>
 </databaseChangeLog>

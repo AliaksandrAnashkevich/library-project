@@ -4,7 +4,6 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
-
     <changeSet id="07.01.2022_1200_insert_tags_data" author="aliaksandr anashkevich">
         <sql>
             INSERT INTO tags (name)
@@ -19,6 +18,8 @@
 
     <changeSet id="07.01.2022_1210_insert_authors_data" author="aliaksandr anashkevich">
         <sql>
+            BEGIN TRANSACTIONAL;
+
             WITH author AS(
             INSERT INTO authors (first_name, last_name) VALUES ('Joanne', 'Rowling') RETURNING id)
             INSERT INTO books (title, price, author_id)
@@ -30,9 +31,7 @@
             ('Harry Potter and the Order of the Phoenix', 9.99, (SELECT id FROM author)),
             ('Harry Potter and the Half-Blood Prince', 9.99, (SELECT id FROM author)),
             ('Harry Potter and the Deathly Hallows', 9.99, (SELECT id FROM author));
-        </sql>
 
-        <sql>
             WITH author AS(
             INSERT INTO authors (first_name, last_name) VALUES ('Agatha', 'Christie') RETURNING id)
             INSERT INTO books (title, price, author_id)
@@ -40,11 +39,14 @@
             ('And Then There Were None', 7.99, (SELECT id FROM author)),
             ('Dumb Witness', 7.99, (SELECT id FROM author)),
             ('Murder on the Orient Express', 7.99, (SELECT id FROM author));
+
+            COMMIT;
         </sql>
     </changeSet>
 
     <changeSet id="07.01.2022_1226_insert_book_tags_data" author="aliaksandr anashkevich">
         <sql>
+
             WITH tag AS(
             SELECT id FROM tags WHERE name='Fantasy')
             INSERT INTO book_tags (book_id, tag_id)

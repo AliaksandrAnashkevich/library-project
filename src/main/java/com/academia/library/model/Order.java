@@ -8,6 +8,8 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,7 +17,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -32,10 +36,20 @@ public class Order {
     private Long id;
 
     @Column
-    private Double amount;
+    private BigDecimal amount;
 
     @Column
-    private LocalDate timeOrder;
+    private String history;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+
+    @Column
+    private LocalDateTime createAt;
+
+    @Column
+    private LocalDateTime updateAt;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

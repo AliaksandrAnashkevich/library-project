@@ -26,7 +26,7 @@
     </changeSet>
 
     <changeSet id="14.01.2022_1700_create_role_authority_table" author="aliaksandr anashkevich">
-        <createTable tableName="user_roles">
+        <createTable tableName="role_authority">
             <column name="id" type="bigint" defaultValueComputed="nextval('role_authority_id_seq')">
                 <constraints nullable="false" primaryKey="true"/>
             </column>

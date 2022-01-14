@@ -10,7 +10,7 @@
     </changeSet>
 
     <changeSet id="14.01.2022_1616_create_users_table" author="aliaksandr anashkevich">
-        <createTable tableName="tags">
+        <createTable tableName="users">
             <column name="id" type="bigint" defaultValueComputed="nextval('user_id_seq')">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
