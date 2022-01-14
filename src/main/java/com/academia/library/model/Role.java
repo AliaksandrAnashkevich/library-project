@@ -1,5 +1,5 @@
 package com.academia.library.model;
-
+/*
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,3 +25,4 @@ public class Role {
     @Column
     private String name;
 }
+*/

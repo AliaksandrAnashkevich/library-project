@@ -1,5 +1,5 @@
 package com.academia.library.model;
-
+/*
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -63,3 +63,4 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles = new HashSet<>();
 }
+*/

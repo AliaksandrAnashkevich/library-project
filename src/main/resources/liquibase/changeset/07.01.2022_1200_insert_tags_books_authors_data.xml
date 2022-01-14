@@ -46,7 +46,7 @@
     <changeSet id="07.01.2022_1226_insert_book_tags_data" author="aliaksandr anashkevich">
         <sql>
             WITH tag AS(
-            SELECT id FROM tags WHERE name='Fantasy'))
+            SELECT id FROM tags WHERE name='Fantasy')
             INSERT INTO book_tags (book_id, tag_id)
             VALUES
             ((SELECT id FROM books WHERE title='Harry Potter and the Philosophers Stone'), (SELECT id FROM tag)),
@@ -60,7 +60,7 @@
 
         <sql>
             WITH tag AS(
-            SELECT id FROM tags WHERE name='Detective'))
+            SELECT id FROM tags WHERE name='Detective')
             INSERT INTO book_tags (book_id, tag_id)
             VALUES
             ((SELECT id FROM books WHERE title='And Then There Were None'), (SELECT id FROM tag)),

@@ -1,5 +1,5 @@
 package com.academia.library.model;
-
+/*
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,3 +55,4 @@ public class Order {
     )
     private List<Book> books = new ArrayList<>();
 }
+*/
