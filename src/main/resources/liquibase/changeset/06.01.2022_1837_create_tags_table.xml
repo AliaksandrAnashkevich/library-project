@@ -5,8 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
     <changeSet id="14.01.2022_1416_create_tags_sequence" author="aliaksandr anashkevich">
-        <createSequence sequenceName="tag_id_seq" cycle="false" minValue="1"
-                        maxValue="9223372036854775807" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="tag_id_seq" startValue="1" incrementBy="1"/>
     </changeSet>
     
     <changeSet id="06.01.2022_1837_create_tags_table" author="aliaksandr anashkevich">

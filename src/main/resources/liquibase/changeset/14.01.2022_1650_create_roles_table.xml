@@ -5,8 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
     <changeSet id="14.01.2022_1635_create_roles_sequence" author="aliaksandr anashkevich">
-        <createSequence sequenceName="role_id_seq" cycle="false" minValue="1"
-                        maxValue="9223372036854775807" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="role_id_seq" startValue="1" incrementBy="1"/>
     </changeSet>
 
     <changeSet id="14.01.2022_1635_create_roles_table" author="aliaksandr anashkevich">
@@ -21,8 +20,7 @@
     </changeSet>
 
     <changeSet id="14.01.2022_1650_create_user_roles_sequence" author="aliaksandr anashkevich">
-        <createSequence sequenceName="user_roles_id_seq" cycle="false" minValue="1"
-                        maxValue="9223372036854775807" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="user_roles_id_seq" startValue="1" incrementBy="1"/>
     </changeSet>
 
     <changeSet id="14.01.2022_1655_create_user_roles_table" author="aliaksandr anashkevich">
