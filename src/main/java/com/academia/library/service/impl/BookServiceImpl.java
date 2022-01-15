@@ -1,6 +1,6 @@
 package com.academia.library.service.impl;
 
-import com.academia.library.dto.BookResponse;
+import com.academia.library.dto.BookDto;
 import com.academia.library.mapper.BookMapper;
 import com.academia.library.model.Book;
 import com.academia.library.repository.BookRepository;
@@ -17,20 +17,19 @@ import java.util.stream.Collectors;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
-    private final BookMapper bookMapper;
 
     @Override
-    public BookResponse findById(Long id) {
+    public BookDto findById(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow();
-        return bookMapper.toDto(book);
+        return BookMapper.INSTANCE.toDto(book);
     }
 
     @Override
-    public List<BookResponse> findAll() {
+    public List<BookDto> findAll() {
         List<Book> books = bookRepository.findAll();
         return books.stream()
-                .map(bookMapper::toDto)
+                .map(BookMapper.INSTANCE::toDto)
                 .collect(Collectors.toList());
     }
 }

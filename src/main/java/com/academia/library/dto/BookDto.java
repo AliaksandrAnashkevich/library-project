@@ -10,15 +10,15 @@ import lombok.ToString;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Builder
 @Setter
 @Getter
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookResponse {
+public class BookDto {
 
+    private Long id;
     private BigDecimal price;
     private String title;
     private String imageUrl;
