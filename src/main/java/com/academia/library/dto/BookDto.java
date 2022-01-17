@@ -1,5 +1,8 @@
 package com.academia.library.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,11 +13,14 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+@Builder
 @Setter
 @Getter
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties
 public class BookDto {
 
     private Long id;

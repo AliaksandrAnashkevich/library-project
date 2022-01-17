@@ -26,7 +26,7 @@ dependencies {
     implementation 'org.liquibase:liquibase-core'
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.4.2.Final'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.0'
     implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.1.12'
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.1'
     compileOnly 'org.projectlombok:lombok'

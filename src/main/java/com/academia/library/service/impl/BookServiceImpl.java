@@ -18,20 +18,21 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
+    private final BookMapper bookMapper;
     private final BookRepository bookRepository;
 
     @Override
     public BookDto findById(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(String.format("object with id=[%s] don't exist", id)));
-        return BookMapper.INSTANCE.toDto(book);
+        return bookMapper.toDto(book);
     }
 
     @Override
     public List<BookDto> findAll() {
         List<Book> books = bookRepository.findAll();
         return books.stream()
-                .map(BookMapper.INSTANCE::toDto)
+                .map(bookMapper::toDto)
                 .collect(Collectors.toList());
     }
 }
