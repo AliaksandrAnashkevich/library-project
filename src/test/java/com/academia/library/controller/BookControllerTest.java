@@ -10,7 +10,7 @@ import com.academia.library.model.Tag;
 import com.academia.library.repository.AuthorRepository;
 import com.academia.library.repository.BookRepository;
 import com.academia.library.repository.TagRepository;
-import com.academia.library.util.TestDataEntity;
+import com.academia.library.util.TestDataCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,9 +61,9 @@ class BookControllerTest {
 
     @BeforeEach
     private void insertTestData() {
-        Tag tag = tagMapper.toEntity(TestDataEntity.TEST_TAG);
-        Author author = authorMapper.toEntity(TestDataEntity.TEST_AUTHOR);
-        Book book = bookMapper.toEntity(TestDataEntity.TEST_BOOK);
+        Tag tag = tagMapper.toEntity(TestDataCreator.TEST_TAG);
+        Author author = authorMapper.toEntity(TestDataCreator.TEST_AUTHOR);
+        Book book = bookMapper.toEntity(TestDataCreator.TEST_BOOK);
 
         tagRepository.save(tag);
         authorRepository.save(author);

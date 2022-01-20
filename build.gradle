@@ -24,6 +24,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     implementation 'org.liquibase:liquibase-core'
+    implementation 'io.swagger.core.v3:swagger-core:2.1.12'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.4'
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
     implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.4.2.Final'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.0'

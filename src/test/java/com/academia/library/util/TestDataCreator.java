@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 
-public class TestDataEntity {
+public class TestDataCreator {
     public static TagDto TEST_TAG = TagDto.builder()
             .name("Abstract name")
             .build();
