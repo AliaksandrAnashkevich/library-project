@@ -32,13 +32,18 @@ dependencies {
     implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.1.12'
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.1'
     compileOnly 'org.projectlombok:lombok'
+    compileOnly "org.mapstruct:mapstruct:1.4.2.Final"
+    compileOnly "org.projectlombok:lombok-mapstruct-binding:0.2.0"
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testCompileOnly 'org.mapstruct:mapstruct:1.4.2.Final'
+    testCompileOnly 'org.projectlombok:lombok'
 }
 
 test {
