@@ -2,6 +2,11 @@ package com.academia.library.controller;
 
 import com.academia.library.dto.BookDto;
 import com.academia.library.service.BookService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,15 +18,24 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/books")
+@Tag(name = "Book")
 public class BookController {
 
     private final BookService bookService;
 
+    @Operation(summary = "Get books", description = "Get all books")
+    @ApiResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     @GetMapping
     public List<BookDto> getAllBooks(){
         return bookService.findAll();
     }
 
+    @Operation(summary = "Get book", description = "Get book by id")
+    @ApiResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     @GetMapping("{id}")
     public BookDto getBookById(@PathVariable("id") Long id){
         return bookService.findById(id);
