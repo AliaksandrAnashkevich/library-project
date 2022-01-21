@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet id="20.01.2022_1508_insert_authority_data" author="aliaksandr anashkevich">
+        <sql>
+            INSERT INTO authority(name) VALUES
+            ('AUTHORITY_ALL'),
+            ('AUTHORITY_READ');
+        </sql>
+    </changeSet>
+
+    <changeSet id="20.01.2022_1510_insert_roles_data" author="aliaksandr anashkevich">
+        <sql>
+            INSERT INTO roles(name) VALUES
+            ('ROLE_ADMIN'),
+            ('ROLE_USER');
+        </sql>
+    </changeSet>
+
+    <changeSet id="20.01.2022_1517_insert_users_data" author="aliaksandr anashkevich">
+        <sql>
+            INSERT INTO users(first_name, last_name, email, password) VALUES
+            ('Aliaksandr','Anashkevich', 'admin@gmail.com',
+            '$2a$12$KmqsxD/yfx8xZO2SZjbwz.XlhZJNkN4ERcFeVHlc5a1zjaJd7b3yC'),
+            ('Jhon','Smith', 'user@gmail.com', '$2a$12$KmqsxD/yfx8xZO2SZjbwz.XlhZJNkN4ERcFeVHlc5a1zjaJd7b3yC');
+        </sql>
+    </changeSet>
+
+    <changeSet id="20.01.2022_1524_insert_user_roles_data" author="aliaksandr anashkevich">
+        <sql>
+            BEGIN TRANSACTION;
+
+            INSERT INTO user_roles(user_id, role_id) VALUES
+            ((SELECT id FROM users WHERE email = 'admin@gmail.com'), (SELECT id FROM roles WHERE name = 'ROLE_ADMIN'));
+
+            INSERT INTO user_roles(user_id, role_id) VALUES
+            ((SELECT id FROM users WHERE email = 'user@gmail.com'), (SELECT id FROM roles WHERE name = 'ROLE_USER'));
+
+            COMMIT;
+        </sql>
+    </changeSet>
+
+    <changeSet id="20.01.2022_1542_insert_user_roles_data" author="aliaksandr anashkevich">
+        <sql>
+            BEGIN TRANSACTION;
+
+            INSERT INTO user_roles(user_id, role_id) VALUES
+            ((SELECT id FROM users WHERE email = 'admin@gmail.com'), (SELECT id FROM roles WHERE name = 'ROLE_ADMIN'));
+
+            INSERT INTO user_roles(user_id, role_id) VALUES
+            ((SELECT id FROM users WHERE email = 'user@gmail.com'), (SELECT id FROM roles WHERE name = 'ROLE_USER'));
+
+            COMMIT;
+        </sql>
+    </changeSet>
+
+    <changeSet id="20.01.2022_1542_insert_role_authority_data" author="aliaksandr anashkevich">
+        <sql>
+            BEGIN TRANSACTION;
+
+            INSERT INTO role_authority(authority_id, role_id) VALUES
+            ((SELECT id FROM authority WHERE name = 'AUTHORITY_ALL'), (SELECT id FROM roles WHERE name = 'ROLE_ADMIN'));
+
+            INSERT INTO role_authority(authority_id, role_id) VALUES
+            ((SELECT id FROM authority WHERE name = 'AUTHORITY_READ'), (SELECT id FROM roles WHERE name = 'ROLE_USER'));
+
+            COMMIT;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
