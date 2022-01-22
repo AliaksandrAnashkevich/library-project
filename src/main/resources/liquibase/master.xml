@@ -13,4 +13,5 @@
     <include  file="/liquibase/changeset/14.01.2022_1650_create_roles_table.xml"/>
     <include  file="/liquibase/changeset/14.01.2022_1700_create_authority_table.xml"/>
     <include  file="/liquibase/changeset/14.01.2022_1715_create_orders_table.xml"/>
+    <include  file="/liquibase/changeset/20.01.2022_1505_insert_users_roles_authority_data.xml"/>
 </databaseChangeLog>
