@@ -1,22 +1,19 @@
 package com.academia.library.exception.handler;
 
-import com.academia.library.dto.ExceptionDto;
 import com.academia.library.exception.BookNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class BookExceptionHandler {
 
     @ExceptionHandler(BookNotFoundException.class)
-    public ResponseEntity<ExceptionDto> handleBookNotFound(BookNotFoundException e) {
-        ExceptionDto message = ExceptionDto.builder()
-                .codeStatus(HttpStatus.NOT_FOUND.value())
-                .messageStatus(HttpStatus.NOT_FOUND.getReasonPhrase())
-                .messageException(e.getMessage())
-                .build();
-        return new ResponseEntity<>(message, HttpStatus.OK);
+    public ResponseEntity handleBookNotFound(BookNotFoundException e) {
+        log.error("Bad request: {} ", e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 }

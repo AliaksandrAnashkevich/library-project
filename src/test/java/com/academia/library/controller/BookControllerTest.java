@@ -94,8 +94,6 @@ class BookControllerTest {
         // then
         BookDto extend = objectMapper.readValue(response, BookDto.class);
         assertEquals(actual.getPrice(), extend.getPrice());
-        assertEquals(actual.getImageUrl(), extend.getImageUrl());
-        assertEquals(actual.getAuthor(), authorMapper.toEntity(extend.getAuthor()));
     }
 
     @Test

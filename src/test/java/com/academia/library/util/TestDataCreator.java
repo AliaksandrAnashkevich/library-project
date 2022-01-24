@@ -21,9 +21,7 @@ public class TestDataCreator {
     public static BookDto TEST_BOOK = BookDto.builder()
             .price(new BigDecimal("10.00"))
             .title("Abstract name")
-            .imageUrl(null)
             .createAt(LocalDateTime.now())
             .updateAt(LocalDateTime.now())
-            .tags(new HashSet<>())
             .build();
 }

@@ -32,7 +32,7 @@ public class BookController {
         return bookService.findAll();
     }
 
-    @Operation(summary = "Get book", description = "Get book by id")
+    @Operation(summary = "Get cities", description = "Get book by id")
     @ApiResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
