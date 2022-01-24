@@ -1,6 +1,6 @@
 package com.academia.library.service.impl;
 
-import com.academia.library.dto.BookDto;
+import com.academia.library.dto.BookResponseDto;
 import com.academia.library.exception.BookNotFoundException;
 import com.academia.library.mapper.BookMapper;
 import com.academia.library.model.Book;
@@ -24,7 +24,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public BookDto findById(Long id) {
+    public BookResponseDto findById(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
         log.info("IN findById - book found by id: {}", id);
@@ -33,7 +33,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<BookDto> findAll() {
+    public List<BookResponseDto> findAll() {
         List<Book> books = bookRepository.findAll();
         log.info("IN getAll - {} users found", books.size());
         return books.stream()

@@ -1,12 +1,12 @@
 package com.academia.library.service;
 
-import com.academia.library.dto.BookDto;
+import com.academia.library.dto.BookResponseDto;
 
 import java.util.List;
 
 public interface BookService {
 
-    BookDto findById(Long id);
+    BookResponseDto findById(Long id);
 
-    List<BookDto> findAll();
+    List<BookResponseDto> findAll();
 }

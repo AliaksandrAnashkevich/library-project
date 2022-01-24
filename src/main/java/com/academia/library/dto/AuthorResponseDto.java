@@ -2,13 +2,11 @@ package com.academia.library.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Builder
-@Setter
 @Getter
-public class TagDto {
+public class AuthorResponseDto {
 
-    private Long id;
-    private String name;
+    private String firstName;
+    private String lastName;
 }

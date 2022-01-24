@@ -1,6 +1,6 @@
 package com.academia.library.controller;
 
-import com.academia.library.dto.BookDto;
+import com.academia.library.dto.BookResponseDto;
 import com.academia.library.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,19 +25,19 @@ public class BookController {
 
     @Operation(summary = "Get books", description = "Get all books")
     @ApiResponse(responseCode = "200", description = "Success",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponseDto.class)))
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     @GetMapping
-    public List<BookDto> getAllBooks(){
+    public List<BookResponseDto> getAllBooks(){
         return bookService.findAll();
     }
 
     @Operation(summary = "Get cities", description = "Get book by id")
     @ApiResponse(responseCode = "200", description = "Success",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponseDto.class)))
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     @GetMapping("{id}")
-    public BookDto getBookById(@PathVariable("id") Long id){
+    public BookResponseDto getBookById(@PathVariable("id") Long id){
         return bookService.findById(id);
     }
 }

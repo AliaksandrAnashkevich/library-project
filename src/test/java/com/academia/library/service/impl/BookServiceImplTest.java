@@ -1,6 +1,5 @@
-package com.academia.library.controller;
+package com.academia.library.service.impl;
 
-import com.academia.library.dto.BookResponseDto;
 import com.academia.library.mapper.AuthorMapper;
 import com.academia.library.mapper.BookMapper;
 import com.academia.library.mapper.TagMapper;
@@ -10,32 +9,24 @@ import com.academia.library.model.Tag;
 import com.academia.library.repository.AuthorRepository;
 import com.academia.library.repository.BookRepository;
 import com.academia.library.repository.TagRepository;
+import com.academia.library.service.BookService;
 import com.academia.library.util.TestDataCreator;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc
-class BookControllerTest {
+class BookServiceImplTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private BookService bookService;
 
     @Autowired
     private BookRepository bookRepository;
@@ -47,16 +38,13 @@ class BookControllerTest {
     private TagRepository tagRepository;
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
     private AuthorMapper authorMapper;
 
     @Autowired
-    private BookMapper bookMapper ;
+    private BookMapper bookMapper;
 
     @Autowired
-    private TagMapper tagMapper ;
+    private TagMapper tagMapper;
 
     private Book actual;
 
@@ -82,31 +70,21 @@ class BookControllerTest {
     }
 
     @Test
-    void getBookById() throws Exception {
+    void findById() {
         // given
-        String url = "/books/{id}";
+        var actualDto = TestDataCreator.TEST_BOOK;
         // when
-        String response = mockMvc.perform(get(url, actual.getId())
-                .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
+        var extend = bookService.findById(actual.getId());
         // then
-        BookResponseDto extend = objectMapper.readValue(response, BookResponseDto.class);
-        assertEquals(actual.getPrice(), extend.getPrice());
-        assertEquals(actual.getTitle(), extend.getTitle());
+        assertEquals(actualDto.getTitle(), extend.getTitle());
+        assertEquals(actualDto.getPrice(), extend.getPrice());
     }
 
     @Test
-    void getAllBooks() throws Exception {
-        // given
-        String url = "/books";
+    void findAll() {
         // when
-        String response = mockMvc.perform(get(url)
-                .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
+        var extendList = bookService.findAll();
         // then
-        List<BookResponseDto> list = Arrays.asList(objectMapper.readValue(response, BookResponseDto[].class));
-        assertTrue(list.size() > 0);
+        assertTrue(extendList.size() > 0);
     }
 }

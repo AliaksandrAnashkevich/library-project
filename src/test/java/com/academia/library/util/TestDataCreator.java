@@ -1,24 +1,26 @@
 package com.academia.library.util;
 
-import com.academia.library.dto.AuthorDto;
-import com.academia.library.dto.BookDto;
-import com.academia.library.dto.TagDto;
+import com.academia.library.dto.AuthorRequestDto;
+import com.academia.library.dto.AuthorResponseDto;
+import com.academia.library.dto.BookRequestDto;
+import com.academia.library.dto.BookResponseDto;
+import com.academia.library.dto.TagRequestDto;
+import com.academia.library.dto.TagResponseDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 
 public class TestDataCreator {
-    public static TagDto TEST_TAG = TagDto.builder()
+    public static TagRequestDto TEST_TAG = TagRequestDto.builder()
             .name("Abstract name")
             .build();
 
-    public static AuthorDto TEST_AUTHOR = AuthorDto.builder()
+    public static AuthorRequestDto TEST_AUTHOR = AuthorRequestDto.builder()
             .firstName("firstName")
             .lastName("lastName")
             .build();
 
-    public static BookDto TEST_BOOK = BookDto.builder()
+    public static BookRequestDto TEST_BOOK = BookRequestDto.builder()
             .price(new BigDecimal("10.00"))
             .title("Abstract name")
             .createAt(LocalDateTime.now())
