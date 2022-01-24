@@ -1,11 +1,10 @@
 package com.academia.library.exeption;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-@ResponseStatus(code = HttpStatus.NOT_FOUND)
 public class UserNotFoundException extends RuntimeException {
-    public UserNotFoundException(String message) {
-        super(message);
+
+    private static final String MESSAGE_CONSTRUCTION = "User with username=[%s] don't found";
+
+    public UserNotFoundException(String email) {
+        super(String.format(MESSAGE_CONSTRUCTION, email));
     }
 }

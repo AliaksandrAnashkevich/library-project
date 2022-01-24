@@ -1,13 +1,14 @@
 package com.academia.library.dto;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 @Builder
 @Getter
-public class AuthResponseDto {
+public class UserRequestDto {
 
+    private String firstName;
+    private String lastName;
     private String email;
-    private String token;
+    private String password;
 }

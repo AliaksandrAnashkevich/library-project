@@ -1,10 +1,9 @@
 package com.academia.library.service;
 
-import com.academia.library.dto.UserDto;
+import com.academia.library.dto.UserRequestDto;
+import com.academia.library.dto.UserResponseDto;
 
 public interface UserService {
 
-    boolean existByEmail(String email);
-
-    void save(UserDto userDto);
+    UserResponseDto add(UserRequestDto userRequestDto);
 }

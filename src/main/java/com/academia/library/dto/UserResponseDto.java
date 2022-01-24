@@ -2,15 +2,17 @@ package com.academia.library.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Builder
 @Getter
-@Setter
-public class UserDto {
+public class UserResponseDto {
 
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
 }

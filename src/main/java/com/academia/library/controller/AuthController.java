@@ -1,15 +1,15 @@
 package com.academia.library.controller;
 
-import com.academia.library.config.PasswordConfig;
 import com.academia.library.dto.AuthRequestDto;
 import com.academia.library.dto.AuthResponseDto;
-import com.academia.library.dto.UserDto;
+import com.academia.library.dto.UserRequestDto;
+import com.academia.library.dto.UserResponseDto;
+import com.academia.library.exeption.InvalidAuthRequestDataException;
 import com.academia.library.security.JwtTokenProvider;
 import com.academia.library.security.JwtUser;
 import com.academia.library.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +23,6 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
-    private final PasswordConfig passwordConfig;
     private final UserService userService;
 
     @GetMapping("/")
@@ -49,25 +48,12 @@ public class AuthController {
                     .build();
 
         } catch (Exception ex) {
-            throw new BadCredentialsException("Invalid email or password.");
+            throw new InvalidAuthRequestDataException();
         }
     }
 
     @PostMapping("/registration")
-    public AuthResponseDto registration(@RequestBody UserDto userDto) {
-
-        if (userService.existByEmail(userDto.getEmail())) {
-            throw new RuntimeException();
-        }
-        userDto.setPassword(passwordConfig
-                .passwordEncoder()
-                .encode(userDto.getPassword()));
-        userService.save(userDto);
-
-
-        return AuthResponseDto.builder()
-                .email(userDto.getEmail())
-                .token("token")
-                .build();
+    public UserResponseDto registration(@RequestBody UserRequestDto userRequestDto) {
+        return userService.add(userRequestDto);
     }
 }
