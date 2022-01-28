@@ -1,5 +1,6 @@
 package com.academia.library.util;
 
+import com.academia.library.dto.AuthRequestDto;
 import com.academia.library.dto.AuthorRequestDto;
 import com.academia.library.dto.AuthorResponseDto;
 import com.academia.library.dto.BookRequestDto;
@@ -22,16 +23,35 @@ public class TestDataCreator {
             .build();
 
     public static BookRequestDto TEST_BOOK = BookRequestDto.builder()
-            .price(new BigDecimal("10.00"))
+            .price(new BigDecimal("9.99"))
             .title("Abstract name")
             .createAt(LocalDateTime.now())
             .updateAt(LocalDateTime.now())
             .build();
 
-    public static UserRequestDto VALID_TEST_USER = UserRequestDto.builder()
+    public static AuthRequestDto LOGIN_TEST_USER = AuthRequestDto.builder()
+            .email("alex@example.com")
+            .password("Aa123456")
+            .build();
+
+    public static UserRequestDto INSERT_USER = UserRequestDto.builder()
             .firstName("Alexandr")
             .lastName("Anashkevich")
             .email("alex@example.com")
             .password("Aa123456")
+            .build();
+
+    public static UserRequestDto VALID_TEST_USER = UserRequestDto.builder()
+            .firstName("Alexandr")
+            .lastName("Anashkevich")
+            .email("test@example.com")
+            .password("Aa123456")
+            .build();
+
+    public static UserRequestDto INVALID_TEST_USER = UserRequestDto.builder()
+            .firstName("Alexandr")
+            .lastName("Anashkevich")
+            .email("testexample.com")
+            .password("aa123456")
             .build();
 }

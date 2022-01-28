@@ -10,12 +10,12 @@ import java.nio.charset.StandardCharsets;
 public class UserCryptorImpl implements UserCryptor {
 
     @Override
-    public String decode(String encodeString) {
-        return new String(Base64.decodeBase64(encodeString.getBytes(StandardCharsets.UTF_8)));
+    public String decode(String encodeValue) {
+        return new String(Base64.decodeBase64(encodeValue.getBytes(StandardCharsets.UTF_8)));
     }
 
     @Override
-    public String encode(String string) {
-        return new String(Base64.encodeBase64(string.getBytes(StandardCharsets.UTF_8)));
+    public String encode(String value) {
+        return new String(Base64.encodeBase64(value.getBytes(StandardCharsets.UTF_8)));
     }
 }

@@ -14,4 +14,3 @@ spring:
   liquibase:
     change-log: classpath:liquibase/master.xml
     enabled: true
-

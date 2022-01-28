@@ -24,6 +24,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenFilter jwtTokenFilter;
     private final JwtUserDetailsService userDetailsService;
+    private static final String SWAGGER_ENDPOINT = "/swagger-ui/**";
+    private static final String LOGIN_ENDPOINT = "/auth/login";
+    private static final String REGISTRATION_ENDPOINT = "/auth/registration";
+    private static final String BOOK_ENDPOINT = "/books/**";
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
@@ -38,12 +42,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
-                .antMatchers("/swagger-ui/**").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/registration").permitAll()
-                .antMatchers("/books/**").permitAll()
+                .antMatchers(SWAGGER_ENDPOINT).permitAll()
+                .antMatchers(LOGIN_ENDPOINT).permitAll()
+                .antMatchers(REGISTRATION_ENDPOINT).permitAll()
+                .antMatchers(BOOK_ENDPOINT).permitAll()
                 .anyRequest().authenticated();
-        http.exceptionHandling().accessDeniedPage("/login");
+        http.exceptionHandling().accessDeniedPage(LOGIN_ENDPOINT);
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         http.httpBasic();
     }

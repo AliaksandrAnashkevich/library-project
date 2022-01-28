@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet id="14.01.2022_1640_create_authority_sequence" author="aliaksandr anashkevich">
+        <createSequence sequenceName="authority_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="14.01.2022_1641_create_authority_table" author="aliaksandr anashkevich">
+        <createTable tableName="authority">
+            <column name="id" type="bigint" defaultValueComputed="nextval('authority_id_seq')">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="14.01.2022_1700_create_role_authority_sequence" author="aliaksandr anashkevich">
+        <createSequence sequenceName="role_authority_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="14.01.2022_1701_create_role_authority_table" author="aliaksandr anashkevich">
+        <createTable tableName="role_authority">
+            <column name="id" type="bigint" defaultValueComputed="nextval('role_authority_id_seq')">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="authority_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="14.01.2022_1657_create_role_authority_relations" author="aliaksandr anashkevich">
+        <addForeignKeyConstraint baseTableName="role_authority"
+                                 baseColumnNames="role_id"
+                                 constraintName="roles_role_authority_fk"
+                                 referencedTableName="roles"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="role_authority"
+                                 baseColumnNames="authority_id"
+                                 constraintName="authority_role_authority_fk"
+                                 referencedTableName="authority"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

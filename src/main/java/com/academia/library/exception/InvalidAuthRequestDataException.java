@@ -2,9 +2,9 @@ package com.academia.library.exception;
 
 public class InvalidAuthRequestDataException extends RuntimeException {
 
-    private static final String MESSAGE_CONSTRUCTION = "Invalid email or password.";
+    private static final String MESSAGE_ERROR = "Invalid email or password.";
 
     public InvalidAuthRequestDataException() {
-        super(MESSAGE_CONSTRUCTION);
+        super(MESSAGE_ERROR);
     }
 }

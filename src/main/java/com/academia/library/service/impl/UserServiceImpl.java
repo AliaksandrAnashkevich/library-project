@@ -6,6 +6,7 @@ import com.academia.library.dto.AuthResponseDto;
 import com.academia.library.dto.UserRequestDto;
 import com.academia.library.dto.UserResponseDto;
 import com.academia.library.exception.InvalidAuthRequestDataException;
+import com.academia.library.exception.RoleNotFoundException;
 import com.academia.library.mapper.UserMapper;
 import com.academia.library.model.Role;
 import com.academia.library.model.User;
@@ -23,6 +24,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Service
@@ -62,16 +64,18 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(userRequestDto.getEmail())) {
             throw new RuntimeException();
         }
-        Role role = roleRepository.findByName(RoleNames.USER_ROLE);
+        Role role = roleRepository.findByName(RoleNames.USER_ROLE)
+                .orElseThrow(() -> new RoleNotFoundException(RoleNames.USER_ROLE));
         String bCryptPassword = passwordEncoder.encode(userRequestDto.getPassword());
 
         User user = userMapper.toEntity(userRequestDto);
         user.setRoles(Set.of(role));
         user.setPassword(bCryptPassword);
-
+        user.setCreateAt(LocalDateTime.now());
+        user.setUpdateAt(LocalDateTime.now());
         encryptUserFields(user);
 
-        User savedUser = userRepository.saveAndFlush(user);
+        User savedUser = userRepository.save(user);
 
         return userMapper.toDto(savedUser);
     }

@@ -22,38 +22,27 @@
 
     <changeSet id="20.01.2022_1517_insert_users_data" author="aliaksandr anashkevich">
         <sql>
-            INSERT INTO users(first_name, last_name, email, password) VALUES
-            ('Aliaksandr','Anashkevich', 'admin@gmail.com',
-            '$2a$12$KmqsxD/yfx8xZO2SZjbwz.XlhZJNkN4ERcFeVHlc5a1zjaJd7b3yC'),
-            ('Jhon','Smith', 'user@gmail.com', '$2a$12$KmqsxD/yfx8xZO2SZjbwz.XlhZJNkN4ERcFeVHlc5a1zjaJd7b3yC');
+            INSERT INTO users(first_name, last_name, email, password, create_at, update_at) VALUES
+            ('QWxpYWtzYW5kcg==','QW5hc2hrZXZpY2g=', 'YWRtaW5AZ21haWwuY29t',
+            '$2a$12$KmqsxD/yfx8xZO2SZjbwz.XlhZJNkN4ERcFeVHlc5a1zjaJd7b3yC', now(), now()),
+            ('Smhvbg==','U21pdGg=', 'dXNlckBnbWFpbC5jb20=', '$2a$12$KmqsxD/yfx8xZO2SZjbwz.XlhZJNkN4ERcFeVHlc5a1zjaJd7b3yC',
+            now(), now());
         </sql>
     </changeSet>
 
     <changeSet id="20.01.2022_1542_insert_user_roles_data" author="aliaksandr anashkevich">
         <sql>
-            BEGIN TRANSACTION;
-
             INSERT INTO user_roles(user_id, role_id) VALUES
-            ((SELECT id FROM users WHERE email = 'admin@gmail.com'), (SELECT id FROM roles WHERE name = 'ROLE_ADMIN'));
-
-            INSERT INTO user_roles(user_id, role_id) VALUES
-            ((SELECT id FROM users WHERE email = 'user@gmail.com'), (SELECT id FROM roles WHERE name = 'ROLE_USER'));
-
-            COMMIT;
+            ((SELECT id FROM users WHERE email = 'YWRtaW5AZ21haWwuY29t'), (SELECT id FROM roles WHERE name = 'ROLE_ADMIN')),
+            ((SELECT id FROM users WHERE email = 'dXNlckBnbWFpbC5jb20='), (SELECT id FROM roles WHERE name = 'ROLE_USER'));
         </sql>
     </changeSet>
 
     <changeSet id="20.01.2022_1542_insert_role_authority_data" author="aliaksandr anashkevich">
         <sql>
-            BEGIN TRANSACTION;
-
             INSERT INTO role_authority(authority_id, role_id) VALUES
-            ((SELECT id FROM authority WHERE name = 'AUTHORITY_ALL'), (SELECT id FROM roles WHERE name = 'ROLE_ADMIN'));
-
-            INSERT INTO role_authority(authority_id, role_id) VALUES
+            ((SELECT id FROM authority WHERE name = 'AUTHORITY_ALL'), (SELECT id FROM roles WHERE name = 'ROLE_ADMIN')),
             ((SELECT id FROM authority WHERE name = 'AUTHORITY_READ'), (SELECT id FROM roles WHERE name = 'ROLE_USER'));
-
-            COMMIT;
         </sql>
     </changeSet>
 </databaseChangeLog>

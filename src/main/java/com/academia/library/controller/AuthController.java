@@ -20,22 +20,26 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/auth")
 @Tag(name = "authentication")
 @RequiredArgsConstructor
 public class AuthController {
 
     private final UserService userService;
 
-    @Operation(summary = "Get books", description = "Get all books")
+    @Operation(summary = "Login", description = "Login user")
     @ApiResponse(responseCode = "200", description = "Success",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponseDto.class)))
-    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    @ApiResponse(responseCode = "401", description = "Invalid email or password.", content = @Content)
     @PostMapping("/login")
     public AuthResponseDto login(@Valid @RequestBody AuthRequestDto authRequestDto) {
         return userService.login(authRequestDto);
     }
 
+    @Operation(summary = "Registration", description = "Registration new user")
+    @ApiResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponseDto.class)))
+    @ApiResponse(responseCode = "400", description = "Invalid user request body", content = @Content)
     @PostMapping("/registration")
     public UserResponseDto registration(@Valid @RequestBody UserRequestDto userRequestDto) {
         return userService.create(userRequestDto);

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet id="14.01.2022_1714_create_orders_sequence" author="aliaksandr anashkevich">
+        <createSequence sequenceName="order_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="14.01.2022_1715_create_orders_table" author="aliaksandr anashkevich">
+        <createTable tableName="orders">
+            <column name="id" type="bigint" defaultValueComputed="nextval('order_id_seq')">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="amount" type="decimal(20,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="history" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="create_at" type="timestamp without time zone" defaultValue="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="update_at" type="timestamp without time zone" defaultValue="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="14.01.2022_1725_create_user_orders_relations" author="aliaksandr anashkevich">
+        <addForeignKeyConstraint baseTableName="orders"
+                                 baseColumnNames="user_id"
+                                 constraintName="user_orders_fk"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

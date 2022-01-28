@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet id="06.01.2022_1854_create_authors_sequence" author="aliaksandr anashkevich">
+        <createSequence sequenceName="book_tags_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="06.01.2022_1855_create_book_tags_table" author="aliaksandr anashkevich">
+        <createTable tableName="book_tags">
+            <column name="id" type="bigint" defaultValueComputed="nextval('book_tags_id_seq')">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tag_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="06.01.2022_1901_create_books_authors_relations" author="aliaksandr anashkevich">
+        <addForeignKeyConstraint baseTableName="books"
+                                 baseColumnNames="author_id"
+                                 constraintName="books_author_fk"
+                                 referencedTableName="authors"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="06.01.2022_1901_create_books_tags_relations" author="aliaksandr anashkevich">
+        <addForeignKeyConstraint baseTableName="book_tags"
+                                 baseColumnNames="book_id"
+                                 constraintName="books_book_tags_fk"
+                                 referencedTableName="books"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="book_tags"
+                                 baseColumnNames="tag_id"
+                                 constraintName="tags_book_tags_fk"
+                                 referencedTableName="tags"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

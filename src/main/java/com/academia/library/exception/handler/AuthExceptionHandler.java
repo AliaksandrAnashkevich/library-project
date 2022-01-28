@@ -2,6 +2,7 @@ package com.academia.library.exception.handler;
 
 import com.academia.library.exception.InvalidAuthRequestDataException;
 import com.academia.library.exception.JwtTokenException;
+import com.academia.library.exception.RoleNotFoundException;
 import com.academia.library.exception.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,12 @@ public class AuthExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity handleUserNotFound(UserNotFoundException e) {
+        log.error("Forbidden {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+    }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity handleRoleNotFound(RoleNotFoundException e) {
         log.error("Forbidden {}", e.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }

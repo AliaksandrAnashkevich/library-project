@@ -22,11 +22,11 @@
             <column name="image_url" type="varchar(100)">
                 <constraints nullable="true"/>
             </column>
-            <column name="create_at" type="timestamp without time zone" defaultValue="now()">
-                <constraints nullable="false"/>
+            <column name="create_at" type="timestamp without time zone">
+                <constraints nullable="true"/>
             </column>
-            <column name="update_at" type="timestamp without time zone" defaultValue="now()">
-                <constraints nullable="false"/>
+            <column name="update_at" type="timestamp without time zone">
+                <constraints nullable="true"/>
             </column>
             <column name="author_id" type="bigint">
                 <constraints nullable="false"/>

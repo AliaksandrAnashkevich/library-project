@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -49,11 +47,9 @@ public class User {
     @Column
     private String password;
 
-    @Generated(GenerationTime.INSERT)
     @Column
     private LocalDateTime createAt;
 
-    @Generated(GenerationTime.INSERT)
     @Column
     private LocalDateTime updateAt;
 

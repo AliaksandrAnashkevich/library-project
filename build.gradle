@@ -24,6 +24,7 @@ ext {
     lombokVersion = '1.18.20'
     mapstructVersion = '1.4.2.Final'
     postgresqlVersion = '42.2.23'
+    h2Version = '2.1.210'
     swaggerVersion = '2.1.12'
     springdocVersion = '1.6.4'
     junitVersion = '5.8.1'
@@ -62,6 +63,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testImplementation "com.h2database:h2:${h2Version}"
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 

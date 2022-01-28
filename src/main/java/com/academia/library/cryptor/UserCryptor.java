@@ -2,7 +2,7 @@ package com.academia.library.cryptor;
 
 public interface UserCryptor {
 
-    String decode(String encodeString);
+    String decode(String encodeValue);
 
-    String encode(String string);
+    String encode(String value);
 }
