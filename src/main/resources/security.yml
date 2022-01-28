@@ -1,0 +1,6 @@
+security:
+  jwt:
+    token:
+      secret-key: c2VjcmV0LWtleQ==
+      expire-length: 300000
+      bearer: Bearer

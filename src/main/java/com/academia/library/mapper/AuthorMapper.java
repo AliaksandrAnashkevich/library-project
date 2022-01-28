@@ -1,7 +1,6 @@
 package com.academia.library.mapper;
 
 import com.academia.library.dto.AuthorRequestDto;
-import com.academia.library.dto.AuthorResponseDto;
 import com.academia.library.model.Author;
 import org.mapstruct.Mapper;
 

@@ -14,12 +14,13 @@ configurations {
     }
 }
 
+
 repositories {
     mavenCentral()
 }
 
 ext {
-    lombokMapstructBindingVersion= '0.2.0'
+    lombokMapstructBindingVersion = '0.2.0'
     lombokVersion = '1.18.20'
     mapstructVersion = '1.4.2.Final'
     postgresqlVersion = '42.2.23'
@@ -27,24 +28,26 @@ ext {
     springdocVersion = '1.6.4'
     junitVersion = '5.8.1'
     jacksonVersion = '2.13.1'
-    jsonWebTokenVersion= '0.9.1'
+    jsonWebTokenVersion = '0.9.1'
+    commonCodesVersion = '1.15'
 }
 
 dependencies {
-    implementation  "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation "org.liquibase:liquibase-core"
-    implementation "io.swagger.core.v3:swagger-core:${swaggerVersion}"
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     implementation "org.mapstruct:mapstruct-processor:${mapstructVersion}"
     implementation "io.jsonwebtoken:jjwt:${jsonWebTokenVersion}"
     implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+    implementation "io.swagger.core.v3:swagger-core:${swaggerVersion}"
     implementation "io.swagger.core.v3:swagger-annotations:${swaggerVersion}"
     implementation "org.springdoc:springdoc-openapi-ui:${springdocVersion}"
+    implementation "commons-codec:commons-codec:${commonCodesVersion}"
 
     compileOnly "org.mapstruct:mapstruct:${mapstructVersion}"
     compileOnly "org.projectlombok:lombok:${lombokVersion}"

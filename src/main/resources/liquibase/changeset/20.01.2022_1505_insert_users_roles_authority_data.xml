@@ -29,20 +29,6 @@
         </sql>
     </changeSet>
 
-    <changeSet id="20.01.2022_1524_insert_user_roles_data" author="aliaksandr anashkevich">
-        <sql>
-            BEGIN TRANSACTION;
-
-            INSERT INTO user_roles(user_id, role_id) VALUES
-            ((SELECT id FROM users WHERE email = 'admin@gmail.com'), (SELECT id FROM roles WHERE name = 'ROLE_ADMIN'));
-
-            INSERT INTO user_roles(user_id, role_id) VALUES
-            ((SELECT id FROM users WHERE email = 'user@gmail.com'), (SELECT id FROM roles WHERE name = 'ROLE_USER'));
-
-            COMMIT;
-        </sql>
-    </changeSet>
-
     <changeSet id="20.01.2022_1542_insert_user_roles_data" author="aliaksandr anashkevich">
         <sql>
             BEGIN TRANSACTION;

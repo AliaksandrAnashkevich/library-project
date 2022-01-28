@@ -2,48 +2,30 @@ package com.academia.library.security;
 
 import com.academia.library.model.Authority;
 import com.academia.library.model.Role;
-import com.academia.library.model.User;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class JwtUser extends User implements UserDetails {
+@Builder
+@Getter
+@Setter
+public class JwtUser implements UserDetails {
 
-    private final boolean enabled;
-
-    public JwtUser(
-            Long id,
-            String firstName,
-            String lastName,
-            String email,
-            String password,
-            LocalDateTime createAt,
-            LocalDateTime updateUp,
-            Set<Role> roles,
-            boolean enabled) {
-        super.setId(id);
-        super.setFirstName(firstName);
-        super.setLastName(lastName);
-        super.setEmail(email);
-        super.setPassword(password);
-        super.setCreateAt(createAt);
-        super.setUpdateAt(updateUp);
-        super.setRoles(roles);
-        this.enabled = enabled;
-    }
-
-    public Long getId() {
-        return super.getId();
-    }
+    private boolean enabled;
+    private String username;
+    private String password;
+    private Set<Role> roles;
 
     @Override
     public String getUsername() {
-        return super.getEmail();
+        return username;
     }
 
     @Override
@@ -63,14 +45,13 @@ public class JwtUser extends User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return super.getPassword();
+        return password;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new HashSet<>();
         Set<Authority> authoritySet = new HashSet<>();
-        Set<Role> roles = super.getRoles();
         if (roles == null) {
             return authorities;
         }

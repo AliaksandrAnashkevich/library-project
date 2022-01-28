@@ -1,4 +1,4 @@
-package com.academia.library.exeption;
+package com.academia.library.exception;
 
 public class UserNotFoundException extends RuntimeException {
 

@@ -6,6 +6,7 @@ import com.academia.library.dto.BookRequestDto;
 import com.academia.library.dto.BookResponseDto;
 import com.academia.library.dto.TagRequestDto;
 import com.academia.library.dto.TagResponseDto;
+import com.academia.library.dto.UserRequestDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -25,5 +26,12 @@ public class TestDataCreator {
             .title("Abstract name")
             .createAt(LocalDateTime.now())
             .updateAt(LocalDateTime.now())
+            .build();
+
+    public static UserRequestDto VALID_TEST_USER = UserRequestDto.builder()
+            .firstName("Alexandr")
+            .lastName("Anashkevich")
+            .email("alex@example.com")
+            .password("Aa123456")
             .build();
 }

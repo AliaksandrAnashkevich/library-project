@@ -28,7 +28,7 @@ public class BookController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponseDto.class)))
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     @GetMapping
-    public List<BookResponseDto> getAllBooks(){
+    public List<BookResponseDto> getAllBooks() {
         return bookService.findAll();
     }
 
@@ -37,7 +37,7 @@ public class BookController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponseDto.class)))
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     @GetMapping("{id}")
-    public BookResponseDto getBookById(@PathVariable("id") Long id){
+    public BookResponseDto getBookById(@PathVariable("id") Long id) {
         return bookService.findById(id);
     }
 }

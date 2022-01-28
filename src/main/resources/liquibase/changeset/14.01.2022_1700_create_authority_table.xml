@@ -8,7 +8,7 @@
         <createSequence sequenceName="authority_id_seq" startValue="1" incrementBy="1"/>
     </changeSet>
 
-    <changeSet id="14.01.2022_1640_create_authority_table" author="aliaksandr anashkevich">
+    <changeSet id="14.01.2022_1641_create_authority_table" author="aliaksandr anashkevich">
         <createTable tableName="authority">
             <column name="id" type="bigint" defaultValueComputed="nextval('authority_id_seq')">
                 <constraints nullable="false" primaryKey="true"/>
@@ -23,7 +23,7 @@
         <createSequence sequenceName="role_authority_id_seq" startValue="1" incrementBy="1"/>
     </changeSet>
 
-    <changeSet id="14.01.2022_1700_create_role_authority_table" author="aliaksandr anashkevich">
+    <changeSet id="14.01.2022_1701_create_role_authority_table" author="aliaksandr anashkevich">
         <createTable tableName="role_authority">
             <column name="id" type="bigint" defaultValueComputed="nextval('role_authority_id_seq')">
                 <constraints nullable="false" primaryKey="true"/>

@@ -1,6 +1,6 @@
 package com.academia.library.security;
 
-import com.academia.library.exeption.UserNotFoundException;
+import com.academia.library.exception.UserNotFoundException;
 import com.academia.library.model.User;
 import com.academia.library.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,16 +23,11 @@ public class JwtUserDetailsService implements UserDetailsService {
                 .findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(email));
 
-        return new JwtUser(
-                user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getPassword(),
-                user.getCreateAt(),
-                user.getUpdateAt(),
-                user.getRoles(),
-                true
-        );
+        return JwtUser.builder()
+                .username(user.getEmail())
+                .password(user.getPassword())
+                .roles(user.getRoles())
+                .enabled(true)
+                .build();
     }
 }
