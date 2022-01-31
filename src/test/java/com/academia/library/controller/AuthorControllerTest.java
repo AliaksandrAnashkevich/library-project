@@ -1,15 +1,10 @@
 package com.academia.library.controller;
 
-import com.academia.library.dto.BookRequestDto;
-import com.academia.library.dto.BookResponseDto;
+import com.academia.library.dto.AuthorRequestDto;
+import com.academia.library.dto.AuthorResponseDto;
 import com.academia.library.mapper.AuthorMapper;
-import com.academia.library.mapper.TagMapper;
 import com.academia.library.model.Author;
-import com.academia.library.model.Book;
-import com.academia.library.model.Tag;
 import com.academia.library.repository.AuthorRepository;
-import com.academia.library.repository.BookRepository;
-import com.academia.library.repository.TagRepository;
 import com.academia.library.util.TestDataCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -22,11 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,19 +30,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
-class BookControllerTest {
+class AuthorControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private BookRepository bookRepository;
-
-    @Autowired
     private AuthorRepository authorRepository;
-
-    @Autowired
-    private TagRepository tagRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -59,120 +44,94 @@ class BookControllerTest {
     @Autowired
     private AuthorMapper authorMapper;
 
-    @Autowired
-    private TagMapper tagMapper;
-
-    private Book actual;
+    private Author actual;
 
     @BeforeEach
     private void insertTestData() {
-        Tag tag = tagMapper.toEntity(TestDataCreator.TEST_TAG);
-        tagRepository.save(tag);
-
         Author author = authorMapper.toEntity(TestDataCreator.TEST_AUTHOR);
-        authorRepository.save(author);
 
-        Book book = new Book();
-        book.setTitle(TestDataCreator.TEST_BOOK_TITLE);
-        book.setPrice(TestDataCreator.TEST_BOOK_PRICE);
-        book.setAuthor(author);
-        book.setTags(Set.of(tag));
-        book.setCreateAt(LocalDateTime.now());
-        book.setUpdateAt(LocalDateTime.now());
-        bookRepository.save(book);
-        actual = book;
+        authorRepository.save(author);
+        actual = author;
     }
 
     @AfterEach
     private void deleteAll() {
-        bookRepository.deleteAll();
         authorRepository.deleteAll();
-        tagRepository.deleteAll();
     }
 
     @Test
-    void getBookById() throws Exception {
+    void getById() throws Exception {
         // given
-        var url = "/books/{id}";
+        var url = "/authors/{id}";
         // when
         var response = mockMvc.perform(get(url, actual.getId())
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = objectMapper.readValue(response, BookResponseDto.class);
-        assertThat(actual.getPrice()).isEqualTo(extend.getPrice());
-        assertThat(actual.getTitle()).isEqualTo(extend.getTitle());
+        var extend = objectMapper.readValue(response, AuthorResponseDto.class);
+        assertThat(actual.getFirstName()).isEqualTo(extend.getFirstName());
+        assertThat(actual.getLastName()).isEqualTo(extend.getLastName());
     }
 
     @Test
-    void getAllBooks() throws Exception {
+    void getAll() throws Exception {
         // given
-        var url = "/books";
+        var url = "/authors";
         // when
         var response = mockMvc.perform(get(url)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var list = Arrays.asList(objectMapper.readValue(response, BookResponseDto[].class));
-        assertTrue(list.size() > 0);
+        var extend = Arrays.asList(objectMapper.readValue(response, AuthorResponseDto[].class));
+        assertTrue(extend.size() > 0);
     }
 
     @Test
     void create() throws Exception {
         // given
-        var actualDto = BookRequestDto.builder()
-                .title("Testing book")
-                .price(new BigDecimal("5.00"))
-                .authorId(actual.getAuthor().getId())
-                .tagsId(actual.getTags().stream()
-                        .map(Tag::getId)
-                        .collect(Collectors.toList()))
+        var actualDto = AuthorRequestDto.builder()
+                .firstName("Jhon")
+                .lastName("Smith")
                 .build();
         var inputJson = objectMapper.writeValueAsString(actualDto);
-        var request = post("/books")
+        var request = post("/authors")
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson);
         // when
         var response = mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = objectMapper.readValue(response, BookResponseDto.class);
-        assertThat(actualDto.getTitle()).isEqualTo(extend.getTitle());
-        assertThat(actualDto.getPrice()).isEqualTo(extend.getPrice());
+        var extend = objectMapper.readValue(response, AuthorResponseDto.class);
+        assertThat(actualDto.getFirstName()).isEqualTo(extend.getFirstName());
+        assertThat(actualDto.getLastName()).isEqualTo(actualDto.getLastName());
     }
 
     @Test
     void update() throws Exception {
         // given
-        var bookRequestDto = BookRequestDto.builder()
-                .title(actual.getTitle())
-                .price(new BigDecimal("5.00"))
-                .authorId(actual.getAuthor().getId())
-                .tagsId(actual.getTags().stream()
-                        .map(Tag::getId)
-                        .collect(Collectors.toList()))
+        var actualDto = AuthorRequestDto.builder()
+                .firstName("Jhon")
+                .lastName(actual.getLastName())
                 .build();
-        var inputJson = objectMapper.writeValueAsString(bookRequestDto);
-        var request = put("/books/{id}", actual.getId())
+        var inputJson = objectMapper.writeValueAsString(actualDto);
+        var request = put("/authors/{id}", actual.getId())
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson);
         // when
         var response = mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = objectMapper.readValue(response, BookResponseDto.class);
-        assertThat(actual.getTitle()).isEqualTo(extend.getTitle());
-        assertThat(new BigDecimal("5.00")).isEqualTo(extend.getPrice());
-        assertThat(actual.getAuthor().getFirstName()).isEqualTo(extend.getAuthor().getFirstName());
-        assertThat(actual.getAuthor().getLastName()).isEqualTo(extend.getAuthor().getLastName());
+        var extend = objectMapper.readValue(response, AuthorResponseDto.class);
+        assertThat(actualDto.getFirstName()).isEqualTo(extend.getFirstName());
+        assertThat(actualDto.getLastName()).isEqualTo(actualDto.getLastName());
     }
 
     @Test
     void remove() throws Exception {
         // given
-        var url = "/books/{id}";
+        var url = "/authors/{id}";
         // when, then
         this.mockMvc.perform(delete(url, actual.getId()))
                 .andExpect(status()

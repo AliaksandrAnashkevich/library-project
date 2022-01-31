@@ -11,8 +11,8 @@ import java.util.List;
 @Getter
 public class BookRequestDto {
 
-    private BigDecimal price;
-    private String title;
-    private Long authorId;
-    private List<Long> tagsId;
+    private final BigDecimal price;
+    private final String title;
+    private final Long authorId;
+    private final List<Long> tagsId;
 }

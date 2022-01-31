@@ -23,6 +23,7 @@ ext {
     lombokVersion = '1.18.20'
     mapstructVersion = '1.4.2.Final'
     postgresqlVersion = '42.2.23'
+    h2Version = '2.1.210'
     swaggerVersion = '2.1.12'
     springdocVersion = '1.6.4'
     junitVersion = '5.8.1'
@@ -40,6 +41,7 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
     implementation "io.swagger.core.v3:swagger-annotations:${swaggerVersion}"
     implementation "org.springdoc:springdoc-openapi-ui:${springdocVersion}"
+    implementation 'org.jetbrains:annotations:20.1.0'
 
     compileOnly "org.mapstruct:mapstruct:${mapstructVersion}"
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
@@ -53,6 +55,7 @@ dependencies {
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testImplementation "com.h2database:h2:${h2Version}"
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 

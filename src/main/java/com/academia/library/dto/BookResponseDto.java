@@ -11,10 +11,11 @@ import java.util.Set;
 @Getter
 public class BookResponseDto {
 
-    private BigDecimal price;
-    private String title;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
-    private AuthorResponseDto author;
-    private Set<TagResponseDto> tags;
+    private final Long id;
+    private final BigDecimal price;
+    private final String title;
+    private final LocalDateTime createAt;
+    private final LocalDateTime updateAt;
+    private final AuthorResponseDto author;
+    private final Set<TagResponseDto> tags;
 }

@@ -23,12 +23,12 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @GetMapping
-    public List<AuthorResponseDto> findAll(){
+    public List<AuthorResponseDto> getAll(){
         return authorService.findAll();
     }
 
     @GetMapping("{id}")
-    public AuthorResponseDto findAll(@PathVariable Long id){
+    public AuthorResponseDto fetById(@PathVariable Long id){
         return authorService.findById(id);
     }
 

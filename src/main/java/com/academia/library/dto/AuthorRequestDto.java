@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 public class AuthorRequestDto {
 
-    private String firstName;
-    private String lastName;
+    private final String firstName;
+    private final String lastName;
 }

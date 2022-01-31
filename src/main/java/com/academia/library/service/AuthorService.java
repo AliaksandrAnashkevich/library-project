@@ -2,8 +2,7 @@ package com.academia.library.service;
 
 import com.academia.library.dto.AuthorRequestDto;
 import com.academia.library.dto.AuthorResponseDto;
-import com.academia.library.dto.TagRequestDto;
-import com.academia.library.dto.TagResponseDto;
+import com.academia.library.model.Author;
 
 import java.util.List;
 
@@ -18,4 +17,6 @@ public interface AuthorService {
     AuthorResponseDto update(Long id, AuthorRequestDto authorRequestDto);
 
     void delete(Long id);
+
+    Author getAuthorOrThrowException(Long id);
 }
