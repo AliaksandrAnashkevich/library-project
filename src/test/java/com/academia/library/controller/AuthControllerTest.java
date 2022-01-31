@@ -85,7 +85,6 @@ class AuthControllerTest {
         user.setFirstName(userCryptor.encode(user.getFirstName()));
         user.setLastName(userCryptor.encode(user.getLastName()));
         userRepository.save(user);
-        System.out.println(userRepository.findAll());
     }
 
     @AfterEach
