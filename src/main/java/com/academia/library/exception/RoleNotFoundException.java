@@ -8,4 +8,3 @@ public class RoleNotFoundException extends RuntimeException {
         super(String.format(ROLE_NOT_FOUND_MESSAGE_ERROR, name));
     }
 }
-
