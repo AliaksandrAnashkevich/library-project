@@ -1,10 +1,10 @@
 package com.academia.library.controller;
 
-import com.academia.library.dto.AuthRequestDto;
-import com.academia.library.dto.AuthResponseDto;
-import com.academia.library.dto.BookResponseDto;
-import com.academia.library.dto.UserRequestDto;
-import com.academia.library.dto.UserResponseDto;
+import com.academia.library.dto.AuthRequest;
+import com.academia.library.dto.AuthResponse;
+import com.academia.library.dto.BookResponse;
+import com.academia.library.dto.UserRequest;
+import com.academia.library.dto.UserResponse;
 import com.academia.library.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,20 +29,20 @@ public class AuthController {
 
     @Operation(summary = "Login", description = "Login user")
     @ApiResponse(responseCode = "200", description = "Success",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponseDto.class)))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponse.class)))
     @ApiResponse(responseCode = "401", description = "Invalid email or password.", content = @Content)
     @PostMapping("/login")
-    public AuthResponseDto login(@Valid @RequestBody AuthRequestDto authRequestDto) {
-        return userService.login(authRequestDto);
+    public AuthResponse login(@Valid @RequestBody AuthRequest authRequest) {
+        return userService.login(authRequest);
     }
 
     @Operation(summary = "Registration", description = "Registration new user")
     @ApiResponse(responseCode = "200", description = "Success",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponseDto.class)))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponse.class)))
     @ApiResponse(responseCode = "400", description = "Invalid user request body", content = @Content)
     @PostMapping("/registration")
-    public UserResponseDto registration(@Valid @RequestBody UserRequestDto userRequestDto) {
-        return userService.create(userRequestDto);
+    public UserResponse registration(@Valid @RequestBody UserRequest userRequest) {
+        return userService.create(userRequest);
     }
 
 }

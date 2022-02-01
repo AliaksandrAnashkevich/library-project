@@ -1,15 +1,13 @@
 package com.academia.library.dto;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
-
-import javax.validation.constraints.Email;
 
 @Builder
 @Getter
-public class AuthRequestDto {
+public class AuthResponse {
 
-    @Email
     private String email;
-    private String password;
+    private String token;
 }

@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
-    <changeSet id="07.01.2022_1200_insert_tags_data" author="aliaksandr anashkevich">
+    <changeSet id="2022.01.07_1200_insert_tags_data" author="aliaksandr anashkevich">
         <sql>
             INSERT INTO tags (name)
             values
@@ -16,7 +16,7 @@
         </sql>
     </changeSet>
 
-    <changeSet id="07.01.2022_1210_insert_authors_data" author="aliaksandr anashkevich">
+    <changeSet id="2022.01.07_1210_insert_authors_data" author="aliaksandr anashkevich">
         <sql>
             BEGIN TRANSACTION;
 
@@ -44,7 +44,7 @@
         </sql>
     </changeSet>
 
-    <changeSet id="07.01.2022_1226_insert_book_tags_data" author="aliaksandr anashkevich">
+    <changeSet id="2022.01.07_1226_insert_book_tags_data" author="aliaksandr anashkevich">
         <sql>
             BEGIN TRANSACTION;
 

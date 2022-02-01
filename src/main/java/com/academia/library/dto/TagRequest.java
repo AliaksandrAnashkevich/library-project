@@ -5,8 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class AuthorResponseDto {
+public class TagRequest {
 
-    private String firstName;
-    private String lastName;
+    private String name;
 }

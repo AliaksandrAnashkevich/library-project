@@ -1,7 +1,7 @@
 package com.academia.library.mapper;
 
-import com.academia.library.dto.BookRequestDto;
-import com.academia.library.dto.BookResponseDto;
+import com.academia.library.dto.BookRequest;
+import com.academia.library.dto.BookResponse;
 import com.academia.library.model.Book;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -11,7 +11,7 @@ public interface BookMapper {
 
     @Mapping(source = "book.author", target = "author")
     @Mapping(source = "book.tags", target = "tags")
-    BookResponseDto toDto(Book book);
+    BookResponse toDto(Book book);
 
-    Book toEntity(BookRequestDto bookResponseDto);
+    Book toEntity(BookRequest bookResponseDto);
 }

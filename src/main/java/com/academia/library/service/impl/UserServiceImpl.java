@@ -1,10 +1,10 @@
 package com.academia.library.service.impl;
 
 import com.academia.library.cryptor.UserCryptor;
-import com.academia.library.dto.AuthRequestDto;
-import com.academia.library.dto.AuthResponseDto;
-import com.academia.library.dto.UserRequestDto;
-import com.academia.library.dto.UserResponseDto;
+import com.academia.library.dto.AuthRequest;
+import com.academia.library.dto.AuthResponse;
+import com.academia.library.dto.UserRequest;
+import com.academia.library.dto.UserResponse;
 import com.academia.library.exception.InvalidAuthRequestDataException;
 import com.academia.library.exception.RoleNotFoundException;
 import com.academia.library.mapper.UserMapper;
@@ -40,9 +40,9 @@ public class UserServiceImpl implements UserService {
     private final UserCryptor userCryptor;
 
     @Override
-    public AuthResponseDto login(AuthRequestDto authRequestDto) {
-        String email = userCryptor.encode(authRequestDto.getEmail());
-        String password = authRequestDto.getPassword();
+    public AuthResponse login(AuthRequest authRequest) {
+        String email = userCryptor.encode(authRequest.getEmail());
+        String password = authRequest.getPassword();
 
         try {
             Authentication authentication = authenticationManager
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
             JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
             String token = jwtTokenProvider.createToken(email, jwtUser.getRoles());
             String decodeEmail = userCryptor.decode(email);
-            return AuthResponseDto.builder()
+            return AuthResponse.builder()
                     .email(decodeEmail)
                     .token(token)
                     .build();
@@ -60,15 +60,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDto create(UserRequestDto userRequestDto) {
-        if (userRepository.existsByEmail(userRequestDto.getEmail())) {
+    public UserResponse create(UserRequest userRequest) {
+        if (userRepository.existsByEmail(userRequest.getEmail())) {
             throw new RuntimeException();
         }
         Role role = roleRepository.findByName(RoleNames.USER_ROLE)
                 .orElseThrow(() -> new RoleNotFoundException(RoleNames.USER_ROLE));
-        String bCryptPassword = passwordEncoder.encode(userRequestDto.getPassword());
+        String bCryptPassword = passwordEncoder.encode(userRequest.getPassword());
 
-        User user = userMapper.toEntity(userRequestDto);
+        User user = userMapper.toEntity(userRequest);
         user.setRoles(Set.of(role));
         user.setPassword(bCryptPassword);
         user.setCreateAt(LocalDateTime.now());

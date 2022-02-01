@@ -8,7 +8,7 @@ import javax.validation.constraints.Pattern;
 
 @Builder
 @Getter
-public class UserRequestDto {
+public class UserRequest {
 
     @Pattern(regexp = "[A-Z][a-z]*")
     private String firstName;

@@ -1,8 +1,8 @@
 package com.academia.library.controller;
 
 import com.academia.library.cryptor.UserCryptor;
-import com.academia.library.dto.AuthResponseDto;
-import com.academia.library.dto.UserRequestDto;
+import com.academia.library.dto.AuthResponse;
+import com.academia.library.dto.UserRequest;
 import com.academia.library.mapper.UserMapper;
 import com.academia.library.model.Authority;
 import com.academia.library.model.Role;
@@ -109,7 +109,7 @@ class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        AuthResponseDto extend = objectMapper.readValue(response, AuthResponseDto.class);
+        AuthResponse extend = objectMapper.readValue(response, AuthResponse.class);
         assertEquals(actual.getEmail(), extend.getEmail());
     }
 
@@ -128,7 +128,7 @@ class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = objectMapper.readValue(response, UserRequestDto.class);
+        var extend = objectMapper.readValue(response, UserRequest.class);
         assertThat(actual.getFirstName()).isEqualTo(userCryptor.decode(extend.getFirstName()));
         assertThat(actual.getLastName()).isEqualTo(userCryptor.decode(extend.getLastName()));
         assertThat(actual.getEmail()).isEqualTo(userCryptor.decode(extend.getEmail()));

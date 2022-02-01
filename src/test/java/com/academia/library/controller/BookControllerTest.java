@@ -1,6 +1,6 @@
 package com.academia.library.controller;
 
-import com.academia.library.dto.BookResponseDto;
+import com.academia.library.dto.BookResponse;
 import com.academia.library.mapper.AuthorMapper;
 import com.academia.library.mapper.BookMapper;
 import com.academia.library.mapper.TagMapper;
@@ -93,7 +93,7 @@ class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        BookResponseDto extend = objectMapper.readValue(response, BookResponseDto.class);
+        BookResponse extend = objectMapper.readValue(response, BookResponse.class);
         assertEquals(actual.getPrice(), extend.getPrice());
         assertEquals(actual.getTitle(), extend.getTitle());
     }
@@ -108,7 +108,7 @@ class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        List<BookResponseDto> list = Arrays.asList(objectMapper.readValue(response, BookResponseDto[].class));
+        List<BookResponse> list = Arrays.asList(objectMapper.readValue(response, BookResponse[].class));
         assertTrue(list.size() > 0);
     }
 }

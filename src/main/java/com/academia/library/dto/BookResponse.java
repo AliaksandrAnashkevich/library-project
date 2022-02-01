@@ -3,16 +3,18 @@ package com.academia.library.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Builder
 @Getter
-public class UserResponseDto {
+public class BookResponse {
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
+    private BigDecimal price;
+    private String title;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
+    private AuthorResponse author;
+    private Set<TagResponse> tags;
 }

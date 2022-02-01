@@ -1,54 +1,51 @@
 package com.academia.library.util;
 
-import com.academia.library.dto.AuthRequestDto;
-import com.academia.library.dto.AuthorRequestDto;
-import com.academia.library.dto.AuthorResponseDto;
-import com.academia.library.dto.BookRequestDto;
-import com.academia.library.dto.BookResponseDto;
-import com.academia.library.dto.TagRequestDto;
-import com.academia.library.dto.TagResponseDto;
-import com.academia.library.dto.UserRequestDto;
+import com.academia.library.dto.AuthRequest;
+import com.academia.library.dto.AuthorRequest;
+import com.academia.library.dto.BookRequest;
+import com.academia.library.dto.TagRequest;
+import com.academia.library.dto.UserRequest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class TestDataCreator {
-    public static TagRequestDto TEST_TAG = TagRequestDto.builder()
+    public static TagRequest TEST_TAG = TagRequest.builder()
             .name("Abstract name")
             .build();
 
-    public static AuthorRequestDto TEST_AUTHOR = AuthorRequestDto.builder()
+    public static AuthorRequest TEST_AUTHOR = AuthorRequest.builder()
             .firstName("firstName")
             .lastName("lastName")
             .build();
 
-    public static BookRequestDto TEST_BOOK = BookRequestDto.builder()
+    public static BookRequest TEST_BOOK = BookRequest.builder()
             .price(new BigDecimal("9.99"))
             .title("Abstract name")
             .createAt(LocalDateTime.now())
             .updateAt(LocalDateTime.now())
             .build();
 
-    public static AuthRequestDto LOGIN_TEST_USER = AuthRequestDto.builder()
+    public static AuthRequest LOGIN_TEST_USER = AuthRequest.builder()
             .email("alex@example.com")
             .password("Aa123456")
             .build();
 
-    public static UserRequestDto INSERT_USER = UserRequestDto.builder()
+    public static UserRequest INSERT_USER = UserRequest.builder()
             .firstName("Alexandr")
             .lastName("Anashkevich")
             .email("alex@example.com")
             .password("Aa123456")
             .build();
 
-    public static UserRequestDto VALID_TEST_USER = UserRequestDto.builder()
+    public static UserRequest VALID_TEST_USER = UserRequest.builder()
             .firstName("Alexandr")
             .lastName("Anashkevich")
             .email("test@example.com")
             .password("Aa123456")
             .build();
 
-    public static UserRequestDto INVALID_TEST_USER = UserRequestDto.builder()
+    public static UserRequest INVALID_TEST_USER = UserRequest.builder()
             .firstName("Alexandr")
             .lastName("Anashkevich")
             .email("testexample.com")

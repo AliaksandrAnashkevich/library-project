@@ -1,13 +1,13 @@
 package com.academia.library.service;
 
-import com.academia.library.dto.AuthRequestDto;
-import com.academia.library.dto.AuthResponseDto;
-import com.academia.library.dto.UserRequestDto;
-import com.academia.library.dto.UserResponseDto;
+import com.academia.library.dto.AuthRequest;
+import com.academia.library.dto.AuthResponse;
+import com.academia.library.dto.UserRequest;
+import com.academia.library.dto.UserResponse;
 
 public interface UserService {
 
-    AuthResponseDto login(AuthRequestDto authRequestDto);
+    AuthResponse login(AuthRequest authRequest);
 
-    UserResponseDto create(UserRequestDto userRequestDto);
+    UserResponse create(UserRequest userRequest);
 }
