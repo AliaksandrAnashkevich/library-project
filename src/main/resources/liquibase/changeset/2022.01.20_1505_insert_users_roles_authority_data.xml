@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet id="2022.01.20_1508_insert_authority_data" author="aliaksandr anashkevich">
+        <sql>
+            INSERT INTO authority(name) VALUES
+            ('AUTHORITY_ALL'),
+            ('AUTHORITY_READ');
+        </sql>
+    </changeSet>
+
+    <changeSet id="2022.01.20_1510_insert_roles_data" author="aliaksandr anashkevich">
+        <sql>
+            INSERT INTO roles(name) VALUES
+            ('ROLE_ADMIN'),
+            ('ROLE_USER');
+        </sql>
+    </changeSet>
+
+    <changeSet id="2022.01.20_1517_insert_users_data" author="aliaksandr anashkevich">
+        <sql>
+            INSERT INTO users(first_name, last_name, email, password, create_at, update_at) VALUES
+            ('QWxpYWtzYW5kcg==','QW5hc2hrZXZpY2g=', 'YWRtaW5AZ21haWwuY29t',
+            '$2a$12$KmqsxD/yfx8xZO2SZjbwz.XlhZJNkN4ERcFeVHlc5a1zjaJd7b3yC', now(), now()),
+            ('Smhvbg==','U21pdGg=', 'dXNlckBnbWFpbC5jb20=', '$2a$12$KmqsxD/yfx8xZO2SZjbwz.XlhZJNkN4ERcFeVHlc5a1zjaJd7b3yC',
+            now(), now());
+        </sql>
+    </changeSet>
+
+    <changeSet id="2022.01.20_1542_insert_user_roles_data" author="aliaksandr anashkevich">
+        <sql>
+            INSERT INTO user_roles(user_id, role_id) VALUES
+            ((SELECT id FROM users WHERE email = 'YWRtaW5AZ21haWwuY29t'), (SELECT id FROM roles WHERE name = 'ROLE_ADMIN')),
+            ((SELECT id FROM users WHERE email = 'dXNlckBnbWFpbC5jb20='), (SELECT id FROM roles WHERE name = 'ROLE_USER'));
+        </sql>
+    </changeSet>
+
+    <changeSet id="2022.01.20_1542_insert_role_authority_data" author="aliaksandr anashkevich">
+        <sql>
+            INSERT INTO role_authority(authority_id, role_id) VALUES
+            ((SELECT id FROM authority WHERE name = 'AUTHORITY_ALL'), (SELECT id FROM roles WHERE name = 'ROLE_ADMIN')),
+            ((SELECT id FROM authority WHERE name = 'AUTHORITY_READ'), (SELECT id FROM roles WHERE name = 'ROLE_USER'));
+        </sql>
+    </changeSet>
+</databaseChangeLog>

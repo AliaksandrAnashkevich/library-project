@@ -1,6 +1,6 @@
 package com.academia.library.controller;
 
-import com.academia.library.dto.BookResponseDto;
+import com.academia.library.dto.BookResponse;
 import com.academia.library.mapper.AuthorMapper;
 import com.academia.library.mapper.BookMapper;
 import com.academia.library.mapper.TagMapper;
@@ -14,11 +14,13 @@ import com.academia.library.util.TestDataCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -30,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
 class BookControllerTest {
@@ -81,6 +84,7 @@ class BookControllerTest {
         tagRepository.deleteAll();
     }
 
+    @DisplayName("Get book by id")
     @Test
     void getBookById() throws Exception {
         // given
@@ -91,11 +95,12 @@ class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        BookResponseDto extend = objectMapper.readValue(response, BookResponseDto.class);
+        BookResponse extend = objectMapper.readValue(response, BookResponse.class);
         assertEquals(actual.getPrice(), extend.getPrice());
         assertEquals(actual.getTitle(), extend.getTitle());
     }
 
+    @DisplayName("Get all books")
     @Test
     void getAllBooks() throws Exception {
         // given
@@ -106,7 +111,7 @@ class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        List<BookResponseDto> list = Arrays.asList(objectMapper.readValue(response, BookResponseDto[].class));
-        assertTrue(list.size() > 0);
+        List<BookResponse> extendList = Arrays.asList(objectMapper.readValue(response, BookResponse[].class));
+        assertTrue(extendList.size() > 0);
     }
 }
