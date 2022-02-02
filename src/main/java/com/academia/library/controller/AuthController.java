@@ -44,5 +44,4 @@ public class AuthController {
     public UserResponse registration(@Valid @RequestBody UserRequest userRequest) {
         return userService.create(userRequest);
     }
-
 }
