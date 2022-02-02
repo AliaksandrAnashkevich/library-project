@@ -13,5 +13,5 @@ public interface BookMapper {
     @Mapping(source = "book.tags", target = "tags")
     BookResponse toDto(Book book);
 
-    Book toEntity(BookRequest bookResponseDto);
+    Book toEntity(BookRequest bookRequest);
 }

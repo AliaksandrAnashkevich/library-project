@@ -4,11 +4,11 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
-    <changeSet id="06.01.2022_1854_create_authors_sequence" author="aliaksandr anashkevich">
+    <changeSet id="2022.01.06_1854_create_authors_sequence" author="aliaksandr anashkevich">
         <createSequence sequenceName="book_tags_id_seq" startValue="1" incrementBy="1"/>
     </changeSet>
 
-    <changeSet id="06.01.2022_1855_create_book_tags_table" author="aliaksandr anashkevich">
+    <changeSet id="2022.01.06_1855_create_book_tags_table" author="aliaksandr anashkevich">
         <createTable tableName="book_tags">
             <column name="id" type="bigint" defaultValueComputed="nextval('book_tags_id_seq')">
                 <constraints nullable="false" primaryKey="true"/>

@@ -14,6 +14,7 @@ import com.academia.library.util.TestDataCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -83,6 +84,7 @@ class BookControllerTest {
         tagRepository.deleteAll();
     }
 
+    @DisplayName("Get book by id")
     @Test
     void getBookById() throws Exception {
         // given
@@ -98,6 +100,7 @@ class BookControllerTest {
         assertEquals(actual.getTitle(), extend.getTitle());
     }
 
+    @DisplayName("Get all books")
     @Test
     void getAllBooks() throws Exception {
         // given
@@ -108,7 +111,7 @@ class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        List<BookResponse> list = Arrays.asList(objectMapper.readValue(response, BookResponse[].class));
-        assertTrue(list.size() > 0);
+        List<BookResponse> extendList = Arrays.asList(objectMapper.readValue(response, BookResponse[].class));
+        assertTrue(extendList.size() > 0);
     }
 }

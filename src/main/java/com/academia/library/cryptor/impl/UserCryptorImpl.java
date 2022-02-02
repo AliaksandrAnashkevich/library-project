@@ -15,7 +15,7 @@ public class UserCryptorImpl implements UserCryptor {
     }
 
     @Override
-    public String encode(String value) {
-        return new String(Base64.encodeBase64(value.getBytes(StandardCharsets.UTF_8)));
+    public String encode(String decodeValue) {
+        return new String(Base64.encodeBase64(decodeValue.getBytes(StandardCharsets.UTF_8)));
     }
 }
