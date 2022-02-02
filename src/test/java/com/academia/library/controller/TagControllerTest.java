@@ -1,7 +1,7 @@
 package com.academia.library.controller;
 
-import com.academia.library.dto.TagRequestDto;
-import com.academia.library.dto.TagResponseDto;
+import com.academia.library.dto.TagRequest;
+import com.academia.library.dto.TagResponse;
 import com.academia.library.mapper.TagMapper;
 import com.academia.library.model.Tag;
 import com.academia.library.repository.TagRepository;
@@ -9,6 +9,7 @@ import com.academia.library.util.TestDataCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -59,6 +60,7 @@ class TagControllerTest {
         tagRepository.deleteAll();
     }
 
+    @DisplayName("Get tag by id")
     @Test
     void getById() throws Exception {
         // given
@@ -69,10 +71,11 @@ class TagControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = objectMapper.readValue(response, TagResponseDto.class);
+        var extend = objectMapper.readValue(response, TagResponse.class);
         assertThat(actual.getName()).isEqualTo(extend.getName());
     }
 
+    @DisplayName("Get all tags")
     @Test
     void getAll() throws Exception {
         // given
@@ -83,14 +86,15 @@ class TagControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = Arrays.asList(objectMapper.readValue(response, TagResponseDto[].class));
+        var extend = Arrays.asList(objectMapper.readValue(response, TagResponse[].class));
         assertTrue(extend.size() > 0);
     }
 
+    @DisplayName("Create new tag")
     @Test
     void create() throws Exception {
         // given
-        var actualDto = new TagRequestDto();
+        var actualDto = new TagRequest();
         actualDto.setName("Test");
         var inputJson = objectMapper.writeValueAsString(actualDto);
         var request = post("/tags")
@@ -100,14 +104,15 @@ class TagControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = objectMapper.readValue(response, TagResponseDto.class);
+        var extend = objectMapper.readValue(response, TagResponse.class);
         assertThat(actualDto.getName()).isEqualTo(extend.getName());
     }
 
+    @DisplayName("Update book by id")
     @Test
     void update() throws Exception {
         // given
-        var actualDto = new TagRequestDto();
+        var actualDto = new TagRequest();
         actualDto.setName("Test");
         var inputJson = objectMapper.writeValueAsString(actualDto);
         var request = put("/tags/{id}", actual.getId())
@@ -117,10 +122,11 @@ class TagControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = objectMapper.readValue(response, TagResponseDto.class);
+        var extend = objectMapper.readValue(response, TagResponse.class);
         assertThat(actualDto.getName()).isEqualTo(extend.getName());
     }
 
+    @DisplayName("Delete tag by id")
     @Test
     void remove() throws Exception {
         // given

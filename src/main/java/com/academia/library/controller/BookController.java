@@ -1,7 +1,7 @@
 package com.academia.library.controller;
 
-import com.academia.library.dto.BookRequestDto;
-import com.academia.library.dto.BookResponseDto;
+import com.academia.library.dto.BookRequest;
+import com.academia.library.dto.BookResponse;
 import com.academia.library.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,32 +30,46 @@ public class BookController {
 
     @Operation(summary = "Get books", description = "Get all books")
     @ApiResponse(responseCode = "200", description = "Success",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponseDto.class)))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponse.class)))
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     @GetMapping
-    public List<BookResponseDto> getAllBooks() {
+    public List<BookResponse> getAllBooks() {
         return bookService.findAll();
     }
 
-    @Operation(summary = "Get cities", description = "Get book by id")
+    @Operation(summary = "Get book", description = "Get book by id")
     @ApiResponse(responseCode = "200", description = "Success",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponseDto.class)))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponse.class)))
     @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     @GetMapping("{id}")
-    public BookResponseDto getBookById(@PathVariable("id") Long id) {
+    public BookResponse getBookById(@PathVariable("id") Long id) {
         return bookService.findById(id);
     }
 
+    @Operation(summary = "Create book", description = "Create new book")
+    @ApiResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponse.class)))
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    @ApiResponse(responseCode = "409", description = "Conflict", content = @Content)
     @PostMapping
-    public BookResponseDto create(@RequestBody BookRequestDto bookRequestDto) {
-        return bookService.create(bookRequestDto);
+    public BookResponse create(@RequestBody BookRequest bookRequest) {
+        return bookService.create(bookRequest);
     }
 
+    @Operation(summary = "Update book", description = "Update book by id")
+    @ApiResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponse.class)))
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    @ApiResponse(responseCode = "409", description = "Conflict", content = @Content)
     @PutMapping("{id}")
-    public BookResponseDto update(@PathVariable("id") Long id, @RequestBody BookRequestDto bookRequestDto) {
-        return bookService.update(id, bookRequestDto);
+    public BookResponse update(@PathVariable("id") Long id, @RequestBody BookRequest bookRequest) {
+        return bookService.update(id, bookRequest);
     }
 
+    @Operation(summary = "Delete book", description = "Delete book by id")
+    @ApiResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponse.class)))
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     @DeleteMapping("{id}")
     public void delete(@PathVariable("id") Long id) {
         bookService.delete(id);

@@ -5,9 +5,8 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class AuthorResponseDto {
+public class AuthorRequest {
 
-    private final Long id;
     private final String firstName;
     private final String lastName;
 }

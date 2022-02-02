@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class TagRequestDto {
+public class TagRequest {
 
     private String name;
 }

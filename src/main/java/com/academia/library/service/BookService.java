@@ -1,22 +1,20 @@
 package com.academia.library.service;
 
-import com.academia.library.dto.BookRequestDto;
-import com.academia.library.dto.BookResponseDto;
+import com.academia.library.dto.BookRequest;
+import com.academia.library.dto.BookResponse;
 import com.academia.library.model.Book;
 
 import java.util.List;
 
 public interface BookService {
 
-    BookResponseDto findById(Long id);
+    BookResponse findById(Long id);
 
-    List<BookResponseDto> findAll();
+    List<BookResponse> findAll();
 
-    BookResponseDto create(BookRequestDto bookRequestDto);
+    BookResponse create(BookRequest bookRequest);
 
-    BookResponseDto update(Long id, BookRequestDto bookRequestDto);
+    BookResponse update(Long id, BookRequest bookRequest);
 
     void delete(Long id);
-
-    Book getBookOrThrowException(Long id);
 }

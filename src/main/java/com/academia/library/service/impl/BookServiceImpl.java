@@ -1,7 +1,7 @@
 package com.academia.library.service.impl;
 
-import com.academia.library.dto.BookRequestDto;
-import com.academia.library.dto.BookResponseDto;
+import com.academia.library.dto.BookRequest;
+import com.academia.library.dto.BookResponse;
 import com.academia.library.exception.BookNotFoundException;
 import com.academia.library.mapper.BookMapper;
 import com.academia.library.model.Book;
@@ -23,16 +23,18 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookValidator bookValidator;
 
+
     @Override
     @Transactional(readOnly = true)
-    public BookResponseDto findById(Long id) {
-        Book book = getBookOrThrowException(id);
+    public BookResponse findById(Long id) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
         return bookMapper.toDto(book);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<BookResponseDto> findAll() {
+    public List<BookResponse> findAll() {
         List<Book> books = bookRepository.findAll();
         return books.stream()
                 .map(bookMapper::toDto)
@@ -40,37 +42,41 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookResponseDto create(BookRequestDto bookRequestDto) {
-        bookValidator.validatorAuthorAndTitleForCreateBook(bookRequestDto.getAuthorId(), bookRequestDto.getTitle());
-        bookValidator.validationTags(bookRequestDto.getTagsId());
+    @Transactional
+    public BookResponse create(BookRequest bookRequest) {
 
-        Book book = bookMapper.toEntity(bookRequestDto);
-        Book createBook = bookRepository.save(book);
+        bookValidator.validatorAuthorAndTitle(bookRequest.getAuthorId(), bookRequest.getTitle());
+        bookValidator.validationTags(bookRequest.getTagsId());
 
-        return bookMapper.toDto(createBook);
+        Book book = bookMapper.toEntity(bookRequest);
+        Book savedBook = bookRepository.save(book);
+
+        return bookMapper.toDto(savedBook);
     }
 
     @Override
-    public BookResponseDto update(Long id, BookRequestDto bookRequestDto) {
-        bookValidator.validatorAuthorAndTitleForUpdateBook(id, bookRequestDto.getAuthorId(), bookRequestDto.getTitle());
-        bookValidator.validationTags(bookRequestDto.getTagsId());
+    @Transactional
+    public BookResponse update(Long id, BookRequest bookRequest) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
 
-        Book book = bookMapper.mapRequestToEntity(bookRequestDto, getBookOrThrowException(id));
-        Book createBook = bookRepository.save(book);
+        if (!(book.getAuthor().getId().equals(bookRequest.getAuthorId())
+                && book.getTitle().equals(bookRequest.getTitle()))) {
+            bookValidator.validatorAuthorAndTitle(bookRequest.getAuthorId(), bookRequest.getTitle());
+        }
+        bookValidator.validationTags(bookRequest.getTagsId());
 
-        return bookMapper.toDto(createBook);
+        book = bookMapper.mapRequestToEntity(bookRequest, book);
+        Book updatedBook = bookRepository.save(book);
+
+        return bookMapper.toDto(updatedBook);
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
-        Book book = getBookOrThrowException(id);
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
         bookRepository.delete(book);
     }
-
-    public Book getBookOrThrowException(Long id) {
-        return bookRepository.findById(id)
-                .orElseThrow(() -> new BookNotFoundException(id));
-    }
-
-
 }

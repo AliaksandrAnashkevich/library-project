@@ -1,7 +1,7 @@
 package com.academia.library.mapper;
 
-import com.academia.library.dto.BookRequestDto;
-import com.academia.library.dto.BookResponseDto;
+import com.academia.library.dto.BookRequest;
+import com.academia.library.dto.BookResponse;
 import com.academia.library.model.Author;
 import com.academia.library.model.Book;
 import com.academia.library.model.Tag;
@@ -27,25 +27,24 @@ public abstract class BookMapper {
     @Autowired
     private TagRepository tagRepository;
 
+    public abstract BookResponse toDto(Book book);
+
+    @Mapping(expression = "java(LocalDateTime.now())", target = "createAt")
+    @Mapping(expression = "java(LocalDateTime.now())", target = "updateAt")
+    public abstract Book toEntity(BookRequest bookRequest);
+
+    @Mapping(expression = "java(LocalDateTime.now())", target = "updateAt")
+    public abstract Book mapRequestToEntity(BookRequest bookRequest, @MappingTarget Book book);
+
     @AfterMapping
-    void setTime(@MappingTarget Book book, BookRequestDto bookRequestDto) {
-        Author author = authorRepository.getById(bookRequestDto.getAuthorId());
+    void setAuthorAndTagsById(@MappingTarget Book book, BookRequest bookRequest) {
+        Author author = authorRepository.getById(bookRequest.getAuthorId());
         book.setAuthor(author);
 
-        Set<Tag> tags = bookRequestDto.getTagsId().stream()
+        Set<Tag> tags = bookRequest.getTagsId().stream()
                 .map(id -> tagRepository.getById(id))
                 .collect(Collectors.toSet());
         book.setTags(tags);
     }
-
-    public abstract BookResponseDto toDto(Book book);
-
-    @Mapping(expression = "java(LocalDateTime.now())", target = "createAt")
-    @Mapping(expression = "java(LocalDateTime.now())", target = "updateAt")
-    public abstract Book toEntity(BookRequestDto bookRequestDto);
-
-    @Mapping(expression = "java(LocalDateTime.now())", target = "updateAt")
-    public abstract Book mapRequestToEntity(BookRequestDto bookRequestDto, @MappingTarget Book book);
-
 
 }

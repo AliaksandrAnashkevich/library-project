@@ -1,7 +1,7 @@
 package com.academia.library.controller;
 
-import com.academia.library.dto.BookRequestDto;
-import com.academia.library.dto.BookResponseDto;
+import com.academia.library.dto.BookRequest;
+import com.academia.library.dto.BookResponse;
 import com.academia.library.mapper.AuthorMapper;
 import com.academia.library.mapper.TagMapper;
 import com.academia.library.model.Author;
@@ -14,6 +14,7 @@ import com.academia.library.util.TestDataCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -74,7 +75,7 @@ class BookControllerTest {
 
         Book book = new Book();
         book.setTitle(TestDataCreator.TEST_BOOK_TITLE);
-        book.setPrice(TestDataCreator.TEST_BOOK_PRICE);
+        book.setPrice(new BigDecimal("10.00"));
         book.setAuthor(author);
         book.setTags(Set.of(tag));
         book.setCreateAt(LocalDateTime.now());
@@ -90,6 +91,7 @@ class BookControllerTest {
         tagRepository.deleteAll();
     }
 
+    @DisplayName("Get book by id")
     @Test
     void getBookById() throws Exception {
         // given
@@ -100,11 +102,12 @@ class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = objectMapper.readValue(response, BookResponseDto.class);
+        var extend = objectMapper.readValue(response, BookResponse.class);
         assertThat(actual.getPrice()).isEqualTo(extend.getPrice());
         assertThat(actual.getTitle()).isEqualTo(extend.getTitle());
     }
 
+    @DisplayName("Get all books")
     @Test
     void getAllBooks() throws Exception {
         // given
@@ -115,14 +118,15 @@ class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var list = Arrays.asList(objectMapper.readValue(response, BookResponseDto[].class));
+        var list = Arrays.asList(objectMapper.readValue(response, BookResponse[].class));
         assertTrue(list.size() > 0);
     }
 
+    @DisplayName("Create new book")
     @Test
     void create() throws Exception {
         // given
-        var actualDto = BookRequestDto.builder()
+        var actualDto = BookRequest.builder()
                 .title("Testing book")
                 .price(new BigDecimal("5.00"))
                 .authorId(actual.getAuthor().getId())
@@ -138,15 +142,16 @@ class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = objectMapper.readValue(response, BookResponseDto.class);
+        var extend = objectMapper.readValue(response, BookResponse.class);
         assertThat(actualDto.getTitle()).isEqualTo(extend.getTitle());
         assertThat(actualDto.getPrice()).isEqualTo(extend.getPrice());
     }
 
+    @DisplayName("Update book by id")
     @Test
     void update() throws Exception {
         // given
-        var bookRequestDto = BookRequestDto.builder()
+        var bookRequestDto = BookRequest.builder()
                 .title(actual.getTitle())
                 .price(new BigDecimal("5.00"))
                 .authorId(actual.getAuthor().getId())
@@ -162,13 +167,14 @@ class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = objectMapper.readValue(response, BookResponseDto.class);
+        var extend = objectMapper.readValue(response, BookResponse.class);
         assertThat(actual.getTitle()).isEqualTo(extend.getTitle());
         assertThat(new BigDecimal("5.00")).isEqualTo(extend.getPrice());
         assertThat(actual.getAuthor().getFirstName()).isEqualTo(extend.getAuthor().getFirstName());
         assertThat(actual.getAuthor().getLastName()).isEqualTo(extend.getAuthor().getLastName());
     }
 
+    @DisplayName("Delete book by id")
     @Test
     void remove() throws Exception {
         // given

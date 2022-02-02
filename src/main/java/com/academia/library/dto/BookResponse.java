@@ -9,13 +9,13 @@ import java.util.Set;
 
 @Builder
 @Getter
-public class BookResponseDto {
+public class BookResponse {
 
     private final Long id;
     private final BigDecimal price;
     private final String title;
     private final LocalDateTime createAt;
     private final LocalDateTime updateAt;
-    private final AuthorResponseDto author;
-    private final Set<TagResponseDto> tags;
+    private final AuthorResponse author;
+    private final Set<TagResponse> tags;
 }

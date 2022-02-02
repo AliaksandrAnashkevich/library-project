@@ -1,13 +1,14 @@
 package com.academia.library.service.impl;
 
-import com.academia.library.dto.TagRequestDto;
-import com.academia.library.dto.TagResponseDto;
+import com.academia.library.dto.TagRequest;
+import com.academia.library.dto.TagResponse;
 import com.academia.library.exception.TagAlreadyExistException;
 import com.academia.library.exception.TagNotFoundException;
 import com.academia.library.mapper.TagMapper;
 import com.academia.library.model.Tag;
 import com.academia.library.repository.TagRepository;
 import com.academia.library.service.TagService;
+import com.academia.library.validator.TagValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,17 +22,19 @@ public class TagServiceImpl implements TagService {
 
     private final TagRepository tagRepository;
     private final TagMapper tagMapper;
+    private final TagValidator tagValidator;
 
     @Override
     @Transactional(readOnly = true)
-    public TagResponseDto findById(Long id) {
-        Tag tag = getTagOrThrowException(id);
+    public TagResponse findById(Long id) {
+        Tag tag = tagRepository.findById(id)
+                .orElseThrow(() -> new TagNotFoundException(id));
         return tagMapper.toDto(tag);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<TagResponseDto> findAll() {
+    public List<TagResponse> findAll() {
         List<Tag> tags = tagRepository.findAll();
         return tags.stream()
                 .map(tagMapper::toDto)
@@ -40,38 +43,33 @@ public class TagServiceImpl implements TagService {
 
     @Override
     @Transactional
-    public TagResponseDto create(TagRequestDto tagRequestDto) {
-        if (tagRepository.existsByName(tagRequestDto.getName())) {
-            throw new TagAlreadyExistException(tagRequestDto.getName());
-        }
+    public TagResponse create(TagRequest tagRequest) {
+        tagValidator.validatorByName(tagRequest.getName());
 
-        Tag tag = tagMapper.toEntity(tagRequestDto);
-        return tagMapper.toDto(tagRepository.save(tag));
+        Tag tag = tagMapper.toEntity(tagRequest);
+        Tag saveTag = tagRepository.save(tag);
+
+        return tagMapper.toDto(saveTag);
     }
 
     @Override
     @Transactional
-    public TagResponseDto update(Long id, TagRequestDto tagRequestDto) {
-        if (tagRepository.existsByName(tagRequestDto.getName())) {
-            throw new TagAlreadyExistException(tagRequestDto.getName());
-        }
+    public TagResponse update(Long id, TagRequest tagRequest) {
+        tagValidator.validatorByName(tagRequest.getName());
 
-        Tag tag = getTagOrThrowException(id);
-        tag = tagMapper.updateRequestToEntity(tagRequestDto, tag);
+        Tag tag = tagRepository.findById(id)
+                .orElseThrow(() -> new TagNotFoundException(id));
+        tag = tagMapper.updateRequestToEntity(tagRequest, tag);
         Tag updateTag = tagRepository.save(tag);
+
         return tagMapper.toDto(updateTag);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        Tag tag = getTagOrThrowException(id);
-        tagRepository.delete(tag);
-    }
-
-    @Transactional(readOnly = true)
-    public Tag getTagOrThrowException(Long id){
-        return tagRepository.findById(id)
+        Tag tag = tagRepository.findById(id)
                 .orElseThrow(() -> new TagNotFoundException(id));
+        tagRepository.delete(tag);
     }
 }

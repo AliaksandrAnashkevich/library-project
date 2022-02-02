@@ -1,8 +1,14 @@
 package com.academia.library.controller;
 
-import com.academia.library.dto.AuthorRequestDto;
-import com.academia.library.dto.AuthorResponseDto;
+import com.academia.library.dto.AuthorRequest;
+import com.academia.library.dto.AuthorResponse;
+import com.academia.library.dto.BookResponse;
 import com.academia.library.service.AuthorService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,30 +24,53 @@ import java.util.List;
 @RestController
 @RequestMapping("/authors")
 @RequiredArgsConstructor
+@Tag(name = "Author")
 public class AuthorController {
 
     private final AuthorService authorService;
 
+    @Operation(summary = "Get authors", description = "Get all authors")
+    @ApiResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponse.class)))
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     @GetMapping
-    public List<AuthorResponseDto> getAll(){
+    public List<AuthorResponse> getAll(){
         return authorService.findAll();
     }
 
+    @Operation(summary = "Get author", description = "Get author by id")
+    @ApiResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponse.class)))
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     @GetMapping("{id}")
-    public AuthorResponseDto fetById(@PathVariable Long id){
+    public AuthorResponse fetById(@PathVariable Long id){
         return authorService.findById(id);
     }
 
+    @Operation(summary = "Create author", description = "Create new author")
+    @ApiResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponse.class)))
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    @ApiResponse(responseCode = "409", description = "Conflict", content = @Content)
     @PostMapping
-    public AuthorResponseDto create(@RequestBody AuthorRequestDto authorRequestDto) {
-        return authorService.create(authorRequestDto);
+    public AuthorResponse create(@RequestBody AuthorRequest authorRequest) {
+        return authorService.create(authorRequest);
     }
 
+    @Operation(summary = "Update author", description = "Update author by id")
+    @ApiResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponse.class)))
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    @ApiResponse(responseCode = "409", description = "Conflict", content = @Content)
     @PutMapping("{id}")
-    public AuthorResponseDto update(@PathVariable Long id, @RequestBody AuthorRequestDto authorRequestDto) {
-        return authorService.update(id, authorRequestDto);
+    public AuthorResponse update(@PathVariable Long id, @RequestBody AuthorRequest authorRequest) {
+        return authorService.update(id, authorRequest);
     }
 
+    @Operation(summary = "Delete author", description = "Delete author by id")
+    @ApiResponse(responseCode = "200", description = "Success",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponse.class)))
+    @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
     @DeleteMapping("{id}")
     public void delete(@PathVariable Long id) {
         authorService.delete(id);

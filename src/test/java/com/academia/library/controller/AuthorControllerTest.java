@@ -1,7 +1,7 @@
 package com.academia.library.controller;
 
-import com.academia.library.dto.AuthorRequestDto;
-import com.academia.library.dto.AuthorResponseDto;
+import com.academia.library.dto.AuthorRequest;
+import com.academia.library.dto.AuthorResponse;
 import com.academia.library.mapper.AuthorMapper;
 import com.academia.library.model.Author;
 import com.academia.library.repository.AuthorRepository;
@@ -9,6 +9,7 @@ import com.academia.library.util.TestDataCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -59,6 +60,7 @@ class AuthorControllerTest {
         authorRepository.deleteAll();
     }
 
+    @DisplayName("Get author by id")
     @Test
     void getById() throws Exception {
         // given
@@ -69,11 +71,12 @@ class AuthorControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = objectMapper.readValue(response, AuthorResponseDto.class);
+        var extend = objectMapper.readValue(response, AuthorResponse.class);
         assertThat(actual.getFirstName()).isEqualTo(extend.getFirstName());
         assertThat(actual.getLastName()).isEqualTo(extend.getLastName());
     }
 
+    @DisplayName("Get all authors")
     @Test
     void getAll() throws Exception {
         // given
@@ -84,14 +87,15 @@ class AuthorControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = Arrays.asList(objectMapper.readValue(response, AuthorResponseDto[].class));
+        var extend = Arrays.asList(objectMapper.readValue(response, AuthorResponse[].class));
         assertTrue(extend.size() > 0);
     }
 
+    @DisplayName("Create new author")
     @Test
     void create() throws Exception {
         // given
-        var actualDto = AuthorRequestDto.builder()
+        var actualDto = AuthorRequest.builder()
                 .firstName("Jhon")
                 .lastName("Smith")
                 .build();
@@ -103,15 +107,16 @@ class AuthorControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = objectMapper.readValue(response, AuthorResponseDto.class);
+        var extend = objectMapper.readValue(response, AuthorResponse.class);
         assertThat(actualDto.getFirstName()).isEqualTo(extend.getFirstName());
         assertThat(actualDto.getLastName()).isEqualTo(actualDto.getLastName());
     }
 
+    @DisplayName("Update author by id")
     @Test
     void update() throws Exception {
         // given
-        var actualDto = AuthorRequestDto.builder()
+        var actualDto = AuthorRequest.builder()
                 .firstName("Jhon")
                 .lastName(actual.getLastName())
                 .build();
@@ -123,11 +128,12 @@ class AuthorControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var extend = objectMapper.readValue(response, AuthorResponseDto.class);
+        var extend = objectMapper.readValue(response, AuthorResponse.class);
         assertThat(actualDto.getFirstName()).isEqualTo(extend.getFirstName());
         assertThat(actualDto.getLastName()).isEqualTo(actualDto.getLastName());
     }
 
+    @DisplayName("Delete author by id")
     @Test
     void remove() throws Exception {
         // given

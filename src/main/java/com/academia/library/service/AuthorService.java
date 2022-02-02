@@ -1,22 +1,20 @@
 package com.academia.library.service;
 
-import com.academia.library.dto.AuthorRequestDto;
-import com.academia.library.dto.AuthorResponseDto;
+import com.academia.library.dto.AuthorRequest;
+import com.academia.library.dto.AuthorResponse;
 import com.academia.library.model.Author;
 
 import java.util.List;
 
 public interface AuthorService {
 
-    AuthorResponseDto findById(Long id);
+    AuthorResponse findById(Long id);
 
-    List<AuthorResponseDto> findAll();
+    List<AuthorResponse> findAll();
 
-    AuthorResponseDto create(AuthorRequestDto authorRequestDto);
+    AuthorResponse create(AuthorRequest authorRequest);
 
-    AuthorResponseDto update(Long id, AuthorRequestDto authorRequestDto);
+    AuthorResponse update(Long id, AuthorRequest authorRequest);
 
     void delete(Long id);
-
-    Author getAuthorOrThrowException(Long id);
 }
