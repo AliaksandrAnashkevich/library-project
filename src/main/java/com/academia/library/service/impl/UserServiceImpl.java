@@ -1,6 +1,6 @@
 package com.academia.library.service.impl;
 
-import com.academia.library.cryptor.UserCryptor;
+import com.academia.library.cryptor.Cryptor;
 import com.academia.library.dto.AuthRequest;
 import com.academia.library.dto.AuthResponse;
 import com.academia.library.dto.UserRequest;
@@ -23,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -37,11 +38,12 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
-    private final UserCryptor userCryptor;
+    private final Cryptor cryptor;
 
     @Override
+    @Transactional
     public AuthResponse login(AuthRequest authRequest) {
-        String email = userCryptor.encode(authRequest.getEmail());
+        String email = cryptor.encode(authRequest.getEmail());
         String password = authRequest.getPassword();
 
         try {
@@ -49,7 +51,7 @@ public class UserServiceImpl implements UserService {
                     .authenticate(new UsernamePasswordAuthenticationToken(email, password));
             JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
             String token = jwtTokenProvider.createToken(email, jwtUser.getRoles());
-            String decodeEmail = userCryptor.decode(email);
+            String decodeEmail = cryptor.decode(email);
             return AuthResponse.builder()
                     .email(decodeEmail)
                     .token(token)
@@ -60,6 +62,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponse create(UserRequest userRequest) {
         if (userRepository.existsByEmail(userRequest.getEmail())) {
             throw new RuntimeException();
@@ -81,8 +84,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private void encryptUserFields(User user) {
-        user.setEmail(userCryptor.encode(user.getEmail()));
-        user.setFirstName(userCryptor.encode(user.getFirstName()));
-        user.setLastName(userCryptor.encode(user.getLastName()));
+        user.setEmail(cryptor.encode(user.getEmail()));
+        user.setFirstName(cryptor.encode(user.getFirstName()));
+        user.setLastName(cryptor.encode(user.getLastName()));
     }
 }

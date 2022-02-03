@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 @Getter
 public class UserResponse {
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private final String firstName;
+    private final String lastName;
+    private final String email;
+    private final String password;
+    private final LocalDateTime createAt;
+    private final LocalDateTime updateAt;
 }

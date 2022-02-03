@@ -11,14 +11,14 @@ import javax.validation.constraints.Pattern;
 public class UserRequest {
 
     @Pattern(regexp = "[A-Z][a-z]*")
-    private String firstName;
+    private final String firstName;
 
     @Pattern(regexp = "[A-Z][a-z]*")
-    private String lastName;
+    private final String lastName;
 
     @Email
-    private String email;
+    private final String email;
 
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$")
-    private String password;
+    private final String password;
 }

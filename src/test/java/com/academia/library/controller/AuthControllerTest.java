@@ -1,6 +1,6 @@
 package com.academia.library.controller;
 
-import com.academia.library.cryptor.UserCryptor;
+import com.academia.library.cryptor.Cryptor;
 import com.academia.library.dto.AuthResponse;
 import com.academia.library.dto.UserRequest;
 import com.academia.library.mapper.UserMapper;
@@ -63,7 +63,7 @@ class AuthControllerTest {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserCryptor userCryptor;
+    private Cryptor cryptor;
 
     @BeforeEach
     private void insertTestData() {
@@ -81,9 +81,9 @@ class AuthControllerTest {
         user.setUpdateAt(LocalDateTime.now());
         user.setRoles(Set.of(role));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setEmail(userCryptor.encode(user.getEmail()));
-        user.setFirstName(userCryptor.encode(user.getFirstName()));
-        user.setLastName(userCryptor.encode(user.getLastName()));
+        user.setEmail(cryptor.encode(user.getEmail()));
+        user.setFirstName(cryptor.encode(user.getFirstName()));
+        user.setLastName(cryptor.encode(user.getLastName()));
         userRepository.save(user);
     }
 
@@ -129,9 +129,9 @@ class AuthControllerTest {
                 .andReturn().getResponse().getContentAsString();
         // then
         var extend = objectMapper.readValue(response, UserRequest.class);
-        assertThat(actual.getFirstName()).isEqualTo(userCryptor.decode(extend.getFirstName()));
-        assertThat(actual.getLastName()).isEqualTo(userCryptor.decode(extend.getLastName()));
-        assertThat(actual.getEmail()).isEqualTo(userCryptor.decode(extend.getEmail()));
+        assertThat(actual.getFirstName()).isEqualTo(cryptor.decode(extend.getFirstName()));
+        assertThat(actual.getLastName()).isEqualTo(cryptor.decode(extend.getLastName()));
+        assertThat(actual.getEmail()).isEqualTo(cryptor.decode(extend.getEmail()));
     }
 
     @DisplayName("Registration user with invalid field")

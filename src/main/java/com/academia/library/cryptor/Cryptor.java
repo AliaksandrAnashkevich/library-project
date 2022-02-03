@@ -1,6 +1,6 @@
 package com.academia.library.cryptor;
 
-public interface UserCryptor {
+public interface Cryptor {
 
     String decode(String encodeValue);
 

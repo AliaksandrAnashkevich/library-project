@@ -26,6 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_ENDPOINT = "/auth/login";
     private static final String REGISTRATION_ENDPOINT = "/auth/registration";
     private static final String BOOK_ENDPOINT = "/books/**";
+    private static final String ORDER_ENDPOINT = "/orders/**";
+
     private final JwtTokenFilter jwtTokenFilter;
     private final JwtUserDetailsService userDetailsService;
 
@@ -44,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(LOGIN_ENDPOINT).permitAll()
                 .antMatchers(REGISTRATION_ENDPOINT).permitAll()
                 .antMatchers(BOOK_ENDPOINT).permitAll()
+                .antMatchers(ORDER_ENDPOINT).permitAll()
                 .anyRequest().authenticated();
         http.exceptionHandling().accessDeniedPage(LOGIN_ENDPOINT);
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);

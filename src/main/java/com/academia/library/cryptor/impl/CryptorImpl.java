@@ -1,13 +1,13 @@
 package com.academia.library.cryptor.impl;
 
-import com.academia.library.cryptor.UserCryptor;
+import com.academia.library.cryptor.Cryptor;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 
 @Component
-public class UserCryptorImpl implements UserCryptor {
+public class CryptorImpl implements Cryptor {
 
     @Override
     public String decode(String encodeValue) {
