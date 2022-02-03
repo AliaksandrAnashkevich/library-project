@@ -2,7 +2,6 @@ package com.academia.library.service.impl;
 
 import com.academia.library.dto.TagRequest;
 import com.academia.library.dto.TagResponse;
-import com.academia.library.exception.TagAlreadyExistException;
 import com.academia.library.exception.TagNotFoundException;
 import com.academia.library.mapper.TagMapper;
 import com.academia.library.model.Tag;
@@ -37,6 +36,7 @@ public class TagServiceImpl implements TagService {
     @Transactional(readOnly = true)
     public List<TagResponse> findAll() {
         List<Tag> tags = tagRepository.findAll();
+
         return tags.stream()
                 .map(tagMapper::toDto)
                 .collect(Collectors.toList());
@@ -45,7 +45,7 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional
     public TagResponse create(TagRequest tagRequest) {
-        tagValidator.validatorByName(tagRequest.getName());
+        tagValidator.validate(tagRequest);
 
         Tag tag = tagMapper.toEntity(tagRequest);
         Tag saveTag = tagRepository.save(tag);
@@ -56,11 +56,12 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional
     public TagResponse update(Long id, TagRequest tagRequest) {
-        tagValidator.validatorByName(tagRequest.getName());
-
-        Tag tag = tagRepository.findById(id).
-                map(t ->tagMapper.updateRequestToEntity(tagRequest, t))
+        Tag tag = tagRepository.findById(id)
                 .orElseThrow(() -> new TagNotFoundException(id));
+
+        tagValidator.validate(tagRequest);
+
+        tag = tagMapper.updateRequestToEntity(tagRequest, tag);
         Tag updateTag = tagRepository.save(tag);
 
         return tagMapper.toDto(updateTag);

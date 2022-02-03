@@ -44,7 +44,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional
     public AuthorResponse create(AuthorRequest authorRequest) {
-        authorValidator.validatorByName(authorRequest.getFirstName(), authorRequest.getLastName());
+        authorValidator.validate(authorRequest);
 
         Author author = authorMapper.toEntity(authorRequest);
         Author savedAuthor = authorRepository.save(author);
@@ -55,11 +55,12 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional
     public AuthorResponse update(Long id, AuthorRequest authorRequest) {
-        authorValidator.validatorByName(authorRequest.getFirstName(), authorRequest.getLastName());
+        authorValidator.validate(authorRequest);
 
         Author author = authorRepository.findById(id)
                 .map(auth -> authorMapper.updateRequestToEntity(authorRequest, auth))
                 .orElseThrow(() -> new AuthorNotFoundException(id));
+
         Author updatedAuthor = authorRepository.save(author);
 
         return authorMapper.toDto(updatedAuthor);

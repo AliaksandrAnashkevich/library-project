@@ -1,5 +1,6 @@
 package com.academia.library.validator;
 
+import com.academia.library.dto.TagRequest;
 import com.academia.library.exception.TagAlreadyExistException;
 import com.academia.library.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +12,11 @@ public class TagValidator {
 
     private final TagRepository tagRepository;
 
-    public void validatorByName(String name) {
-        if (tagRepository.existsByName(name)) {
-            throw new TagAlreadyExistException(name);
+    public void validate(TagRequest tagRequest) {
+        String tagName = tagRequest.getName();
+
+        if (tagRepository.existsByName(tagName)) {
+            throw new TagAlreadyExistException(tagName);
         }
     }
 }

@@ -17,8 +17,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring",
-        imports = {LocalDateTime.class})
+@Mapper(componentModel = "spring", imports = LocalDateTime.class)
 public abstract class BookMapper {
 
     @Autowired
@@ -39,12 +38,15 @@ public abstract class BookMapper {
     @AfterMapping
     void setAuthorAndTagsById(@MappingTarget Book book, BookRequest bookRequest) {
         Author author = authorRepository.getById(bookRequest.getAuthorId());
-        book.setAuthor(author);
+        Set<Tag> tags = getTagsByIds(bookRequest);
 
-        Set<Tag> tags = bookRequest.getTagsId().stream()
-                .map(id -> tagRepository.getById(id))
-                .collect(Collectors.toSet());
         book.setTags(tags);
+        book.setAuthor(author);
     }
 
+    private Set<Tag> getTagsByIds(BookRequest bookRequest) {
+        return bookRequest.getTagsId().stream()
+                .map(id -> tagRepository.getById(id))
+                .collect(Collectors.toSet());
+    }
 }

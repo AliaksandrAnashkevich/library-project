@@ -22,24 +22,35 @@ public class BookValidator {
     private final BookRepository bookRepository;
     private final TagRepository tagRepository;
 
-    public void validatorAuthorAndTitle(Long authorId, String title) {
+    public void validateBeforeSave(BookRequest bookRequest) {
+        validate(bookRequest);
+    }
+
+    public void validateBeforeUpdate(BookRequest bookRequest, Book book) {
+        boolean isEqualsAuthorId = book.getAuthor().getId().equals(bookRequest.getAuthorId());
+        boolean isEqualsTitle = book.getTitle().equals(bookRequest.getTitle());
+
+        if (!(isEqualsAuthorId && isEqualsTitle)) {
+            validate(bookRequest);
+        }
+    }
+
+    private void validate(BookRequest bookRequest) {
+        Long authorId = bookRequest.getAuthorId();
+        String title = bookRequest.getTitle();
+        List<Long> tagIds = bookRequest.getTagsId();
+
         Author author = authorRepository.findById(authorId)
                 .orElseThrow(() -> new AuthorNotFoundException(authorId));
 
         if (bookRepository.existsByTitleAndAuthor(title, author)) {
             throw new BookAlreadyExistException();
         }
+        validateTags(tagIds);
     }
 
-    public void validatorAuthorAndTitleExceptThisBook(BookRequest bookRequest, Book book) {
-        if (!(book.getAuthor().getId().equals(bookRequest.getAuthorId())
-                && book.getTitle().equals(bookRequest.getTitle()))) {
-            validatorAuthorAndTitle(bookRequest.getAuthorId(), bookRequest.getTitle());
-        }
-    }
-
-    public void validationTags(List<Long> tagsId) {
-        tagsId.forEach(id -> tagRepository.findById(id)
+    private void validateTags(List<Long> tagIds) {
+        tagIds.forEach(id -> tagRepository.findById(id)
                 .orElseThrow(() -> new TagNotFoundException(id)));
     }
 }

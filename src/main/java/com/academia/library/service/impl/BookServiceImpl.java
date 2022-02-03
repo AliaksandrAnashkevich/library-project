@@ -44,9 +44,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookResponse create(BookRequest bookRequest) {
-
-        bookValidator.validatorAuthorAndTitle(bookRequest.getAuthorId(), bookRequest.getTitle());
-        bookValidator.validationTags(bookRequest.getTagsId());
+        bookValidator.validateBeforeSave(bookRequest);
 
         Book book = bookMapper.toEntity(bookRequest);
         Book savedBook = bookRepository.save(book);
@@ -60,8 +58,7 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
 
-        bookValidator.validatorAuthorAndTitleExceptThisBook(bookRequest, book);
-        bookValidator.validationTags(bookRequest.getTagsId());
+        bookValidator.validateBeforeUpdate(bookRequest, book);
 
         book = bookMapper.mapRequestToEntity(bookRequest, book);
         Book updatedBook = bookRepository.save(book);
