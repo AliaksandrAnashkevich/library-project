@@ -1,9 +1,11 @@
 package com.academia.library.validator;
 
+import com.academia.library.dto.BookRequest;
 import com.academia.library.exception.AuthorNotFoundException;
 import com.academia.library.exception.BookAlreadyExistException;
 import com.academia.library.exception.TagNotFoundException;
 import com.academia.library.model.Author;
+import com.academia.library.model.Book;
 import com.academia.library.repository.AuthorRepository;
 import com.academia.library.repository.BookRepository;
 import com.academia.library.repository.TagRepository;
@@ -26,6 +28,13 @@ public class BookValidator {
 
         if (bookRepository.existsByTitleAndAuthor(title, author)) {
             throw new BookAlreadyExistException();
+        }
+    }
+
+    public void validatorAuthorAndTitleExceptThisBook(BookRequest bookRequest, Book book) {
+        if (!(book.getAuthor().getId().equals(bookRequest.getAuthorId())
+                && book.getTitle().equals(bookRequest.getTitle()))) {
+            validatorAuthorAndTitle(bookRequest.getAuthorId(), bookRequest.getTitle());
         }
     }
 

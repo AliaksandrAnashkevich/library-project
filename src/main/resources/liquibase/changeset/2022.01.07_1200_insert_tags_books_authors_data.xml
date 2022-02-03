@@ -22,23 +22,23 @@
 
             WITH author AS(
             INSERT INTO authors (first_name, last_name) VALUES ('Joanne', 'Rowling') RETURNING id)
-            INSERT INTO books (title, price, author_id)
+            INSERT INTO books (title, price, author_id, create_at, update_at)
             VALUES
-            ('Harry Potter and the Philosophers Stone', 5.99, (SELECT id FROM author)),
-            ('Harry Potter and the Chamber of Secrets', 5.99, (SELECT id FROM author)),
-            ('Harry Potter and the Prisoner of Azkaban', 5.99, (SELECT id FROM author)),
-            ('Harry Potter and the Goblet of Fire', 5.99, (SELECT id FROM author)),
-            ('Harry Potter and the Order of the Phoenix', 9.99, (SELECT id FROM author)),
-            ('Harry Potter and the Half-Blood Prince', 9.99, (SELECT id FROM author)),
-            ('Harry Potter and the Deathly Hallows', 9.99, (SELECT id FROM author));
+            ('Harry Potter and the Philosophers Stone', 5.99, (SELECT id FROM author), now(), now()),
+            ('Harry Potter and the Chamber of Secrets', 5.99, (SELECT id FROM author), now(), now()),
+            ('Harry Potter and the Prisoner of Azkaban', 5.99, (SELECT id FROM author), now(), now()),
+            ('Harry Potter and the Goblet of Fire', 5.99, (SELECT id FROM author), now(), now()),
+            ('Harry Potter and the Order of the Phoenix', 9.99, (SELECT id FROM author), now(), now()),
+            ('Harry Potter and the Half-Blood Prince', 9.99, (SELECT id FROM author), now(), now()),
+            ('Harry Potter and the Deathly Hallows', 9.99, (SELECT id FROM author), now(), now());
 
             WITH author AS(
             INSERT INTO authors (first_name, last_name) VALUES ('Agatha', 'Christie') RETURNING id)
-            INSERT INTO books (title, price, author_id)
+            INSERT INTO books (title, price, author_id, create_at, update_at)
             VALUES
-            ('And Then There Were None', 7.99, (SELECT id FROM author)),
-            ('Dumb Witness', 7.99, (SELECT id FROM author)),
-            ('Murder on the Orient Express', 7.99, (SELECT id FROM author));
+            ('And Then There Were None', 7.99, (SELECT id FROM author), now(), now()),
+            ('Dumb Witness', 7.99, (SELECT id FROM author), now(), now()),
+            ('Murder on the Orient Express', 7.99, (SELECT id FROM author), now(), now());
 
             COMMIT;
         </sql>

@@ -23,12 +23,12 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookValidator bookValidator;
 
-
     @Override
     @Transactional(readOnly = true)
     public BookResponse findById(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
+
         return bookMapper.toDto(book);
     }
 
@@ -60,10 +60,7 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
 
-        if (!(book.getAuthor().getId().equals(bookRequest.getAuthorId())
-                && book.getTitle().equals(bookRequest.getTitle()))) {
-            bookValidator.validatorAuthorAndTitle(bookRequest.getAuthorId(), bookRequest.getTitle());
-        }
+        bookValidator.validatorAuthorAndTitleExceptThisBook(bookRequest, book);
         bookValidator.validationTags(bookRequest.getTagsId());
 
         book = bookMapper.mapRequestToEntity(bookRequest, book);
@@ -77,6 +74,7 @@ public class BookServiceImpl implements BookService {
     public void delete(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
+
         bookRepository.delete(book);
     }
 }

@@ -29,6 +29,7 @@ public class TagServiceImpl implements TagService {
     public TagResponse findById(Long id) {
         Tag tag = tagRepository.findById(id)
                 .orElseThrow(() -> new TagNotFoundException(id));
+
         return tagMapper.toDto(tag);
     }
 
@@ -57,9 +58,9 @@ public class TagServiceImpl implements TagService {
     public TagResponse update(Long id, TagRequest tagRequest) {
         tagValidator.validatorByName(tagRequest.getName());
 
-        Tag tag = tagRepository.findById(id)
+        Tag tag = tagRepository.findById(id).
+                map(t ->tagMapper.updateRequestToEntity(tagRequest, t))
                 .orElseThrow(() -> new TagNotFoundException(id));
-        tag = tagMapper.updateRequestToEntity(tagRequest, tag);
         Tag updateTag = tagRepository.save(tag);
 
         return tagMapper.toDto(updateTag);
@@ -70,6 +71,7 @@ public class TagServiceImpl implements TagService {
     public void delete(Long id) {
         Tag tag = tagRepository.findById(id)
                 .orElseThrow(() -> new TagNotFoundException(id));
+
         tagRepository.delete(tag);
     }
 }

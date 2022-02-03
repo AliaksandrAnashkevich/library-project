@@ -28,6 +28,7 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorResponse findById(Long id) {
         Author author = authorRepository.findById(id)
                 .orElseThrow(() -> new AuthorNotFoundException(id));
+
         return authorMapper.toDto(author);
     }
 
@@ -57,9 +58,10 @@ public class AuthorServiceImpl implements AuthorService {
         authorValidator.validatorByName(authorRequest.getFirstName(), authorRequest.getLastName());
 
         Author author = authorRepository.findById(id)
+                .map(auth -> authorMapper.updateRequestToEntity(authorRequest, auth))
                 .orElseThrow(() -> new AuthorNotFoundException(id));
-        author = authorMapper.updateRequestToEntity(authorRequest, author);
         Author updatedAuthor = authorRepository.save(author);
+
         return authorMapper.toDto(updatedAuthor);
     }
 
@@ -68,6 +70,7 @@ public class AuthorServiceImpl implements AuthorService {
     public void delete(Long id) {
         Author author = authorRepository.findById(id)
                 .orElseThrow(() -> new AuthorNotFoundException(id));
+
         authorRepository.delete(author);
     }
 }

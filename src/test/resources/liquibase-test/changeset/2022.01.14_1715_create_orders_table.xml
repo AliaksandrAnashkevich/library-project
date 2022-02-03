@@ -22,10 +22,10 @@
             <column name="order_status" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="create_at" type="timestamp without time zone" defaultValue="now()">
+            <column name="create_at" type="timestamp without time zone">
                 <constraints nullable="false"/>
             </column>
-            <column name="update_at" type="timestamp without time zone" defaultValue="now()">
+            <column name="update_at" type="timestamp without time zone">
                 <constraints nullable="false"/>
             </column>
             <column name="user_id" type="bigint">
