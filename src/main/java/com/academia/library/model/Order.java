@@ -5,25 +5,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Getter
@@ -33,6 +34,8 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "orders")
+@SQLDelete(sql = "UPDATE orders SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 public class Order {
 
     @Id
@@ -41,10 +44,10 @@ public class Order {
     private Long id;
 
     @Column
-    private BigDecimal amount;
+    private boolean deleted;
 
     @Column
-    private String history;
+    private BigDecimal amount;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -64,9 +67,6 @@ public class Order {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany
-    @JoinTable(name = "order_books",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private List<Book> books = new ArrayList<>();
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 }

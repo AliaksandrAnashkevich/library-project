@@ -1,12 +1,12 @@
 package com.academia.library.service.impl;
 
-import com.academia.library.cryptor.Cryptor;
 import com.academia.library.dto.OrderRequest;
 import com.academia.library.dto.OrderResponse;
 import com.academia.library.exception.OrderNotFoundException;
 import com.academia.library.exception.UserNotFoundException;
 import com.academia.library.mapper.OrderMapper;
 import com.academia.library.model.Order;
+import com.academia.library.model.OrderStatus;
 import com.academia.library.model.User;
 import com.academia.library.repository.OrderRepository;
 import com.academia.library.repository.UserRepository;
@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private final Cryptor cryptor;
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final OrderValidator orderValidator;
@@ -50,13 +49,18 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderResponse create(String username, OrderRequest orderRequest) {
         orderValidator.validatorStatusCreate(orderRequest.getStatus());
-        orderValidator.validatorBooks(orderRequest.getBooksId());
+        orderValidator.validatorBooks(orderRequest.getOrderDetails());
 
         User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UserNotFoundException(username));
 
         Order order = orderMapper.toEntity(orderRequest);
         order.setUser(user);
+        order.getOrderDetails()
+                .forEach(orderDetail -> {
+                    orderDetail.setOrder(order);
+                    orderDetail.setId(null);
+                });
 
         Order savedOrder = orderRepository.save(order);
         return orderMapper.toDto(savedOrder);
@@ -65,11 +69,41 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderResponse update(Long id, OrderRequest orderRequest) {
-        orderValidator.validatorBooks(orderRequest.getBooksId());
+
+        orderValidator.validatorBooks(orderRequest.getOrderDetails());
 
         Order order = orderRepository.findById(id)
                 .map(o -> orderMapper.updateRequestToEntity(orderRequest, o))
                 .orElseThrow(() -> new OrderNotFoundException(id));
+        order.getOrderDetails()
+                .forEach(orderDetail -> orderDetail.setOrder(order));
+        Order updateOrder = orderRepository.save(order);
+
+        return orderMapper.toDto(updateOrder);
+    }
+
+    @Override
+    public OrderResponse updateStatusToPaid(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException(id));
+
+        orderValidator.validatorStatusDraft(order.getOrderStatus());
+
+        order.setOrderStatus(OrderStatus.PAID);
+
+        Order updateOrder = orderRepository.save(order);
+
+        return orderMapper.toDto(updateOrder);
+    }
+
+    @Override
+    public OrderResponse updateStatusToDelivered(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException(id));
+
+        orderValidator.validatorStatusPaid(order.getOrderStatus());
+
+        order.setOrderStatus(OrderStatus.DELIVERED);
 
         Order updateOrder = orderRepository.save(order);
 

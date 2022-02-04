@@ -16,9 +16,6 @@
             <column name="amount" type="money">
                 <constraints nullable="false"/>
             </column>
-            <column name="history" type="varchar(50)">
-                <constraints nullable="false"/>
-            </column>
             <column name="order_status" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
@@ -31,6 +28,9 @@
             <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
+            <column name="deleted" type="boolean" defaultValue="false">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -42,31 +42,35 @@
                                  referencedColumnNames="id"/>
     </changeSet>
 
+    <changeSet id="2022.01.14_1724_create_order_details_sequence" author="aliaksandr anashkevich">
+        <createSequence sequenceName="order_detail_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
 
-    <changeSet id="2022.01.14_1726_create_order_books_table" author="aliaksandr anashkevich">
-        <createTable tableName="order_books">
-            <column name="id" type="bigint" defaultValueComputed="nextval('user_roles_id_seq')">
+    <changeSet id="2022.01.14_1726_create_order_details_table" author="aliaksandr anashkevich">
+        <createTable tableName="order_details">
+            <column name="id" type="bigint" defaultValueComputed="nextval('order_detail_id_seq')">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="order_id" type="BIGINT">
+            <column name="count" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="book_id" type="BIGINT">
+            <column name="order_id" type="bigint">
                 <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="boolean" defaultValue="false">
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="2022.01.14_1728_create_order_books_relations" author="aliaksandr anashkevich">
-        <addForeignKeyConstraint baseTableName="order_books"
+    <changeSet id="2022.01.14_1728_create_order_details_relations" author="aliaksandr anashkevich">
+        <addForeignKeyConstraint baseTableName="order_details"
                                  baseColumnNames="order_id"
-                                 constraintName="order_order_books_fk"
+                                 constraintName="order_order_details_fk"
                                  referencedTableName="orders"
-                                 referencedColumnNames="id"/>
-        <addForeignKeyConstraint baseTableName="order_books"
-                                 baseColumnNames="book_id"
-                                 constraintName="book_order_books_fk"
-                                 referencedTableName="books"
                                  referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog>

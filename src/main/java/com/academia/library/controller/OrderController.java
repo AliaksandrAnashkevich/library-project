@@ -3,9 +3,7 @@ package com.academia.library.controller;
 import com.academia.library.dto.OrderRequest;
 import com.academia.library.dto.OrderResponse;
 import com.academia.library.service.OrderService;
-import com.academia.library.util.RoleNames;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,6 +44,16 @@ public class OrderController {
     public OrderResponse update(@PathVariable("id") Long id,
                                 @RequestBody OrderRequest orderRequest) {
         return orderService.update(id, orderRequest);
+    }
+
+    @PutMapping("/paid/{id}")
+    public OrderResponse updateStatusToPaid(@PathVariable("id") Long id) {
+        return orderService.updateStatusToPaid(id);
+    }
+
+    @PutMapping("/delivered/{id}")
+    public OrderResponse updateStatusToDelivered(@PathVariable("id") Long id) {
+        return orderService.updateStatusToDelivered(id);
     }
 
     @DeleteMapping("{id}")
