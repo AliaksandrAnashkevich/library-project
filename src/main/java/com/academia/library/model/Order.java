@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.CascadeType;
@@ -13,7 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,7 +32,6 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "orders")
-@SQLDelete(sql = "UPDATE orders SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 public class Order {
 
@@ -44,7 +41,7 @@ public class Order {
     private Long id;
 
     @Column
-    private boolean deleted;
+    private Boolean deleted = Boolean.FALSE;
 
     @Column
     private BigDecimal amount;
@@ -67,6 +64,8 @@ public class Order {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<OrderDetail> orderDetails = new ArrayList<>();
+
 }
+

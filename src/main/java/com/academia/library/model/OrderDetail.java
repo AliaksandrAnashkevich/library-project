@@ -5,13 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -28,7 +24,6 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Entity
 @Table(name = "order_details")
-@SQLDelete(sql = "UPDATE order_details SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 public class OrderDetail {
 
@@ -41,7 +36,7 @@ public class OrderDetail {
     private Long count;
 
     @Column
-    private boolean deleted;
+    private Boolean deleted = Boolean.FALSE;
 
     @Column
     private Long bookId;

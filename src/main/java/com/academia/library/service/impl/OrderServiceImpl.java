@@ -56,13 +56,14 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = orderMapper.toEntity(orderRequest);
         order.setUser(user);
+
         order.getOrderDetails()
                 .forEach(orderDetail -> {
                     orderDetail.setOrder(order);
                     orderDetail.setId(null);
                 });
 
-        Order savedOrder = orderRepository.save(order);
+        Order savedOrder = orderRepository.saveAndFlush(order);
         return orderMapper.toDto(savedOrder);
     }
 
@@ -75,6 +76,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(id)
                 .map(o -> orderMapper.updateRequestToEntity(orderRequest, o))
                 .orElseThrow(() -> new OrderNotFoundException(id));
+
         order.getOrderDetails()
                 .forEach(orderDetail -> orderDetail.setOrder(order));
         Order updateOrder = orderRepository.save(order);
@@ -83,6 +85,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderResponse updateStatusToPaid(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
@@ -97,6 +100,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderResponse updateStatusToDelivered(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
@@ -115,6 +119,6 @@ public class OrderServiceImpl implements OrderService {
     public void delete(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
-        orderRepository.delete(order);
+        orderRepository.softDelete(order.getId());
     }
 }
