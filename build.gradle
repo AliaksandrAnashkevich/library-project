@@ -48,6 +48,7 @@ dependencies {
     implementation "io.swagger.core.v3:swagger-annotations:${swaggerVersion}"
     implementation "org.springdoc:springdoc-openapi-ui:${springdocVersion}"
     implementation "commons-codec:commons-codec:${commonCodesVersion}"
+    implementation 'org.jetbrains:annotations:20.1.0'
 
     compileOnly "org.mapstruct:mapstruct:${mapstructVersion}"
     compileOnly "org.projectlombok:lombok:${lombokVersion}"

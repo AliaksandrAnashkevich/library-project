@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public class AuthorResponse {
 
-    private String firstName;
-    private String lastName;
+    private final Long id;
+    private final String firstName;
+    private final String lastName;
 }

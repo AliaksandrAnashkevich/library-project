@@ -5,13 +5,14 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @Getter
 public class BookRequest {
 
-    private BigDecimal price;
-    private String title;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private final Long authorId;
+    private final List<Long> tagsId;
+    private final BigDecimal price;
+    private final String title;
 }
