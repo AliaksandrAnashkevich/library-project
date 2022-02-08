@@ -36,7 +36,7 @@ public class OrderDetail {
     private Long count;
 
     @Column
-    private Boolean deleted = Boolean.FALSE;
+    private Boolean deleted;
 
     @Column
     private Long bookId;

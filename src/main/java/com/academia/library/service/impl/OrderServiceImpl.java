@@ -8,6 +8,7 @@ import com.academia.library.mapper.OrderMapper;
 import com.academia.library.model.Order;
 import com.academia.library.model.OrderStatus;
 import com.academia.library.model.User;
+import com.academia.library.repository.OrderDetailsRepository;
 import com.academia.library.repository.OrderRepository;
 import com.academia.library.repository.UserRepository;
 import com.academia.library.service.OrderService;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderDetailsRepository orderDetailsRepository;
     private final OrderMapper orderMapper;
     private final OrderValidator orderValidator;
     private final UserRepository userRepository;
@@ -48,8 +50,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderResponse create(String username, OrderRequest orderRequest) {
-        orderValidator.validatorStatusCreate(orderRequest.getStatus());
-        orderValidator.validatorBooks(orderRequest.getOrderDetails());
+        orderValidator.validatorStatusCreate(orderRequest);
+        orderValidator.validatorBooks(orderRequest);
 
         User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UserNotFoundException(username));
@@ -58,12 +60,9 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(user);
 
         order.getOrderDetails()
-                .forEach(orderDetail -> {
-                    orderDetail.setOrder(order);
-                    orderDetail.setId(null);
-                });
+                .forEach(orderDetail -> orderDetail.setOrder(order));
 
-        Order savedOrder = orderRepository.saveAndFlush(order);
+        Order savedOrder = orderRepository.save(order);
         return orderMapper.toDto(savedOrder);
     }
 
@@ -71,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderResponse update(Long id, OrderRequest orderRequest) {
 
-        orderValidator.validatorBooks(orderRequest.getOrderDetails());
+        orderValidator.validatorBooks(orderRequest);
 
         Order order = orderRepository.findById(id)
                 .map(o -> orderMapper.updateRequestToEntity(orderRequest, o))
@@ -90,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
 
-        orderValidator.validatorStatusDraft(order.getOrderStatus());
+        orderValidator.validatorStatusDraft(order);
 
         order.setOrderStatus(OrderStatus.PAID);
 
@@ -105,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
 
-        orderValidator.validatorStatusPaid(order.getOrderStatus());
+        orderValidator.validatorStatusPaid(order);
 
         order.setOrderStatus(OrderStatus.DELIVERED);
 
@@ -119,6 +118,9 @@ public class OrderServiceImpl implements OrderService {
     public void delete(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
-        orderRepository.softDelete(order.getId());
+
+        orderDetailsRepository.deleteByOrder(order);
+
+        orderRepository.delete(id);
     }
 }

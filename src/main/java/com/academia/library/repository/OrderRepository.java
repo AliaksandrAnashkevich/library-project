@@ -12,5 +12,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Modifying
     @Query("update Order set deleted = true WHERE id=:id")
-    void softDelete(@Param("id") Long id);
+    void delete(@Param("id") Long id);
 }

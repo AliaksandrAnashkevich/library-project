@@ -41,7 +41,7 @@ public class Order {
     private Long id;
 
     @Column
-    private Boolean deleted = Boolean.FALSE;
+    private Boolean deleted;
 
     @Column
     private BigDecimal amount;

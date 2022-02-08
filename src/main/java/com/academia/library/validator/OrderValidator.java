@@ -1,8 +1,11 @@
 package com.academia.library.validator;
 
 import com.academia.library.dto.OrderDetailsRequest;
+import com.academia.library.dto.OrderDetailsRequest.OrderDetailRequestDto;
+import com.academia.library.dto.OrderRequest;
 import com.academia.library.exception.BookNotFoundException;
 import com.academia.library.exception.OrderStatusException;
+import com.academia.library.model.Order;
 import com.academia.library.model.OrderStatus;
 import com.academia.library.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +20,19 @@ public class OrderValidator {
 
     private final BookRepository bookRepository;
 
-    public void validatorBooks(List<OrderDetailsRequest> orderDetailsRequests) {
+    public void validatorBooks(OrderRequest orderRequest) {
+        List<OrderDetailsRequest> orderDetailsRequests = orderRequest.getOrderDetails();
+
         orderDetailsRequests.stream()
-                .map(OrderDetailsRequest::getBookId)
+                .map(OrderDetailsRequest::getOrderDetailRequestDto)
+                .map(OrderDetailRequestDto::getBookId)
                 .forEach(id -> bookRepository.findById(id)
                         .orElseThrow(() -> new BookNotFoundException(id)));
     }
 
-    public void validatorStatusCreate(String status) {
+    public void validatorStatusCreate(OrderRequest orderRequest) {
+        String status = orderRequest.getStatus();
+
         Arrays.stream(OrderStatus.values())
                 .filter(orderStatus -> orderStatus.name().equalsIgnoreCase(status))
                 .findFirst()
@@ -35,15 +43,23 @@ public class OrderValidator {
         }
     }
 
-    public void validatorStatusDraft(OrderStatus orderStatus) {
-        if (!(orderStatus == (OrderStatus.DRAFT))) {
+    public void validatorStatusDraft(Order order) {
+        OrderStatus orderStatus = order.getOrderStatus();
+
+        if (validatorStatus(orderStatus, OrderStatus.DRAFT)) {
             throw new OrderStatusException(orderStatus.name());
         }
     }
 
-    public void validatorStatusPaid(OrderStatus orderStatus) {
-        if (!(orderStatus == (OrderStatus.PAID))) {
+    public void validatorStatusPaid(Order order) {
+        OrderStatus orderStatus = order.getOrderStatus();
+
+        if (validatorStatus(orderStatus, OrderStatus.PAID)) {
             throw new OrderStatusException(orderStatus.name());
         }
+    }
+
+    private boolean validatorStatus(OrderStatus actualStatus, OrderStatus extendStatus) {
+        return actualStatus != extendStatus;
     }
 }
