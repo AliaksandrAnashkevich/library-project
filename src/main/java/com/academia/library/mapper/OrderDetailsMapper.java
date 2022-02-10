@@ -17,13 +17,13 @@ public interface OrderDetailsMapper {
     @Named("toEntity")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "deleted", constant = "false")
-    @Mapping(target = "bookId", expression = "java(orderDetailsRequest.getOrderDetailRequestDto().getBookId())")
-    @Mapping(target = "count", expression = "java(orderDetailsRequest.getOrderDetailRequestDto().getCount())")
+    @Mapping(target = "bookId", source = "orderDetailsRequest.orderDetailRequestDto.bookId")
+    @Mapping(target = "count", source = "orderDetailsRequest.orderDetailRequestDto.count")
     OrderDetail toEntity(OrderDetailsRequest orderDetailsRequest);
 
     @Named("updateRequestToEntity")
     @Mapping(target = "deleted", constant = "false")
-    @Mapping(target = "bookId", expression = "java(orderDetailsRequest.getOrderDetailRequestDto().getBookId())")
-    @Mapping(target = "count", expression = "java(orderDetailsRequest.getOrderDetailRequestDto().getCount())")
+    @Mapping(target = "bookId", source = "orderDetailsRequest.orderDetailRequestDto.bookId")
+    @Mapping(target = "count", source = "orderDetailsRequest.orderDetailRequestDto.count")
     OrderDetail updateRequestToEntity(OrderDetailsRequest orderDetailsRequest);
 }

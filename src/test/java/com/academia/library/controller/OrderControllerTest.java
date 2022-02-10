@@ -217,8 +217,10 @@ class OrderControllerTest {
         var actualDto = OrderRequest.builder()
                 .status("PAID")
                 .orderDetails(List.of(OrderDetailsRequest.builder()
-                        .bookId(book.getId())
-                        .count(2L)
+                        .orderDetailRequestDto(OrderDetailsRequest.OrderDetailRequestDto.builder()
+                                .bookId(book.getId())
+                                .count(2L)
+                                .build())
                         .build()))
                 .build();
         var inputJson = objectMapper.writeValueAsString(actualDto);
@@ -242,8 +244,10 @@ class OrderControllerTest {
         var actualDto = OrderRequest.builder()
                 .status("DRAFT")
                 .orderDetails(List.of(OrderDetailsRequest.builder()
-                        .bookId(book.getId())
-                        .count(2L)
+                        .orderDetailRequestDto(OrderDetailsRequest.OrderDetailRequestDto.builder()
+                                .bookId(book.getId())
+                                .count(2L)
+                                .build())
                         .build()))
                 .build();
         var inputJson = objectMapper.writeValueAsString(actualDto);

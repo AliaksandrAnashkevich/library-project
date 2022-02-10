@@ -26,9 +26,10 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderDetailsRepository orderDetailsRepository;
+    private final UserRepository userRepository;
     private final OrderMapper orderMapper;
     private final OrderValidator orderValidator;
-    private final UserRepository userRepository;
+
 
     @Override
     @Transactional(readOnly = true)
@@ -50,17 +51,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderResponse create(String username, OrderRequest orderRequest) {
-        orderValidator.validatorStatusCreate(orderRequest);
-        orderValidator.validatorBooks(orderRequest);
+        orderValidator.validateBeforeCreate(orderRequest);
 
         User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new UserNotFoundException(username));
 
         Order order = orderMapper.toEntity(orderRequest);
         order.setUser(user);
-
-        order.getOrderDetails()
-                .forEach(orderDetail -> orderDetail.setOrder(order));
 
         Order savedOrder = orderRepository.save(order);
         return orderMapper.toDto(savedOrder);
@@ -69,48 +66,30 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderResponse update(Long id, OrderRequest orderRequest) {
-
-        orderValidator.validatorBooks(orderRequest);
-
         Order order = orderRepository.findById(id)
-                .map(o -> orderMapper.updateRequestToEntity(orderRequest, o))
                 .orElseThrow(() -> new OrderNotFoundException(id));
 
-        order.getOrderDetails()
-                .forEach(orderDetail -> orderDetail.setOrder(order));
-        Order updateOrder = orderRepository.save(order);
+        orderValidator.validateBeforeUpdate(orderRequest, order);
 
-        return orderMapper.toDto(updateOrder);
+        order = orderMapper.updateRequestToEntity(orderRequest, order);
+
+        Order updatedOrder = orderRepository.save(order);
+
+        return orderMapper.toDto(updatedOrder);
     }
 
     @Override
-    @Transactional
-    public OrderResponse updateStatusToPaid(Long id) {
+    public OrderResponse updateStatus(Long id, OrderStatus newStatus, OrderStatus validStatus) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
 
-        orderValidator.validatorStatusDraft(order);
+        orderValidator.validateBeforeUpdateStatus(order, validStatus);
 
-        order.setOrderStatus(OrderStatus.PAID);
+        order.setOrderStatus(newStatus);
 
-        Order updateOrder = orderRepository.save(order);
+        Order updatedOrder = orderRepository.save(order);
 
-        return orderMapper.toDto(updateOrder);
-    }
-
-    @Override
-    @Transactional
-    public OrderResponse updateStatusToDelivered(Long id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException(id));
-
-        orderValidator.validatorStatusPaid(order);
-
-        order.setOrderStatus(OrderStatus.DELIVERED);
-
-        Order updateOrder = orderRepository.save(order);
-
-        return orderMapper.toDto(updateOrder);
+        return orderMapper.toDto(updatedOrder);
     }
 
     @Override

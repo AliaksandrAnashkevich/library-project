@@ -41,12 +41,15 @@ public abstract class OrderMapper {
     public abstract Order updateRequestToEntity(OrderRequest orderRequest, @MappingTarget Order order);
 
     @AfterMapping
-    void setAmount(@MappingTarget Order order, OrderRequest orderRequest) {
+    void setAmountAndOrderDetails(@MappingTarget Order order, OrderRequest orderRequest) {
         BigDecimal amount = orderRequest.getOrderDetails().stream()
                 .map(this::countTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         order.setAmount(amount);
+
+        order.getOrderDetails()
+                .forEach(orderDetail -> orderDetail.setOrder(order));
     }
 
     private BigDecimal countTotalPrice(OrderDetailsRequest orderDetailsRequest) {

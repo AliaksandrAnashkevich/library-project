@@ -9,10 +9,12 @@ import com.academia.library.model.Order;
 import com.academia.library.model.OrderStatus;
 import com.academia.library.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -20,46 +22,44 @@ public class OrderValidator {
 
     private final BookRepository bookRepository;
 
-    public void validatorBooks(OrderRequest orderRequest) {
-        List<OrderDetailsRequest> orderDetailsRequests = orderRequest.getOrderDetails();
+    public void validateBeforeCreate(OrderRequest orderRequest) {
+        String status = orderRequest.getStatus();
+        validateStringStatus(status);
 
-        orderDetailsRequests.stream()
-                .map(OrderDetailsRequest::getOrderDetailRequestDto)
-                .map(OrderDetailRequestDto::getBookId)
-                .forEach(id -> bookRepository.findById(id)
-                        .orElseThrow(() -> new BookNotFoundException(id)));
+        validateBooks(orderRequest);
     }
 
-    public void validatorStatusCreate(OrderRequest orderRequest) {
-        String status = orderRequest.getStatus();
+    public void validateBeforeUpdate(OrderRequest orderRequest, Order order) {
+        validateBeforeUpdateStatus(order, OrderStatus.DRAFT);
 
-        Arrays.stream(OrderStatus.values())
-                .filter(orderStatus -> orderStatus.name().equalsIgnoreCase(status))
-                .findFirst()
-                .orElseThrow(() -> new OrderStatusException(status));
+        validateBooks(orderRequest);
+    }
 
-        if (status.equals(OrderStatus.DELIVERED.name())) {
+    public void validateBeforeUpdateStatus(Order order, OrderStatus extendStatus){
+        OrderStatus orderStatus = order.getOrderStatus();
+
+        if (checkStatus(orderStatus, extendStatus)){
+            throw new OrderStatusException(orderStatus.name());
+        }
+    }
+
+    private boolean checkStatus(OrderStatus actualStatus, OrderStatus extendStatus) {
+        return actualStatus != extendStatus;
+    }
+
+    private void validateBooks(OrderRequest orderRequest) {
+        List<Long> bookIds = orderRequest.getOrderDetails().stream()
+                .map(a -> a.getOrderDetailRequestDto().getBookId())
+                .collect(Collectors.toList());
+
+        bookIds.forEach(id -> bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id)));
+    }
+
+    private void validateStringStatus(String status) {
+        if (!EnumUtils.isValidEnum(OrderStatus.class, status)
+                && !checkStatus(OrderStatus.valueOf(status), OrderStatus.DELIVERED)) {
             throw new OrderStatusException(status);
         }
-    }
-
-    public void validatorStatusDraft(Order order) {
-        OrderStatus orderStatus = order.getOrderStatus();
-
-        if (validatorStatus(orderStatus, OrderStatus.DRAFT)) {
-            throw new OrderStatusException(orderStatus.name());
-        }
-    }
-
-    public void validatorStatusPaid(Order order) {
-        OrderStatus orderStatus = order.getOrderStatus();
-
-        if (validatorStatus(orderStatus, OrderStatus.PAID)) {
-            throw new OrderStatusException(orderStatus.name());
-        }
-    }
-
-    private boolean validatorStatus(OrderStatus actualStatus, OrderStatus extendStatus) {
-        return actualStatus != extendStatus;
     }
 }
