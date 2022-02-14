@@ -1,10 +1,10 @@
 package com.academia.library.service.impl;
 
 import com.academia.library.cryptor.Cryptor;
-import com.academia.library.dto.AuthRequest;
-import com.academia.library.dto.AuthResponse;
-import com.academia.library.dto.UserRequest;
-import com.academia.library.dto.UserResponse;
+import com.academia.library.dto.request.AuthRequest;
+import com.academia.library.dto.responce.AuthResponse;
+import com.academia.library.dto.request.UserRequest;
+import com.academia.library.dto.responce.UserResponse;
 import com.academia.library.exception.InvalidAuthRequestDataException;
 import com.academia.library.exception.RoleNotFoundException;
 import com.academia.library.mapper.UserMapper;
@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
     private final Cryptor cryptor;
 
     @Override
-    @Transactional
     public AuthResponse login(AuthRequest authRequest) {
         String email = cryptor.encode(authRequest.getEmail());
         String password = authRequest.getPassword();

@@ -1,17 +1,13 @@
 package com.academia.library.util;
 
-import com.academia.library.dto.AuthRequest;
-import com.academia.library.dto.AuthorRequest;
-import com.academia.library.dto.BookRequest;
-import com.academia.library.dto.OrderDetailsRequest;
-import com.academia.library.dto.OrderRequest;
-import com.academia.library.dto.TagRequest;
-import com.academia.library.dto.UserRequest;
-import com.academia.library.model.OrderDetail;
+import com.academia.library.dto.request.AuthRequest;
+import com.academia.library.dto.request.AuthorRequest;
+import com.academia.library.dto.request.BookRequest;
+import com.academia.library.dto.request.TagRequest;
+import com.academia.library.dto.request.UserRequest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class TestDataCreator {
     public static TagRequest TEST_TAG = TagRequest.builder()

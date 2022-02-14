@@ -1,18 +1,14 @@
 package com.academia.library.validator;
 
-import com.academia.library.dto.OrderDetailsRequest;
-import com.academia.library.dto.OrderDetailsRequest.OrderDetailRequestDto;
-import com.academia.library.dto.OrderRequest;
+import com.academia.library.dto.request.OrderRequest;
 import com.academia.library.exception.BookNotFoundException;
 import com.academia.library.exception.OrderStatusException;
 import com.academia.library.model.Order;
 import com.academia.library.model.OrderStatus;
 import com.academia.library.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,27 +20,23 @@ public class OrderValidator {
 
     public void validateBeforeCreate(OrderRequest orderRequest) {
         String status = orderRequest.getStatus();
-        validateStringStatus(status);
+        validateStringStatusWithoutDelivered(status);
 
         validateBooks(orderRequest);
     }
 
     public void validateBeforeUpdate(OrderRequest orderRequest, Order order) {
-        validateBeforeUpdateStatus(order, OrderStatus.DRAFT);
+        validateBeforeUpdate(order, OrderStatus.DRAFT);
 
         validateBooks(orderRequest);
     }
 
-    public void validateBeforeUpdateStatus(Order order, OrderStatus extendStatus){
+    public void validateBeforeUpdate(Order order, OrderStatus extendStatus) {
         OrderStatus orderStatus = order.getOrderStatus();
 
-        if (checkStatus(orderStatus, extendStatus)){
+        if (orderStatus != extendStatus) {
             throw new OrderStatusException(orderStatus.name());
         }
-    }
-
-    private boolean checkStatus(OrderStatus actualStatus, OrderStatus extendStatus) {
-        return actualStatus != extendStatus;
     }
 
     private void validateBooks(OrderRequest orderRequest) {
@@ -56,9 +48,11 @@ public class OrderValidator {
                 .orElseThrow(() -> new BookNotFoundException(id)));
     }
 
-    private void validateStringStatus(String status) {
-        if (!EnumUtils.isValidEnum(OrderStatus.class, status)
-                && !checkStatus(OrderStatus.valueOf(status), OrderStatus.DELIVERED)) {
+    private void validateStringStatusWithoutDelivered(String status) {
+        OrderStatus checkStatus = OrderStatus.getByStatus(status)
+                .orElseThrow(() -> new OrderStatusException(status));
+
+        if (checkStatus == OrderStatus.DELIVERED) {
             throw new OrderStatusException(status);
         }
     }

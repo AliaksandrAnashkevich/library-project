@@ -1,4 +1,4 @@
-package com.academia.library.dto;
+package com.academia.library.dto.responce;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +10,6 @@ import java.util.List;
 
 @Builder
 @Getter
-@ToString
 public class OrderResponse {
 
     private final Long id;

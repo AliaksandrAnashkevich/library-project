@@ -1,4 +1,4 @@
-package com.academia.library.dto;
+package com.academia.library.dto.request;
 
 
 import lombok.Builder;
@@ -7,14 +7,12 @@ import lombok.ToString;
 
 @Builder
 @Getter
-@ToString
 public class OrderDetailsRequest {
     private final Long id;
     private final OrderDetailRequestDto orderDetailRequestDto;
 
     @Builder
     @Getter
-    @ToString
     public static class OrderDetailRequestDto {
         private final Long bookId;
         private final Long count;

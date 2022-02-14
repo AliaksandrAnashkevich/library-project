@@ -39,7 +39,8 @@
                                  baseColumnNames="user_id"
                                  constraintName="user_orders_fk"
                                  referencedTableName="users"
-                                 referencedColumnNames="id"/>
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
     </changeSet>
 
     <changeSet id="2022.01.14_1724_create_order_details_sequence" author="aliaksandr anashkevich">
@@ -71,6 +72,7 @@
                                  baseColumnNames="order_id"
                                  constraintName="order_order_details_fk"
                                  referencedTableName="orders"
-                                 referencedColumnNames="id"/>
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
     </changeSet>
 </databaseChangeLog>

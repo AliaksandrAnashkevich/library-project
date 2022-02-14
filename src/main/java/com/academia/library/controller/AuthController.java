@@ -1,10 +1,10 @@
 package com.academia.library.controller;
 
-import com.academia.library.dto.AuthRequest;
-import com.academia.library.dto.AuthResponse;
-import com.academia.library.dto.BookResponse;
-import com.academia.library.dto.UserRequest;
-import com.academia.library.dto.UserResponse;
+import com.academia.library.dto.request.AuthRequest;
+import com.academia.library.dto.responce.AuthResponse;
+import com.academia.library.dto.responce.BookResponse;
+import com.academia.library.dto.request.UserRequest;
+import com.academia.library.dto.responce.UserResponse;
 import com.academia.library.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,7 +29,7 @@ public class AuthController {
 
     @Operation(summary = "Login", description = "Login user")
     @ApiResponse(responseCode = "200", description = "Success",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponse.class)))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = AuthRequest.class)))
     @ApiResponse(responseCode = "401", description = "Invalid email or password.", content = @Content)
     @PostMapping("/login")
     public AuthResponse login(@Valid @RequestBody AuthRequest authRequest) {
@@ -38,7 +38,7 @@ public class AuthController {
 
     @Operation(summary = "Registration", description = "Registration new user")
     @ApiResponse(responseCode = "200", description = "Success",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookResponse.class)))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserRequest.class)))
     @ApiResponse(responseCode = "400", description = "Invalid user request body", content = @Content)
     @PostMapping("/registration")
     public UserResponse registration(@Valid @RequestBody UserRequest userRequest) {

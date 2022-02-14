@@ -1,7 +1,7 @@
 package com.academia.library.mapper;
 
-import com.academia.library.dto.BookRequest;
-import com.academia.library.dto.BookResponse;
+import com.academia.library.dto.request.BookRequest;
+import com.academia.library.dto.responce.BookResponse;
 import com.academia.library.model.Book;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

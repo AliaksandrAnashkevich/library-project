@@ -1,6 +1,6 @@
 package com.academia.library.mapper;
 
-import com.academia.library.dto.TagRequest;
+import com.academia.library.dto.request.TagRequest;
 import com.academia.library.model.Tag;
 import org.mapstruct.Mapper;
 

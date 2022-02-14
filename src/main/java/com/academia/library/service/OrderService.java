@@ -1,9 +1,8 @@
 package com.academia.library.service;
 
-import com.academia.library.dto.OrderRequest;
-import com.academia.library.dto.OrderResponse;
+import com.academia.library.dto.request.OrderRequest;
+import com.academia.library.dto.responce.OrderResponse;
 import com.academia.library.model.OrderStatus;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 

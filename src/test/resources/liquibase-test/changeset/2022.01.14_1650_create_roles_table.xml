@@ -42,11 +42,13 @@
                                  baseColumnNames="user_id"
                                  constraintName="users_user_roles_fk"
                                  referencedTableName="users"
-                                 referencedColumnNames="id"/>
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
         <addForeignKeyConstraint baseTableName="user_roles"
                                  baseColumnNames="role_id"
                                  constraintName="roles_user_roles_fk"
                                  referencedTableName="roles"
-                                 referencedColumnNames="id"/>
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
     </changeSet>
 </databaseChangeLog>

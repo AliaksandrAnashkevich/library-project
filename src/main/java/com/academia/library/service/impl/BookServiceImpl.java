@@ -1,6 +1,6 @@
 package com.academia.library.service.impl;
 
-import com.academia.library.dto.BookResponse;
+import com.academia.library.dto.responce.BookResponse;
 import com.academia.library.exception.BookNotFoundException;
 import com.academia.library.mapper.BookMapper;
 import com.academia.library.model.Book;

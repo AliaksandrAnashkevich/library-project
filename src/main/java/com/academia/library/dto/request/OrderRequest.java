@@ -1,4 +1,4 @@
-package com.academia.library.dto;
+package com.academia.library.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +8,6 @@ import java.util.List;
 
 @Builder
 @Getter
-@ToString
 public class OrderRequest {
 
     private final String status;

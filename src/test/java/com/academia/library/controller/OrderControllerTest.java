@@ -1,9 +1,9 @@
 package com.academia.library.controller;
 
 import com.academia.library.cryptor.Cryptor;
-import com.academia.library.dto.OrderDetailsRequest;
-import com.academia.library.dto.OrderRequest;
-import com.academia.library.dto.OrderResponse;
+import com.academia.library.dto.request.OrderDetailsRequest;
+import com.academia.library.dto.request.OrderRequest;
+import com.academia.library.dto.responce.OrderResponse;
 import com.academia.library.mapper.AuthorMapper;
 import com.academia.library.mapper.BookMapper;
 import com.academia.library.mapper.TagMapper;
@@ -39,7 +39,10 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -167,7 +170,7 @@ class OrderControllerTest {
     }
 
     @AfterEach
-    private void deleteAll() {
+    public void deleteAll() {
         bookRepository.deleteAll();
         authorRepository.deleteAll();
         tagRepository.deleteAll();
@@ -288,5 +291,16 @@ class OrderControllerTest {
         // when, then
         var response = mockMvc.perform(request)
                 .andExpect(status().is(400));
+    }
+
+    @WithMockUser(username = "YWxleEBleGFtcGxlLmNvbQ==", password = "Aa12356")
+    @Test
+    void remove() throws Exception {
+        // given
+        var url = "/orders/{id}";
+        // when, then
+        this.mockMvc.perform(delete(url, actual.getId()))
+                .andExpect(status()
+                        .isOk());
     }
 }

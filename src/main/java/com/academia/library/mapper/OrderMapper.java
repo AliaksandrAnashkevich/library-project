@@ -1,8 +1,8 @@
 package com.academia.library.mapper;
 
-import com.academia.library.dto.OrderDetailsRequest;
-import com.academia.library.dto.OrderRequest;
-import com.academia.library.dto.OrderResponse;
+import com.academia.library.dto.request.OrderDetailsRequest;
+import com.academia.library.dto.request.OrderRequest;
+import com.academia.library.dto.responce.OrderResponse;
 import com.academia.library.exception.BookNotFoundException;
 import com.academia.library.model.Book;
 import com.academia.library.model.Order;
@@ -31,14 +31,12 @@ public abstract class OrderMapper {
     @Mapping(expression = "java(LocalDateTime.now())", target = "createAt")
     @Mapping(expression = "java(LocalDateTime.now())", target = "updateAt")
     @Mapping(target = "orderStatus", source = "orderRequest.status")
-    @Mapping(target = "orderDetails", qualifiedByName = "toEntity" )
     public abstract Order toEntity(OrderRequest orderRequest);
 
     @Mapping(target = "deleted", constant = "false")
     @Mapping(expression = "java(LocalDateTime.now())", target = "updateAt")
     @Mapping(target = "orderStatus", ignore = true)
-    @Mapping(target = "orderDetails", qualifiedByName = "updateRequestToEntity" )
-    public abstract Order updateRequestToEntity(OrderRequest orderRequest, @MappingTarget Order order);
+    public abstract Order toEntity(OrderRequest orderRequest, @MappingTarget Order order);
 
     @AfterMapping
     void setAmountAndOrderDetails(@MappingTarget Order order, OrderRequest orderRequest) {
@@ -55,8 +53,7 @@ public abstract class OrderMapper {
     private BigDecimal countTotalPrice(OrderDetailsRequest orderDetailsRequest) {
         Long bookId = orderDetailsRequest.getOrderDetailRequestDto().getBookId();
 
-        Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new BookNotFoundException(bookId));
+        Book book = bookRepository.getById(bookId);
 
         return book.getPrice().multiply(new BigDecimal(orderDetailsRequest.getOrderDetailRequestDto().getCount()));
     }

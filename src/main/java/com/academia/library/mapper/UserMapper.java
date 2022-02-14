@@ -1,7 +1,7 @@
 package com.academia.library.mapper;
 
-import com.academia.library.dto.UserRequest;
-import com.academia.library.dto.UserResponse;
+import com.academia.library.dto.request.UserRequest;
+import com.academia.library.dto.responce.UserResponse;
 import com.academia.library.model.User;
 import org.mapstruct.Mapper;
 

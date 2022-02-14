@@ -1,4 +1,4 @@
-package com.academia.library.dto;
+package com.academia.library.dto.responce;
 
 import lombok.Builder;
 import lombok.Data;

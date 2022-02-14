@@ -1,7 +1,7 @@
 package com.academia.library.service.impl;
 
-import com.academia.library.dto.OrderRequest;
-import com.academia.library.dto.OrderResponse;
+import com.academia.library.dto.request.OrderRequest;
+import com.academia.library.dto.responce.OrderResponse;
 import com.academia.library.exception.OrderNotFoundException;
 import com.academia.library.exception.UserNotFoundException;
 import com.academia.library.mapper.OrderMapper;
@@ -71,7 +71,7 @@ public class OrderServiceImpl implements OrderService {
 
         orderValidator.validateBeforeUpdate(orderRequest, order);
 
-        order = orderMapper.updateRequestToEntity(orderRequest, order);
+        order = orderMapper.toEntity(orderRequest, order);
 
         Order updatedOrder = orderRepository.save(order);
 
@@ -83,7 +83,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
 
-        orderValidator.validateBeforeUpdateStatus(order, validStatus);
+        orderValidator.validateBeforeUpdate(order, validStatus);
 
         order.setOrderStatus(newStatus);
 
@@ -98,8 +98,13 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
 
-        orderDetailsRepository.deleteByOrder(order);
+        delete(order);
+    }
 
-        orderRepository.delete(id);
+    private void delete(Order order) {
+        order.getOrderDetails().forEach(orderDetail -> orderDetail.setDeleted(true));
+        order.setDeleted(true);
+
+        orderRepository.save(order);
     }
 }

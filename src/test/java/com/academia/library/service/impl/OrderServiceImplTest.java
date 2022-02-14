@@ -1,8 +1,8 @@
 package com.academia.library.service.impl;
 
-import com.academia.library.dto.OrderDetailsRequest;
-import com.academia.library.dto.OrderRequest;
-import com.academia.library.dto.OrderResponse;
+import com.academia.library.dto.request.OrderDetailsRequest;
+import com.academia.library.dto.request.OrderRequest;
+import com.academia.library.dto.responce.OrderResponse;
 import com.academia.library.mapper.OrderMapper;
 import com.academia.library.model.Order;
 import com.academia.library.model.OrderDetail;
@@ -167,7 +167,7 @@ class OrderServiceImplTest {
         // when
         when(orderRepository.findById(id)).thenReturn(Optional.of(beforeUpdateOrder));
         when(orderRepository.save(any(Order.class))).thenReturn(afterUpdateOrder);
-        when(orderMapper.updateRequestToEntity(insertOrder, beforeUpdateOrder)).thenReturn(afterUpdateOrder);
+        when(orderMapper.toEntity(insertOrder, beforeUpdateOrder)).thenReturn(afterUpdateOrder);
         when(orderMapper.toDto(afterUpdateOrder)).thenReturn(extend);
         // then
         var actual = orderServiceImpl.update(id, insertOrder);

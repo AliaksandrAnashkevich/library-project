@@ -42,11 +42,13 @@
                                  baseColumnNames="role_id"
                                  constraintName="roles_role_authority_fk"
                                  referencedTableName="roles"
-                                 referencedColumnNames="id"/>
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
         <addForeignKeyConstraint baseTableName="role_authority"
                                  baseColumnNames="authority_id"
                                  constraintName="authority_role_authority_fk"
                                  referencedTableName="authority"
-                                 referencedColumnNames="id"/>
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
     </changeSet>
 </databaseChangeLog>
