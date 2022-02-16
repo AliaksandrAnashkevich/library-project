@@ -3,7 +3,7 @@ package com.academia.library.controller;
 import com.academia.library.cryptor.Cryptor;
 import com.academia.library.dto.request.OrderDetailsRequest;
 import com.academia.library.dto.request.OrderRequest;
-import com.academia.library.dto.responce.OrderResponse;
+import com.academia.library.dto.response.OrderResponse;
 import com.academia.library.mapper.AuthorMapper;
 import com.academia.library.mapper.BookMapper;
 import com.academia.library.mapper.TagMapper;
@@ -31,6 +31,7 @@ import com.academia.library.util.TestDataCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -39,10 +40,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -170,7 +168,7 @@ class OrderControllerTest {
     }
 
     @AfterEach
-    public void deleteAll() {
+    private void deleteAll() {
         bookRepository.deleteAll();
         authorRepository.deleteAll();
         tagRepository.deleteAll();
@@ -181,6 +179,7 @@ class OrderControllerTest {
         authorityRepository.deleteAll();
     }
 
+    @DisplayName("Get all orders with details")
     @WithMockUser(username = "test@example.com", password = "Aa12356")
     @Test
     void findAll() throws Exception {
@@ -196,6 +195,7 @@ class OrderControllerTest {
         assertTrue(extendList.size() > 0);
     }
 
+    @DisplayName("Get order by id")
     @WithMockUser(username = "YWxleEBleGFtcGxlLmNvbQ==", password = "Aa12356")
     @Test
     void findById() throws Exception {
@@ -212,20 +212,25 @@ class OrderControllerTest {
         assertEquals(actual.getOrderStatus().toString(), extend.getStatus());
     }
 
+    @DisplayName("Create new order")
     @WithMockUser(username = "YWxleEBleGFtcGxlLmNvbQ==", password = "Aa12356")
     @Test
     void create() throws Exception {
         // given
         var url = "/orders";
+
+        var actualOrderDetails = OrderDetailsRequest.builder()
+                .orderDetailRequestDto(OrderDetailsRequest.OrderDetailRequestDto.builder()
+                        .bookId(book.getId())
+                        .count(2L)
+                        .build())
+                .build();
+
         var actualDto = OrderRequest.builder()
                 .status("PAID")
-                .orderDetails(List.of(OrderDetailsRequest.builder()
-                        .orderDetailRequestDto(OrderDetailsRequest.OrderDetailRequestDto.builder()
-                                .bookId(book.getId())
-                                .count(2L)
-                                .build())
-                        .build()))
+                .orderDetails(List.of(actualOrderDetails))
                 .build();
+
         var inputJson = objectMapper.writeValueAsString(actualDto);
         var request = post(url)
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson);
@@ -239,19 +244,23 @@ class OrderControllerTest {
         assertThat(actualDto.getStatus()).isEqualTo(extend.getStatus());
     }
 
+    @DisplayName("Update order with details by id")
     @WithMockUser(username = "YWxleEBleGFtcGxlLmNvbQ==", password = "Aa12356")
     @Test
     void update() throws Exception {
         // given
         var url = "/orders/{id}";
+
+        var actualOrderDetails = OrderDetailsRequest.builder()
+                .orderDetailRequestDto(OrderDetailsRequest.OrderDetailRequestDto.builder()
+                        .bookId(book.getId())
+                        .count(2L)
+                        .build())
+                .build();
+
         var actualDto = OrderRequest.builder()
                 .status("DRAFT")
-                .orderDetails(List.of(OrderDetailsRequest.builder()
-                        .orderDetailRequestDto(OrderDetailsRequest.OrderDetailRequestDto.builder()
-                                .bookId(book.getId())
-                                .count(2L)
-                                .build())
-                        .build()))
+                .orderDetails(List.of(actualOrderDetails))
                 .build();
         var inputJson = objectMapper.writeValueAsString(actualDto);
         var request = put(url, actual.getId())
@@ -266,6 +275,7 @@ class OrderControllerTest {
         assertThat(actualDto.getStatus()).isEqualTo(extend.getStatus());
     }
 
+    @DisplayName("Update order status on PAID by id")
     @WithMockUser(username = "YWxleEBleGFtcGxlLmNvbQ==", password = "Aa12356")
     @Test
     void updateStatusToPaid() throws Exception {
@@ -282,6 +292,7 @@ class OrderControllerTest {
         assertThat(OrderStatus.PAID.toString()).isEqualTo(extend.getStatus());
     }
 
+    @DisplayName("Update order status on DELIVERED by id")
     @WithMockUser(username = "YWxleEBleGFtcGxlLmNvbQ==", roles = "ADMIN", password = "Aa12356")
     @Test
     void updateStatusToDelivered() throws Exception {
@@ -289,10 +300,11 @@ class OrderControllerTest {
         var url = "/orders/delivered/{id}";
         var request = put(url, actual.getId());
         // when, then
-        var response = mockMvc.perform(request)
+        this.mockMvc.perform(request)
                 .andExpect(status().is(400));
     }
 
+    @DisplayName("Delete order by id")
     @WithMockUser(username = "YWxleEBleGFtcGxlLmNvbQ==", password = "Aa12356")
     @Test
     void remove() throws Exception {

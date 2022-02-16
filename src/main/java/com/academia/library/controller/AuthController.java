@@ -1,10 +1,9 @@
 package com.academia.library.controller;
 
 import com.academia.library.dto.request.AuthRequest;
-import com.academia.library.dto.responce.AuthResponse;
-import com.academia.library.dto.responce.BookResponse;
+import com.academia.library.dto.response.AuthResponse;
 import com.academia.library.dto.request.UserRequest;
-import com.academia.library.dto.responce.UserResponse;
+import com.academia.library.dto.response.UserResponse;
 import com.academia.library.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

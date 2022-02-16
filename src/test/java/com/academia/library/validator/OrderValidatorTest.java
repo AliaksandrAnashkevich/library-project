@@ -94,7 +94,7 @@ class OrderValidatorTest {
     }
 
     @Test
-    void validateBeforeCreateException() {
+    void validateBeforeCreateExceptionShouldThrowOrderStatusException() {
         // given
         var bookId = 1L;
         var count = 1L;

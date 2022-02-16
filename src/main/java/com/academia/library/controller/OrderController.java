@@ -1,7 +1,7 @@
 package com.academia.library.controller;
 
 import com.academia.library.dto.request.OrderRequest;
-import com.academia.library.dto.responce.OrderResponse;
+import com.academia.library.dto.response.OrderResponse;
 import com.academia.library.model.OrderStatus;
 import com.academia.library.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +29,10 @@ import java.util.List;
 @Tag(name = "Order")
 @RequiredArgsConstructor
 public class OrderController {
+
+    private static final OrderStatus DRAFT_STATUS = OrderStatus.DRAFT;
+    private static final OrderStatus PAID_STATUS = OrderStatus.PAID;
+    private static final OrderStatus DELIVERED_STATUS = OrderStatus.DELIVERED;
 
     private final OrderService orderService;
 
@@ -82,7 +86,7 @@ public class OrderController {
     @PutMapping("paid/{id}")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public OrderResponse updateStatusToPaid(@PathVariable("id") Long id) {
-        return orderService.updateStatus(id, OrderStatus.PAID, OrderStatus.DRAFT);
+        return orderService.updateStatus(id, PAID_STATUS, DRAFT_STATUS);
     }
 
     @Operation(summary = "Update order", description = "Update tag status to delivered by id")
@@ -93,7 +97,7 @@ public class OrderController {
     @PutMapping("delivered/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public OrderResponse updateStatusToDelivered(@PathVariable("id") Long id) {
-        return orderService.updateStatus(id, OrderStatus.DELIVERED, OrderStatus.PAID);
+        return orderService.updateStatus(id, DELIVERED_STATUS, PAID_STATUS);
     }
 
     @Operation(summary = "Delete order", description = "Delete order by id")

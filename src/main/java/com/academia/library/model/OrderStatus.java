@@ -1,5 +1,7 @@
 package com.academia.library.model;
 
+import com.academia.library.exception.OrderStatusNotFoundException;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -14,8 +16,11 @@ public enum OrderStatus {
     private static final Map<String, OrderStatus> ENUM_MAP = Stream.of(values())
             .collect(Collectors.toMap(OrderStatus::name, Function.identity()));
 
-    public static Optional<OrderStatus> getByStatus(String status) {
-        return Optional.ofNullable(ENUM_MAP.get(status));
+    public static OrderStatus getByStatus(String value) {
+        return Optional.of(value)
+                .map(String::toUpperCase)
+                .map(ENUM_MAP::get)
+                .orElseThrow(() -> new OrderStatusNotFoundException(value));
     }
 
 }

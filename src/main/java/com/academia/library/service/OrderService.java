@@ -1,7 +1,7 @@
 package com.academia.library.service;
 
 import com.academia.library.dto.request.OrderRequest;
-import com.academia.library.dto.responce.OrderResponse;
+import com.academia.library.dto.response.OrderResponse;
 import com.academia.library.model.OrderStatus;
 
 import java.util.List;

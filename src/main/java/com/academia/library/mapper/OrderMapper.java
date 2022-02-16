@@ -2,8 +2,7 @@ package com.academia.library.mapper;
 
 import com.academia.library.dto.request.OrderDetailsRequest;
 import com.academia.library.dto.request.OrderRequest;
-import com.academia.library.dto.responce.OrderResponse;
-import com.academia.library.exception.BookNotFoundException;
+import com.academia.library.dto.response.OrderResponse;
 import com.academia.library.model.Book;
 import com.academia.library.model.Order;
 import com.academia.library.repository.BookRepository;
@@ -30,7 +29,7 @@ public abstract class OrderMapper {
     @Mapping(target = "deleted", constant = "false")
     @Mapping(expression = "java(LocalDateTime.now())", target = "createAt")
     @Mapping(expression = "java(LocalDateTime.now())", target = "updateAt")
-    @Mapping(target = "orderStatus", source = "orderRequest.status")
+    @Mapping(target = "orderStatus", source = "status")
     public abstract Order toEntity(OrderRequest orderRequest);
 
     @Mapping(target = "deleted", constant = "false")
@@ -39,9 +38,9 @@ public abstract class OrderMapper {
     public abstract Order toEntity(OrderRequest orderRequest, @MappingTarget Order order);
 
     @AfterMapping
-    void setAmountAndOrderDetails(@MappingTarget Order order, OrderRequest orderRequest) {
+    void afterMappingSetAmount(@MappingTarget Order order, OrderRequest orderRequest) {
         BigDecimal amount = orderRequest.getOrderDetails().stream()
-                .map(this::countTotalPrice)
+                .map(this::computeTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         order.setAmount(amount);
@@ -50,7 +49,13 @@ public abstract class OrderMapper {
                 .forEach(orderDetail -> orderDetail.setOrder(order));
     }
 
-    private BigDecimal countTotalPrice(OrderDetailsRequest orderDetailsRequest) {
+    @AfterMapping
+    void afterMappingOrderDetails(@MappingTarget Order order) {
+        order.getOrderDetails()
+                .forEach(orderDetail -> orderDetail.setOrder(order));
+    }
+
+    private BigDecimal computeTotalPrice(OrderDetailsRequest orderDetailsRequest) {
         Long bookId = orderDetailsRequest.getOrderDetailRequestDto().getBookId();
 
         Book book = bookRepository.getById(bookId);

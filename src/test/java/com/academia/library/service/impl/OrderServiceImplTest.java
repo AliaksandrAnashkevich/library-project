@@ -2,7 +2,7 @@ package com.academia.library.service.impl;
 
 import com.academia.library.dto.request.OrderDetailsRequest;
 import com.academia.library.dto.request.OrderRequest;
-import com.academia.library.dto.responce.OrderResponse;
+import com.academia.library.dto.response.OrderResponse;
 import com.academia.library.mapper.OrderMapper;
 import com.academia.library.model.Order;
 import com.academia.library.model.OrderDetail;

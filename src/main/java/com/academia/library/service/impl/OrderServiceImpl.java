@@ -1,7 +1,7 @@
 package com.academia.library.service.impl;
 
 import com.academia.library.dto.request.OrderRequest;
-import com.academia.library.dto.responce.OrderResponse;
+import com.academia.library.dto.response.OrderResponse;
 import com.academia.library.exception.OrderNotFoundException;
 import com.academia.library.exception.UserNotFoundException;
 import com.academia.library.mapper.OrderMapper;
@@ -66,12 +66,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderResponse update(Long id, OrderRequest orderRequest) {
+        System.out.println(orderRequest);
+
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
 
         orderValidator.validateBeforeUpdate(orderRequest, order);
 
         order = orderMapper.toEntity(orderRequest, order);
+
+        System.out.println(order);
+        order.getOrderDetails()
+                .forEach(System.out::println);
 
         Order updatedOrder = orderRepository.save(order);
 

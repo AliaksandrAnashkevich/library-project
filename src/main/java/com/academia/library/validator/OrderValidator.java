@@ -41,7 +41,7 @@ public class OrderValidator {
 
     private void validateBooks(OrderRequest orderRequest) {
         List<Long> bookIds = orderRequest.getOrderDetails().stream()
-                .map(a -> a.getOrderDetailRequestDto().getBookId())
+                .map(orderDetail -> orderDetail.getOrderDetailRequestDto().getBookId())
                 .collect(Collectors.toList());
 
         bookIds.forEach(id -> bookRepository.findById(id)
@@ -49,8 +49,7 @@ public class OrderValidator {
     }
 
     private void validateStringStatusWithoutDelivered(String status) {
-        OrderStatus checkStatus = OrderStatus.getByStatus(status)
-                .orElseThrow(() -> new OrderStatusException(status));
+        OrderStatus checkStatus = OrderStatus.getByStatus(status);
 
         if (checkStatus == OrderStatus.DELIVERED) {
             throw new OrderStatusException(status);

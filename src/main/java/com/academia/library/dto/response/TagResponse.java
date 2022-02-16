@@ -1,4 +1,4 @@
-package com.academia.library.dto.responce;
+package com.academia.library.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;
