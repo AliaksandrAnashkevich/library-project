@@ -1,8 +1,7 @@
 package com.academia.library.controller;
 
-import com.academia.library.dto.BookResponse;
-import com.academia.library.dto.TagRequest;
-import com.academia.library.dto.TagResponse;
+import com.academia.library.dto.request.TagRequest;
+import com.academia.library.dto.response.TagResponse;
 import com.academia.library.service.TagService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

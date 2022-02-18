@@ -1,7 +1,7 @@
 package com.academia.library.controller;
 
-import com.academia.library.dto.BookRequest;
-import com.academia.library.dto.BookResponse;
+import com.academia.library.dto.request.BookRequest;
+import com.academia.library.dto.response.BookResponse;
 import com.academia.library.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

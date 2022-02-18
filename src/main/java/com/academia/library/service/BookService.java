@@ -1,8 +1,7 @@
 package com.academia.library.service;
 
-import com.academia.library.dto.BookRequest;
-import com.academia.library.dto.BookResponse;
-import com.academia.library.model.Book;
+import com.academia.library.dto.request.BookRequest;
+import com.academia.library.dto.response.BookResponse;
 
 import java.util.List;
 

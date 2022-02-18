@@ -1,10 +1,10 @@
 package com.academia.library.service.impl;
 
 import com.academia.library.cryptor.UserCryptor;
-import com.academia.library.dto.AuthRequest;
-import com.academia.library.dto.AuthResponse;
-import com.academia.library.dto.UserRequest;
-import com.academia.library.dto.UserResponse;
+import com.academia.library.dto.request.AuthRequest;
+import com.academia.library.dto.response.AuthResponse;
+import com.academia.library.dto.request.UserRequest;
+import com.academia.library.dto.response.UserResponse;
 import com.academia.library.exception.InvalidAuthRequestDataException;
 import com.academia.library.exception.RoleNotFoundException;
 import com.academia.library.mapper.UserMapper;
@@ -24,7 +24,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Service

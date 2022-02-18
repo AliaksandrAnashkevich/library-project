@@ -1,6 +1,6 @@
 package com.academia.library.validator;
 
-import com.academia.library.dto.BookRequest;
+import com.academia.library.dto.request.BookRequest;
 import com.academia.library.exception.AuthorNotFoundException;
 import com.academia.library.exception.BookAlreadyExistException;
 import com.academia.library.exception.TagNotFoundException;

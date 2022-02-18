@@ -1,8 +1,8 @@
 package com.academia.library.controller;
 
 import com.academia.library.cryptor.UserCryptor;
-import com.academia.library.dto.AuthResponse;
-import com.academia.library.dto.UserRequest;
+import com.academia.library.dto.response.AuthResponse;
+import com.academia.library.dto.request.UserRequest;
 import com.academia.library.mapper.UserMapper;
 import com.academia.library.model.Authority;
 import com.academia.library.model.Role;

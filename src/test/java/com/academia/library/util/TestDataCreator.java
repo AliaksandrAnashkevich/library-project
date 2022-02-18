@@ -1,9 +1,9 @@
 package com.academia.library.util;
 
-import com.academia.library.dto.AuthRequest;
-import com.academia.library.dto.AuthorRequest;
-import com.academia.library.dto.TagRequest;
-import com.academia.library.dto.UserRequest;
+import com.academia.library.dto.request.AuthRequest;
+import com.academia.library.dto.request.AuthorRequest;
+import com.academia.library.dto.request.TagRequest;
+import com.academia.library.dto.request.UserRequest;
 
 public class TestDataCreator {
     public static TagRequest TEST_TAG = createTestTag();

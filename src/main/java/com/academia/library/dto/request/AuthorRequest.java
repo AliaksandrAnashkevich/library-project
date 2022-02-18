@@ -1,13 +1,12 @@
-package com.academia.library.dto;
+package com.academia.library.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Builder
 @Getter
-public class AuthorResponse {
+public class AuthorRequest {
 
-    private final Long id;
     private final String firstName;
     private final String lastName;
 }
