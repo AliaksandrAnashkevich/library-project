@@ -1,7 +1,7 @@
 package com.academia.library.service.impl;
 
-import com.academia.library.dto.AuthorRequest;
-import com.academia.library.dto.AuthorResponse;
+import com.academia.library.dto.request.AuthorRequest;
+import com.academia.library.dto.response.AuthorResponse;
 import com.academia.library.exception.AuthorNotFoundException;
 import com.academia.library.mapper.AuthorMapper;
 import com.academia.library.model.Author;

@@ -1,8 +1,7 @@
 package com.academia.library.service;
 
-import com.academia.library.dto.TagRequest;
-import com.academia.library.dto.TagResponse;
-import com.academia.library.model.Tag;
+import com.academia.library.dto.request.TagRequest;
+import com.academia.library.dto.response.TagResponse;
 
 import java.util.List;
 

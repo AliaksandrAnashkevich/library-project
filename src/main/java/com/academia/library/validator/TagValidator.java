@@ -1,6 +1,6 @@
 package com.academia.library.validator;
 
-import com.academia.library.dto.TagRequest;
+import com.academia.library.dto.request.TagRequest;
 import com.academia.library.exception.TagAlreadyExistException;
 import com.academia.library.repository.TagRepository;
 import lombok.RequiredArgsConstructor;

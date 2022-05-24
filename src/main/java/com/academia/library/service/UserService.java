@@ -1,9 +1,9 @@
 package com.academia.library.service;
 
-import com.academia.library.dto.AuthRequest;
-import com.academia.library.dto.AuthResponse;
-import com.academia.library.dto.UserRequest;
-import com.academia.library.dto.UserResponse;
+import com.academia.library.dto.request.AuthRequest;
+import com.academia.library.dto.response.AuthResponse;
+import com.academia.library.dto.request.UserRequest;
+import com.academia.library.dto.response.UserResponse;
 
 public interface UserService {
 

@@ -1,7 +1,7 @@
 package com.academia.library.controller;
 
-import com.academia.library.dto.BookRequest;
-import com.academia.library.dto.BookResponse;
+import com.academia.library.dto.request.BookRequest;
+import com.academia.library.dto.response.BookResponse;
 import com.academia.library.mapper.AuthorMapper;
 import com.academia.library.mapper.TagMapper;
 import com.academia.library.model.Author;
@@ -118,12 +118,13 @@ class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         // then
-        var list = Arrays.asList(objectMapper.readValue(response, BookResponse[].class));
-        assertTrue(list.size() > 0);
+        var extend = Arrays.asList(objectMapper.readValue(response, BookResponse[].class));
+        assertTrue(extend.size() > 0);
     }
 
     @DisplayName("Create new book")
     @Test
+    @WithMockUser(username = "test@example.com", roles = "ADMIN", password = "Aa12356")
     void create() throws Exception {
         // given
         var actualDto = BookRequest.builder()
@@ -149,6 +150,7 @@ class BookControllerTest {
 
     @DisplayName("Update book by id")
     @Test
+    @WithMockUser(username = "test@example.com", roles = "ADMIN", password = "Aa12356")
     void update() throws Exception {
         // given
         var bookRequestDto = BookRequest.builder()
@@ -176,6 +178,7 @@ class BookControllerTest {
 
     @DisplayName("Delete book by id")
     @Test
+    @WithMockUser(username = "test@example.com", roles = "ADMIN", password = "Aa12356")
     void remove() throws Exception {
         // given
         var url = "/books/{id}";

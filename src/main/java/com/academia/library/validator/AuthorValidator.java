@@ -1,6 +1,6 @@
 package com.academia.library.validator;
 
-import com.academia.library.dto.AuthorRequest;
+import com.academia.library.dto.request.AuthorRequest;
 import com.academia.library.exception.AuthorAlreadyExistException;
 import com.academia.library.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;

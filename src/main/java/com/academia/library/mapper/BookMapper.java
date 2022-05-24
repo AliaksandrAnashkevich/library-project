@@ -1,7 +1,7 @@
 package com.academia.library.mapper;
 
-import com.academia.library.dto.BookRequest;
-import com.academia.library.dto.BookResponse;
+import com.academia.library.dto.request.BookRequest;
+import com.academia.library.dto.response.BookResponse;
 import com.academia.library.model.Author;
 import com.academia.library.model.Book;
 import com.academia.library.model.Tag;

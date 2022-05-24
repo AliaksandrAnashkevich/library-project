@@ -1,8 +1,7 @@
 package com.academia.library.service;
 
-import com.academia.library.dto.AuthorRequest;
-import com.academia.library.dto.AuthorResponse;
-import com.academia.library.model.Author;
+import com.academia.library.dto.request.AuthorRequest;
+import com.academia.library.dto.response.AuthorResponse;
 
 import java.util.List;
 

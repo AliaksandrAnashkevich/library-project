@@ -1,7 +1,7 @@
 package com.academia.library.service.impl;
 
-import com.academia.library.dto.TagRequest;
-import com.academia.library.dto.TagResponse;
+import com.academia.library.dto.request.TagRequest;
+import com.academia.library.dto.response.TagResponse;
 import com.academia.library.exception.TagNotFoundException;
 import com.academia.library.mapper.TagMapper;
 import com.academia.library.model.Tag;
